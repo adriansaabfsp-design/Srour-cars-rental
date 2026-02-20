@@ -86,7 +86,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* HERO — Full viewport dramatic */}
-      <section className="relative flex min-h-[90vh] items-center justify-center overflow-hidden">
+      <section className="relative flex min-h-[60vh] items-center justify-center overflow-hidden sm:min-h-[90vh]">
         {/* Dark radial gradient background */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(201,168,76,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(201,168,76,0.05),_transparent_50%)]" />
@@ -145,7 +145,7 @@ export default function Home() {
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
         <div className="relative z-10 mx-auto max-w-5xl px-4 text-center">
-          <div className="mb-8 inline-flex items-center gap-3 border border-gold/20 bg-gold/5 px-6 py-2">
+          <div className="mb-4 inline-flex items-center gap-3 border border-gold/20 bg-gold/5 px-6 py-2 sm:mb-8">
             <div className="h-1 w-6 bg-gold" />
             <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-gold">
               Premium Car Rentals — Lebanon
@@ -153,18 +153,18 @@ export default function Home() {
             <div className="h-1 w-6 bg-gold" />
           </div>
 
-          <h1 className="font-serif text-6xl font-bold leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl xl:text-9xl">
+          <h1 className="font-serif text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl xl:text-9xl">
             SROUR
             <br />
             <span className="gold-shimmer">CARS</span>
           </h1>
 
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-white/50 sm:text-xl">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/50 sm:mt-8 sm:text-xl">
             An exclusive fleet of premium vehicles available for rent across Lebanon.
             From exotic supercars to elegant sedans — find your perfect drive.
           </p>
 
-          <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4">
             <a
               href="#collection"
               className="group inline-flex items-center gap-3 bg-gold px-10 py-4 text-[13px] font-bold uppercase tracking-[0.2em] text-black transition-all duration-300 hover:bg-gold-light hover:shadow-[0_0_40px_rgba(201,168,76,0.3)]"
@@ -235,7 +235,7 @@ export default function Home() {
           )}
 
           {/* Stats bar */}
-          <div className="mx-auto mt-16 flex max-w-lg items-center justify-center gap-12 border-t border-white/10 pt-10">
+          <div className="mx-auto mt-8 flex max-w-lg items-center justify-center gap-8 border-t border-white/10 pt-6 sm:mt-16 sm:gap-12 sm:pt-10">
             <div className="text-center">
               <div className="font-serif text-3xl font-bold text-gold">50+</div>
               <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">Luxury Cars</div>
