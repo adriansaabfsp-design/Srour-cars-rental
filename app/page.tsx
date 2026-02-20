@@ -86,7 +86,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* HERO — Full viewport dramatic */}
-      <section className="relative flex min-h-[60vh] items-center justify-center overflow-hidden sm:min-h-[90vh]">
+      <section className="relative flex items-center justify-center overflow-hidden py-16 sm:min-h-[90vh] sm:py-0">
         {/* Dark radial gradient background */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(201,168,76,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_rgba(201,168,76,0.05),_transparent_50%)]" />
@@ -163,6 +163,12 @@ export default function Home() {
             An exclusive fleet of premium vehicles available for rent across Lebanon.
             From exotic supercars to elegant sedans — find your perfect drive.
           </p>
+
+          {/* Featured Cars Showcase — right after title on mobile */}
+          <FeaturedBar
+            cars={cars.filter((c) => c.featured)}
+            visibleCount={featuredBarCount}
+          />
 
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4">
             <a
@@ -251,12 +257,6 @@ export default function Home() {
               <div className="mt-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40">Service</div>
             </div>
           </div>
-
-          {/* Featured Cars Showcase */}
-          <FeaturedBar
-            cars={cars.filter((c) => c.featured)}
-            visibleCount={featuredBarCount}
-          />
         </div>
 
         {/* Bottom fade to pure black */}
