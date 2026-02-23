@@ -127,14 +127,22 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-black/50 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
-          {/* corner logo */}
+          {/* corner logo — diamond morph */}
           <div className="absolute left-4 top-4 z-10 pointer-events-none sm:left-8 sm:top-8 lg:left-12 lg:top-10">
-            <div className="hero-corner-float">
-              <h1 className="font-serif text-3xl font-black leading-[0.85] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:text-5xl lg:text-6xl">
+            <div className="diamond-path">
+              {/* text phase */}
+              <h1 className="diamond-text font-serif text-3xl font-black leading-[0.85] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:text-5xl lg:text-6xl">
                 SROUR
                 <br />
                 <span className="gold-shimmer">CARS</span>
               </h1>
+              {/* diamond icon phase */}
+              <div className="diamond-icon">
+                <svg viewBox="0 0 40 40" className="h-10 w-10 sm:h-14 sm:w-14 drop-shadow-[0_0_20px_rgba(201,168,76,0.6)]">
+                  <rect x="8" y="8" width="24" height="24" rx="2" fill="#C9A84C" transform="rotate(45 20 20)" />
+                  <text x="20" y="23" textAnchor="middle" fill="#0a0a0a" fontSize="7" fontWeight="900" fontFamily="serif" letterSpacing="0.5">SC</text>
+                </svg>
+              </div>
             </div>
           </div>
 
