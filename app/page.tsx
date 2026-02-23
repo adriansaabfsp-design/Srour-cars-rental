@@ -116,7 +116,7 @@ export default function Home() {
               <img
                 src={currentHeroCar.photos?.main || currentHeroCar.images?.[0] || ""}
                 alt={currentHeroCar.name}
-                className="h-full w-full object-contain sm:object-cover"
+                className="h-full w-full object-cover"
               />
             </div>
           ) : (
@@ -128,21 +128,21 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
           {/* corner logo */}
-          <div className="absolute left-4 top-4 z-10 pointer-events-none sm:left-8 sm:top-8 lg:left-12 lg:top-10">
+          <div className="absolute left-3 top-3 z-10 pointer-events-none sm:left-8 sm:top-8 lg:left-12 lg:top-10">
             <div className="hero-corner-enter">
               <h1 className="font-serif leading-[0.95] drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
                 <span className="flex items-baseline">
-                  <span className="text-3xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">Leb</span>
-                  <span className="cedar-sun-glow relative inline-flex items-center justify-center mx-[-2px]">
-                    <svg className="h-8 w-8 text-gold drop-shadow-[0_2px_12px_rgba(201,168,76,0.5)] sm:h-12 sm:w-12 lg:h-14 lg:w-14" viewBox="0 0 64 64" fill="currentColor">
+                  <span className="text-xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">Leb</span>
+                  <span className="cedar-sun-glow relative inline-flex items-center justify-center mx-[-1px] sm:mx-[-2px]">
+                    <svg className="h-5 w-5 text-gold drop-shadow-[0_2px_12px_rgba(201,168,76,0.5)] sm:h-12 sm:w-12 lg:h-14 lg:w-14" viewBox="0 0 64 64" fill="currentColor">
                       <path d="M32 4c-1.2 3.2-4 6.4-4 9.6 0 2.4 1.6 4 2.8 5.6-2-.8-4.8-1.6-6.8-.8-2.4 1-3.2 3.2-2.4 5.2.8 1.6 2.8 2.8 4.4 3.2-2.4.4-5.6 1.2-7.2 3.2-1.4 2-.8 4.4.8 6 1.6 1.4 4 2 6 2-1.6 1.2-3.6 2.8-4 4.8-.4 2.4 1.2 4 3.2 4.8H32V4z" />
                       <path d="M32 4c1.2 3.2 4 6.4 4 9.6 0 2.4-1.6 4-2.8 5.6 2-.8 4.8-1.6 6.8-.8 2.4 1 3.2 3.2 2.4 5.2-.8 1.6-2.8 2.8-4.4 3.2 2.4.4 5.6 1.2 7.2 3.2 1.4 2 .8 4.4-.8 6-1.6 1.4-4 2-6 2 1.6 1.2 3.6 2.8 4 4.8.4 2.4-1.2 4-3.2 4.8H32V4z" />
                       <rect x="30" y="48" width="4" height="14" rx="1" />
                     </svg>
                   </span>
-                  <span className="text-3xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">non</span>
+                  <span className="text-xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">non</span>
                 </span>
-                <span className="block text-lg font-bold uppercase tracking-[0.4em] text-gold/70 sm:text-2xl lg:text-3xl">Rental</span>
+                <span className="block text-xs font-bold uppercase tracking-[0.4em] text-gold/70 sm:text-2xl lg:text-3xl">Rental</span>
               </h1>
             </div>
           </div>
@@ -151,10 +151,10 @@ export default function Home() {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="text-center px-4">
               <div className="hero-tagline-reveal">
-                <p className="font-serif text-2xl font-light italic tracking-wide text-white/80 drop-shadow-lg sm:text-4xl lg:text-5xl">
+                <p className="font-serif text-lg font-light italic tracking-wide text-white/80 drop-shadow-lg sm:text-4xl lg:text-5xl">
                   Rent Your
                 </p>
-                <p className="hero-tagline-word mt-1 font-serif text-4xl font-black uppercase tracking-[0.15em] sm:text-6xl lg:text-7xl">
+                <p className="hero-tagline-word mt-1 font-serif text-2xl font-black uppercase tracking-[0.15em] sm:text-6xl lg:text-7xl">
                   <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(201,168,76,0.4)]">Dream Ride</span>
                 </p>
                 <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-gold to-transparent" />
