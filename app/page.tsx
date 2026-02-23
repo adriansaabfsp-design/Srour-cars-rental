@@ -110,7 +110,7 @@ export default function Home() {
               <img
                 src={currentHeroCar.photos?.main || currentHeroCar.images?.[0] || ""}
                 alt={currentHeroCar.name}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain sm:object-cover"
               />
             </div>
           ) : (
