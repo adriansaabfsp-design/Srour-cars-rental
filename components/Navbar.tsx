@@ -23,18 +23,18 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-white/5 bg-black/95 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center border border-gold/30 bg-gold/5">
-            <svg className="h-5 w-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 17h8M8 17v-4m8 4v-4m-8 0h8m-8 0L6 9h12l-2 4M6 9l-2 4h2m12-4l2 4h-2" />
-            </svg>
-          </div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-serif text-xl font-bold tracking-wider text-white">
-              SROUR
+        <Link href="/" className="flex items-center gap-2.5">
+          <svg className="h-8 w-8 text-gold" viewBox="0 0 64 64" fill="currentColor">
+            <path d="M32 2c-1.5 4-5 8-5 12 0 3 2 5 3.5 7-2.5-1-6-2-8.5-1-3 1.2-4 4-3 6.5 1 2 3.5 3.5 5.5 4-3 .5-7 1.5-9 4-1.8 2.5-1 5.5 1 7.5 2 1.8 5 2.5 7.5 2.5-2 1.5-4.5 3.5-5 6-.5 3 1.5 5 4 6H32V2z" />
+            <path d="M32 2c1.5 4 5 8 5 12 0 3-2 5-3.5 7 2.5-1 6-2 8.5-1 3 1.2 4 4 3 6.5-1 2-3.5 3.5-5.5 4 3 .5 7 1.5 9 4 1.8 2.5 1 5.5-1 7.5-2 1.8-5 2.5-7.5 2.5 2 1.5 4.5 3.5 5 6 .5 3-1.5 5-4 6H32V2z" />
+            <rect x="30" y="50" width="4" height="12" rx="1" />
+          </svg>
+          <div className="flex items-baseline gap-1">
+            <span className="font-serif text-xl font-bold tracking-wider text-gold">
+              Lebanon
             </span>
-            <span className="text-sm font-light tracking-[0.4em] text-gold">
-              CARS
+            <span className="text-sm font-bold uppercase tracking-[0.3em] text-gold/70">
+              Rental
             </span>
           </div>
         </Link>

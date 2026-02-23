@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Srour Cars Rental | Luxury Car Rentals in Lebanon",
+  title: "Lebanon Rental | Luxury Car Rentals in Lebanon",
   description:
     "Experience luxury on the road. Premium car rentals in Lebanon — from exotic supercars to elegant sedans.",
 };
@@ -35,10 +35,15 @@ export default function RootLayout({
               {/* Brand */}
               <div className="flex flex-col items-center sm:items-start">
                 <div className="flex items-center gap-2">
-                  <span className="font-serif text-2xl font-bold tracking-wider text-white">
-                    SROUR
+                  <svg className="h-7 w-7 text-gold" viewBox="0 0 64 64" fill="currentColor">
+                    <path d="M32 2c-1.5 4-5 8-5 12 0 3 2 5 3.5 7-2.5-1-6-2-8.5-1-3 1.2-4 4-3 6.5 1 2 3.5 3.5 5.5 4-3 .5-7 1.5-9 4-1.8 2.5-1 5.5 1 7.5 2 1.8 5 2.5 7.5 2.5-2 1.5-4.5 3.5-5 6-.5 3 1.5 5 4 6H32V2z" />
+                    <path d="M32 2c1.5 4 5 8 5 12 0 3-2 5-3.5 7 2.5-1 6-2 8.5-1 3 1.2 4 4 3 6.5-1 2-3.5 3.5-5.5 4 3 .5 7 1.5 9 4 1.8 2.5 1 5.5-1 7.5-2 1.8-5 2.5-7.5 2.5 2 1.5 4.5 3.5 5 6 .5 3-1.5 5-4 6H32V2z" />
+                    <rect x="30" y="50" width="4" height="12" rx="1" />
+                  </svg>
+                  <span className="font-serif text-2xl font-bold tracking-wider text-gold">
+                    Lebanon
                   </span>
-                  <span className="text-2xl font-light tracking-[0.4em] text-gold">CARS</span>
+                  <span className="text-lg font-bold uppercase tracking-[0.3em] text-gold/70">Rental</span>
                 </div>
                 <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/30 text-center sm:text-left">
                   Your premier destination for luxury car rentals in Lebanon.
@@ -79,7 +84,7 @@ export default function RootLayout({
 
             <div className="mt-12 border-t border-white/5 pt-8 text-center">
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/20">
-                &copy; {new Date().getFullYear()} SROUR CARS RENTAL. ALL RIGHTS RESERVED.
+                &copy; {new Date().getFullYear()} LEBANON RENTAL. ALL RIGHTS RESERVED.
               </p>
             </div>
           </div>

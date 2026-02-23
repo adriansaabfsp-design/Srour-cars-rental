@@ -18,14 +18,6 @@ export default function Home() {
   const [transmission, setTransmission] = useState("All");
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroTransition, setHeroTransition] = useState(false);
-  const [logoPhase, setLogoPhase] = useState<"text" | "collapsing" | "diamond">("text");
-
-  // Logo animation sequence: text visible → collapse → diamond
-  useEffect(() => {
-    const t1 = setTimeout(() => setLogoPhase("collapsing"), 2400);
-    const t2 = setTimeout(() => setLogoPhase("diamond"), 3400);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, []);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -135,49 +127,19 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-black/50 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
-          {/* SROUR CARS → diamond animation */}
+          {/* corner logo */}
           <div className="absolute left-4 top-4 z-10 pointer-events-none sm:left-8 sm:top-8 lg:left-12 lg:top-10">
-            {/* Text phase */}
-            <div className={"logo-text-phase" + (logoPhase === "text" ? " logo-text-visible" : "") + (logoPhase === "collapsing" || logoPhase === "diamond" ? " logo-text-collapse" : "")}>
-              <h1 className="font-serif text-3xl font-black leading-[0.85] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:text-5xl lg:text-6xl">
-                SROUR
-                <br />
-                <span className="gold-shimmer">CARS</span>
-              </h1>
-            </div>
-            {/* Diamond phase */}
-            <div className={"logo-diamond-phase" + (logoPhase === "diamond" ? " logo-diamond-visible" : "")}>
-              <div className="hero-corner-float">
-                <svg viewBox="0 0 80 70" className="h-10 w-10 sm:h-14 sm:w-14 drop-shadow-[0_2px_16px_rgba(201,168,76,0.5)]">
-                  <defs>
-                    <linearGradient id="dg1" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#E2C97E" />
-                      <stop offset="50%" stopColor="#C9A84C" />
-                      <stop offset="100%" stopColor="#A8872E" />
-                    </linearGradient>
-                    <linearGradient id="dg2" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#E2C97E" />
-                      <stop offset="100%" stopColor="#C9A84C" />
-                    </linearGradient>
-                    <linearGradient id="dg3" x1="100%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#C9A84C" />
-                      <stop offset="100%" stopColor="#8B6F24" />
-                    </linearGradient>
-                  </defs>
-                  {/* top triangle */}
-                  <polygon points="40,0 72,22 8,22" fill="url(#dg2)" />
-                  {/* left trapezoid */}
-                  <polygon points="8,22 0,26 40,70 40,22" fill="url(#dg3)" />
-                  {/* right trapezoid */}
-                  <polygon points="72,22 80,26 40,70 40,22" fill="url(#dg1)" />
-                  {/* top-left facet */}
-                  <polygon points="40,0 8,22 0,26 40,22" fill="#E2C97E" opacity="0.5" />
-                  {/* top-right facet */}
-                  <polygon points="40,0 72,22 80,26 40,22" fill="#C9A84C" opacity="0.4" />
-                  {/* sparkle */}
-                  <circle cx="30" cy="18" r="2" fill="white" opacity="0.7" className="diamond-sparkle" />
-                  <circle cx="55" cy="30" r="1.5" fill="white" opacity="0.5" className="diamond-sparkle-delayed" />
+            <div className="hero-corner-slide">
+              <div className="flex items-center gap-3">
+                <svg className="h-10 w-10 text-gold drop-shadow-[0_2px_12px_rgba(201,168,76,0.5)] sm:h-14 sm:w-14" viewBox="0 0 64 64" fill="currentColor">
+                  <path d="M32 2c-1.5 4-5 8-5 12 0 3 2 5 3.5 7-2.5-1-6-2-8.5-1-3 1.2-4 4-3 6.5 1 2 3.5 3.5 5.5 4-3 .5-7 1.5-9 4-1.8 2.5-1 5.5 1 7.5 2 1.8 5 2.5 7.5 2.5-2 1.5-4.5 3.5-5 6-.5 3 1.5 5 4 6H32V2z" />
+                  <path d="M32 2c1.5 4 5 8 5 12 0 3-2 5-3.5 7 2.5-1 6-2 8.5-1 3 1.2 4 4 3 6.5-1 2-3.5 3.5-5.5 4 3 .5 7 1.5 9 4 1.8 2.5 1 5.5-1 7.5-2 1.8-5 2.5-7.5 2.5 2 1.5 4.5 3.5 5 6 .5 3-1.5 5-4 6H32V2z" />
+                  <rect x="30" y="50" width="4" height="12" rx="1" />
                 </svg>
+                <h1 className="font-serif leading-[0.95] drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
+                  <span className="block text-3xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">Lebanon</span>
+                  <span className="block text-lg font-bold uppercase tracking-[0.4em] text-gold/70 sm:text-2xl lg:text-3xl">Rental</span>
+                </h1>
               </div>
             </div>
           </div>
