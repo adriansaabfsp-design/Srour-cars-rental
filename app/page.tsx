@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS } from "@/lib/types";
+import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, FUEL_TYPES, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import Link from "next/link";
 
@@ -14,6 +14,8 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeRoad, setActiveRoad] = useState("All Terrain");
   const [brand, setBrand] = useState("All");
+  const [fuel, setFuel] = useState("All");
+  const [transmission, setTransmission] = useState("All");
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroTransition, setHeroTransition] = useState(false);
 
@@ -77,6 +79,8 @@ export default function Home() {
       if (activeRoad !== "All Terrain" && (!car.roadTypes || !car.roadTypes.includes(activeRoad)))
         return false;
       if (brand !== "All" && car.brand !== brand) return false;
+      if (fuel !== "All" && car.fuel !== fuel) return false;
+      if (transmission !== "All" && car.transmission !== transmission) return false;
       return true;
     })
     .sort((a, b) => {
@@ -90,9 +94,11 @@ export default function Home() {
     setActiveCategory("All");
     setActiveRoad("All Terrain");
     setBrand("All");
+    setFuel("All");
+    setTransmission("All");
   };
   const hasFilters =
-    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All";
+    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || fuel !== "All" || transmission !== "All";
 
   return (
     <div className="min-h-screen bg-luxury-black">
@@ -338,7 +344,7 @@ export default function Home() {
           })}
         </div>
 
-        {/* brand dropdown + clear */}
+        {/* dropdowns row */}
         <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
           <select
             value={brand}
@@ -349,6 +355,26 @@ export default function Home() {
               <option key={b} value={b}>
                 {b === "All" ? "All Brands" : b}
               </option>
+            ))}
+          </select>
+          <select
+            value={fuel}
+            onChange={(e) => setFuel(e.target.value)}
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-gold [color-scheme:dark]"
+          >
+            <option value="All">All Fuel Types</option>
+            {FUEL_TYPES.map((f) => (
+              <option key={f} value={f}>{f}</option>
+            ))}
+          </select>
+          <select
+            value={transmission}
+            onChange={(e) => setTransmission(e.target.value)}
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-gold [color-scheme:dark]"
+          >
+            <option value="All">All Transmissions</option>
+            {TRANSMISSIONS.map((t) => (
+              <option key={t} value={t}>{t}</option>
             ))}
           </select>
           {hasFilters && (
