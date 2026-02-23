@@ -121,17 +121,29 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-black/50 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
-          {/* floating title */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="hero-float-text text-center px-4">
-              <h1 className="font-serif text-5xl font-black leading-[0.9] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:text-7xl lg:text-8xl xl:text-9xl">
+          {/* corner logo */}
+          <div className="absolute left-4 top-4 z-10 pointer-events-none sm:left-8 sm:top-8 lg:left-12 lg:top-10">
+            <div className="hero-corner-float">
+              <h1 className="font-serif text-3xl font-black leading-[0.85] tracking-tight text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:text-5xl lg:text-6xl">
                 SROUR
                 <br />
                 <span className="gold-shimmer">CARS</span>
               </h1>
-              <p className="mt-3 text-sm font-bold uppercase tracking-[0.4em] text-white/60 drop-shadow-lg sm:text-base lg:text-lg">
-                Rent Your Dream Ride
-              </p>
+            </div>
+          </div>
+
+          {/* center tagline */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="text-center px-4">
+              <div className="hero-tagline-reveal">
+                <p className="font-serif text-2xl font-light italic tracking-wide text-white/80 drop-shadow-lg sm:text-4xl lg:text-5xl">
+                  Rent Your
+                </p>
+                <p className="hero-tagline-word mt-1 font-serif text-4xl font-black uppercase tracking-[0.15em] sm:text-6xl lg:text-7xl">
+                  <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(201,168,76,0.4)]">Dream Ride</span>
+                </p>
+                <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-gold to-transparent" />
+              </div>
             </div>
           </div>
 
