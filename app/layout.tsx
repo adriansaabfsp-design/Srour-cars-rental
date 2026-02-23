@@ -34,15 +34,18 @@ export default function RootLayout({
             <div className="grid gap-12 sm:grid-cols-3">
               {/* Brand */}
               <div className="flex flex-col items-center sm:items-start">
-                <div className="flex items-center gap-2">
-                  <svg className="h-7 w-7 text-gold" viewBox="0 0 64 64" fill="currentColor">
-                    <path d="M32 2c-1.5 4-5 8-5 12 0 3 2 5 3.5 7-2.5-1-6-2-8.5-1-3 1.2-4 4-3 6.5 1 2 3.5 3.5 5.5 4-3 .5-7 1.5-9 4-1.8 2.5-1 5.5 1 7.5 2 1.8 5 2.5 7.5 2.5-2 1.5-4.5 3.5-5 6-.5 3 1.5 5 4 6H32V2z" />
-                    <path d="M32 2c1.5 4 5 8 5 12 0 3-2 5-3.5 7 2.5-1 6-2 8.5-1 3 1.2 4 4 3 6.5-1 2-3.5 3.5-5.5 4 3 .5 7 1.5 9 4 1.8 2.5 1 5.5-1 7.5-2 1.8-5 2.5-7.5 2.5 2 1.5 4.5 3.5 5 6 .5 3-1.5 5-4 6H32V2z" />
-                    <rect x="30" y="50" width="4" height="12" rx="1" />
-                  </svg>
-                  <span className="font-serif text-2xl font-bold tracking-wider text-gold">
-                    Lebanon
-                  </span>
+                <div className="flex items-center gap-1.5">
+                  <div className="flex items-baseline">
+                    <span className="font-serif text-2xl font-bold tracking-wider text-gold">Leb</span>
+                    <span className="cedar-sun-glow relative inline-flex items-center justify-center mx-[-1px]">
+                      <svg className="h-7 w-7 text-gold" viewBox="0 0 64 64" fill="currentColor">
+                        <path d="M32 4c-1.2 3.2-4 6.4-4 9.6 0 2.4 1.6 4 2.8 5.6-2-.8-4.8-1.6-6.8-.8-2.4 1-3.2 3.2-2.4 5.2.8 1.6 2.8 2.8 4.4 3.2-2.4.4-5.6 1.2-7.2 3.2-1.4 2-.8 4.4.8 6 1.6 1.4 4 2 6 2-1.6 1.2-3.6 2.8-4 4.8-.4 2.4 1.2 4 3.2 4.8H32V4z" />
+                        <path d="M32 4c1.2 3.2 4 6.4 4 9.6 0 2.4-1.6 4-2.8 5.6 2-.8 4.8-1.6 6.8-.8 2.4 1 3.2 3.2 2.4 5.2-.8 1.6-2.8 2.8-4.4 3.2 2.4.4 5.6 1.2 7.2 3.2 1.4 2 .8 4.4-.8 6-1.6 1.4-4 2-6 2 1.6 1.2 3.6 2.8 4 4.8.4 2.4-1.2 4-3.2 4.8H32V4z" />
+                        <rect x="30" y="48" width="4" height="14" rx="1" />
+                      </svg>
+                    </span>
+                    <span className="font-serif text-2xl font-bold tracking-wider text-gold">non</span>
+                  </div>
                   <span className="text-lg font-bold uppercase tracking-[0.3em] text-gold/70">Rental</span>
                 </div>
                 <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/30 text-center sm:text-left">

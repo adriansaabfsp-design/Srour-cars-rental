@@ -129,18 +129,21 @@ export default function Home() {
 
           {/* corner logo */}
           <div className="absolute left-4 top-4 z-10 pointer-events-none sm:left-8 sm:top-8 lg:left-12 lg:top-10">
-            <div className="hero-corner-slide">
-              <div className="flex items-center gap-3">
-                <svg className="h-10 w-10 text-gold drop-shadow-[0_2px_12px_rgba(201,168,76,0.5)] sm:h-14 sm:w-14" viewBox="0 0 64 64" fill="currentColor">
-                  <path d="M32 2c-1.5 4-5 8-5 12 0 3 2 5 3.5 7-2.5-1-6-2-8.5-1-3 1.2-4 4-3 6.5 1 2 3.5 3.5 5.5 4-3 .5-7 1.5-9 4-1.8 2.5-1 5.5 1 7.5 2 1.8 5 2.5 7.5 2.5-2 1.5-4.5 3.5-5 6-.5 3 1.5 5 4 6H32V2z" />
-                  <path d="M32 2c1.5 4 5 8 5 12 0 3-2 5-3.5 7 2.5-1 6-2 8.5-1 3 1.2 4 4 3 6.5-1 2-3.5 3.5-5.5 4 3 .5 7 1.5 9 4 1.8 2.5 1 5.5-1 7.5-2 1.8-5 2.5-7.5 2.5 2 1.5 4.5 3.5 5 6 .5 3-1.5 5-4 6H32V2z" />
-                  <rect x="30" y="50" width="4" height="12" rx="1" />
-                </svg>
-                <h1 className="font-serif leading-[0.95] drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
-                  <span className="block text-3xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">Lebanon</span>
-                  <span className="block text-lg font-bold uppercase tracking-[0.4em] text-gold/70 sm:text-2xl lg:text-3xl">Rental</span>
-                </h1>
-              </div>
+            <div className="hero-corner-enter">
+              <h1 className="font-serif leading-[0.95] drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
+                <span className="flex items-baseline">
+                  <span className="text-3xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">Leb</span>
+                  <span className="cedar-sun-glow relative inline-flex items-center justify-center mx-[-2px]">
+                    <svg className="h-8 w-8 text-gold drop-shadow-[0_2px_12px_rgba(201,168,76,0.5)] sm:h-12 sm:w-12 lg:h-14 lg:w-14" viewBox="0 0 64 64" fill="currentColor">
+                      <path d="M32 4c-1.2 3.2-4 6.4-4 9.6 0 2.4 1.6 4 2.8 5.6-2-.8-4.8-1.6-6.8-.8-2.4 1-3.2 3.2-2.4 5.2.8 1.6 2.8 2.8 4.4 3.2-2.4.4-5.6 1.2-7.2 3.2-1.4 2-.8 4.4.8 6 1.6 1.4 4 2 6 2-1.6 1.2-3.6 2.8-4 4.8-.4 2.4 1.2 4 3.2 4.8H32V4z" />
+                      <path d="M32 4c1.2 3.2 4 6.4 4 9.6 0 2.4-1.6 4-2.8 5.6 2-.8 4.8-1.6 6.8-.8 2.4 1 3.2 3.2 2.4 5.2-.8 1.6-2.8 2.8-4.4 3.2 2.4.4 5.6 1.2 7.2 3.2 1.4 2 .8 4.4-.8 6-1.6 1.4-4 2-6 2 1.6 1.2 3.6 2.8 4 4.8.4 2.4-1.2 4-3.2 4.8H32V4z" />
+                      <rect x="30" y="48" width="4" height="14" rx="1" />
+                    </svg>
+                  </span>
+                  <span className="text-3xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">non</span>
+                </span>
+                <span className="block text-lg font-bold uppercase tracking-[0.4em] text-gold/70 sm:text-2xl lg:text-3xl">Rental</span>
+              </h1>
             </div>
           </div>
 
