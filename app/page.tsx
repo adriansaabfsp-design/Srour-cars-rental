@@ -164,12 +164,6 @@ export default function Home() {
             From exotic supercars to elegant sedans — find your perfect drive.
           </p>
 
-          {/* Featured Cars Showcase — right after title on mobile */}
-          <FeaturedBar
-            cars={cars.filter((c) => c.featured)}
-            visibleCount={featuredBarCount}
-          />
-
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:mt-12 sm:flex-row sm:gap-4">
             <a
               href="#collection"
@@ -263,6 +257,84 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-luxury-black to-transparent" />
       </section>
 
+      {/* ─── FEATURED FLEET STRIP ─── */}
+      {cars.filter((c) => c.featured).length > 0 && (
+        <section className="relative border-t border-b border-white/[0.06] bg-[#080808] py-12 sm:py-16">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            {/* Section header */}
+            <div className="mb-8 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <svg className="h-5 w-5 text-gold" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                <h2 className="font-serif text-2xl font-bold tracking-wide text-white sm:text-3xl">FEATURED FLEET</h2>
+              </div>
+              <div className="hidden items-center gap-1 text-[10px] font-bold uppercase tracking-[0.3em] text-white/30 sm:flex">
+                <span>Scroll</span>
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </div>
+            </div>
+
+            {/* Horizontal scroll container */}
+            <div className="-mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+              <div className="flex gap-5 overflow-x-auto pb-4 scrollbar-hide" style={{ scrollSnapType: 'x mandatory' }}>
+                {cars.filter((c) => c.featured).map((car) => (
+                  <a
+                    key={car.id}
+                    href={`/cars/${car.id}`}
+                    className="group relative flex-shrink-0 overflow-hidden border border-white/[0.08] bg-white/[0.03] transition-all duration-500 hover:border-gold/40 hover:shadow-[0_0_30px_rgba(201,168,76,0.08)]"
+                    style={{ width: 'min(340px, 80vw)', scrollSnapAlign: 'start' }}
+                  >
+                    {/* Image */}
+                    <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+                      {(car.photos?.main || car.images?.[0]) ? (
+                        <img
+                          src={car.photos?.main || car.images[0]}
+                          alt={car.name}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center bg-luxury-card text-white/10">
+                          <svg className="h-16 w-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+                          </svg>
+                        </div>
+                      )}
+
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+
+                      {/* Price badge */}
+                      <div className="absolute top-0 right-0 bg-gold px-3 py-1.5">
+                        <span className="text-sm font-extrabold text-black">${car.price}</span>
+                        <span className="text-[9px] font-bold text-black/50">/day</span>
+                      </div>
+
+                      {/* Bottom info */}
+                      <div className="absolute bottom-0 left-0 right-0 p-5">
+                        <div className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.3em] text-gold/80">
+                          {car.brand}
+                        </div>
+                        <h3 className="font-serif text-xl font-bold leading-tight text-white sm:text-2xl">
+                          {car.name}
+                        </h3>
+                        <div className="mt-2 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-wider text-white/40">
+                          <span>{car.year}</span>
+                          {car.transmission && <span>{car.transmission}</span>}
+                          {car.fuel && <span>{car.fuel}</span>}
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Main Content */}
       <div id="collection" className="mx-auto max-w-7xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
         {/* Section header */}
@@ -282,7 +354,7 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, brand, year..."
-              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-11 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-gold/50 focus:bg-luxury-dark"
+              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-11 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-gold focus:bg-luxury-dark focus:shadow-[0_0_12px_rgba(201,168,76,0.1)]"
             />
             {searchQuery && (
               <button
