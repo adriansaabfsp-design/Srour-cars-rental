@@ -33,15 +33,6 @@ html {
   height: 4px;
 }
 
-/* Hide scrollbar utility */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
 ::-webkit-scrollbar-track {
   background: #0a0a0a;
 }
@@ -122,6 +113,35 @@ html {
     left: -300px;
     transform: translateX(0);
   }
+}
+
+/* Floating text animation */
+@keyframes heroTextFloat {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(12px, -8px) rotate(0.5deg); }
+  50%  { transform: translate(-6px, 6px) rotate(-0.3deg); }
+  75%  { transform: translate(8px, 10px) rotate(0.2deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.hero-float-text {
+  animation: heroTextFloat 8s ease-in-out infinite;
+}
+
+/* Slide in from right */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+.animate-slide-left {
+  animation: slideInLeft 0.5s ease-out forwards;
 }
 
 /* Select / input dark focus */

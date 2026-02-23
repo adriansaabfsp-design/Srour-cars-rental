@@ -20,7 +20,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
-import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord } from "@/lib/types";
+import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES } from "@/lib/types";
 
 const EMPTY_FORM = {
   name: "",
@@ -43,6 +43,8 @@ const EMPTY_FORM = {
   videoUrl: "",
   adminNotes: "",
   rentals: [] as RentalRecord[],
+  category: "Sedan",
+  roadTypes: [] as string[],
 };
 
 const inputCls =
@@ -185,6 +187,8 @@ export default function AdminPage() {
         videoUrl: videoUrl || "",
         adminNotes: form.adminNotes,
         rentals: form.rentals,
+        category: form.category,
+        roadTypes: form.roadTypes,
         createdAt: editingId ? undefined : Date.now(),
       };
 
@@ -234,6 +238,8 @@ export default function AdminPage() {
       videoUrl: car.videoUrl || "",
       adminNotes: car.adminNotes || "",
       rentals: car.rentals || [],
+      category: car.category || "Sedan",
+      roadTypes: car.roadTypes || [],
     });
     setEditingId(car.id);
     setPhotoFiles({});
@@ -501,6 +507,51 @@ export default function AdminPage() {
                   onChange={(e) => setForm({ ...form, seats: Number(e.target.value) })}
                   className={inputCls}
                 />
+              </div>
+
+              {/* Category */}
+              <div>
+                <label className={labelCls}>Category</label>
+                <select
+                  value={form.category}
+                  onChange={(e) => setForm({ ...form, category: e.target.value })}
+                  className={inputCls}
+                >
+                  {CAR_CATEGORIES.filter(c => c !== "All").map((c) => (
+                    <option key={c} value={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Road Types */}
+              <div className="sm:col-span-2">
+                <label className={labelCls}>Best For (Road Types)</label>
+                <div className="flex flex-wrap gap-2">
+                  {ROAD_TYPES.filter(r => r !== "All Terrain").map((road) => {
+                    const selected = form.roadTypes.includes(road);
+                    return (
+                      <button
+                        key={road}
+                        type="button"
+                        onClick={() => {
+                          setForm({
+                            ...form,
+                            roadTypes: selected
+                              ? form.roadTypes.filter((r) => r !== road)
+                              : [...form.roadTypes, road],
+                          });
+                        }}
+                        className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all ${
+                          selected
+                            ? "border border-gold bg-gold/20 text-gold"
+                            : "border border-luxury-border bg-black text-white/30 hover:border-white/20 hover:text-white/50"
+                        }`}
+                      >
+                        {road}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
               {/* WhatsApp */}

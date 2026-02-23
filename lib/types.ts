@@ -48,6 +48,8 @@ export interface Car {
   videoUrl?: string;
   adminNotes?: string;
   rentals?: RentalRecord[];
+  category?: string;
+  roadTypes?: string[];
 }
 
 export const BRANDS = [
@@ -134,3 +136,29 @@ export const BRANDS = [
 
 export const FUEL_TYPES = ["Petrol", "Diesel", "Hybrid", "Electric"] as const;
 export const TRANSMISSIONS = ["Automatic", "Manual"] as const;
+
+export const CAR_CATEGORIES = [
+  "All",
+  "Sedan",
+  "SUV",
+  "Hatchback",
+  "Coupe",
+  "Convertible",
+  "Pickup",
+  "Van",
+  "Wagon",
+  "Luxury",
+  "Sports",
+  "Electric",
+] as const;
+
+export const ROAD_TYPES = [
+  "All Terrain",
+  "City",
+  "Highway",
+  "Mountain",
+  "Coastal",
+  "Off-Road",
+  "Snow",
+  "Desert",
+] as const;
