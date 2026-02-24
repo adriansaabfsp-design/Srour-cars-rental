@@ -421,13 +421,13 @@ export default function Home() {
 
       {/* ─── BROWSE BY CATEGORY ─── */}
       <section className="border-b border-luxury-border">
-        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-16">
-          <div className="mb-5 text-center sm:mb-8">
+        <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-16">
+          <div className="mb-3 text-center sm:mb-8">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Find your perfect match</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">BROWSE BY CATEGORY</h2>
-            <div className="mx-auto mt-3 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
+            <h2 className="mt-2 font-serif text-xl font-bold text-gray-900 sm:mt-3 sm:text-4xl">BROWSE BY CATEGORY</h2>
+            <div className="mx-auto mt-2 h-[2px] w-14 bg-gradient-to-r from-transparent via-navy to-transparent sm:mt-3 sm:w-16" />
           </div>
-          <div className="flex gap-3 overflow-x-auto pb-2 sm:gap-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
+          <div className="flex gap-2 overflow-x-auto pb-1.5 sm:gap-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
             {([
               { name: "Sedan", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h13L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
               { name: "SUV", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l1.5-4h15L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="9" width="18" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" /></svg> },
@@ -442,10 +442,10 @@ export default function Home() {
                   setActiveCategory(cat.name);
                   document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex-shrink-0 flex flex-col items-center gap-2.5 border border-luxury-border bg-luxury-card px-6 py-4 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:px-10 sm:py-6"
+                className="group flex-shrink-0 flex min-w-[100px] flex-col items-center gap-2 border border-luxury-border bg-luxury-card px-4 py-3 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:min-w-0 sm:px-10 sm:py-6"
               >
                 <div className="text-gray-900/20 transition-colors group-hover:text-gray-900/60">{cat.icon}</div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/40 transition-colors group-hover:text-gray-900/70">
+                <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-gray-900/40 transition-colors group-hover:text-gray-900/70 sm:text-[11px] sm:tracking-[0.2em]">
                   {cat.name}
                 </span>
               </button>
@@ -455,20 +455,20 @@ export default function Home() {
       </section>
 
       {/* ─── COLLECTION ─── */}
-      <div id="collection" className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
+      <div id="collection" className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 lg:px-8">
         {/* heading */}
-        <div className="mb-6 text-center">
-          <h2 className="font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
+        <div className="mb-4 text-center sm:mb-6">
+          <h2 className="font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
             CHOOSE YOUR CAR RENTAL
           </h2>
-          <div className="mx-auto mt-3 h-[2px] w-20 bg-navy/30" />
+          <div className="mx-auto mt-2 h-[2px] w-16 bg-navy/30 sm:mt-3 sm:w-20" />
         </div>
 
         {/* search */}
-        <div className="mx-auto mb-5 max-w-2xl">
+        <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
           <div className="relative">
             <svg
-              className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-900/30"
+              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900/30 sm:left-4 sm:h-5 sm:w-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -480,7 +480,7 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, brand, year..."
-              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-12 pr-4 text-sm text-gray-900 placeholder-white/30 outline-none transition-all focus:border-navy/50"
+              className="w-full border border-luxury-border bg-luxury-card py-2.5 pl-10 pr-4 text-[13px] text-gray-900 placeholder-white/30 outline-none transition-all focus:border-navy/50 sm:py-3.5 sm:pl-12 sm:text-sm"
             />
             {searchQuery && (
               <button
@@ -496,7 +496,7 @@ export default function Home() {
         </div>
 
         {/* category tabs */}
-        <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
+        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:mb-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
           {CAR_CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             const count =
@@ -508,7 +508,7 @@ export default function Home() {
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={
-                  "px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] transition-all " +
+                  "px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all sm:px-4 sm:py-2.5 sm:text-[11px] " +
                   (isActive
                     ? "bg-navy text-white"
                     : "border border-luxury-border bg-luxury-card text-gray-900/50 hover:border-navy/30 hover:text-gray-900")
@@ -526,8 +526,8 @@ export default function Home() {
         </div>
 
         {/* road type pills */}
-        <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
-          <span className="mr-1 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-900/25">
+        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:mb-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
+          <span className="mr-1 text-[8px] font-bold uppercase tracking-[0.2em] text-gray-900/25 sm:text-[9px] sm:tracking-[0.25em]">
             Best for:
           </span>
           {ROAD_TYPES.map((road) => {
@@ -537,7 +537,7 @@ export default function Home() {
                 key={road}
                 onClick={() => setActiveRoad(road)}
                 className={
-                  "px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all " +
+                  "px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-all sm:px-3 sm:text-[10px] " +
                   (isActive
                     ? "border border-navy bg-navy/15 text-gray-900"
                     : "border border-luxury-border text-gray-900/30 hover:border-white/20 hover:text-gray-900/50")
@@ -550,11 +550,11 @@ export default function Home() {
         </div>
 
         {/* dropdowns row */}
-        <div className="mb-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-6 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
           <select
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light]"
+            className="w-full border border-luxury-border bg-luxury-card px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px]"
           >
             {BRANDS.map((b) => (
               <option key={b} value={b}>
@@ -565,7 +565,7 @@ export default function Home() {
           <select
             value={fuel}
             onChange={(e) => setFuel(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light]"
+            className="w-full border border-luxury-border bg-luxury-card px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px]"
           >
             <option value="All">All Fuel Types</option>
             {FUEL_TYPES.map((f) => (
@@ -575,7 +575,7 @@ export default function Home() {
           <select
             value={transmission}
             onChange={(e) => setTransmission(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light]"
+            className="col-span-2 w-full border border-luxury-border bg-luxury-card px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light] sm:col-span-1 sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px]"
           >
             <option value="All">All Transmissions</option>
             {TRANSMISSIONS.map((t) => (
@@ -585,7 +585,7 @@ export default function Home() {
           {hasFilters && (
             <button
               onClick={resetFilters}
-              className="text-[10px] font-bold uppercase tracking-wider text-gray-900/50 hover:text-gray-900 transition-colors"
+              className="col-span-2 text-[9px] font-bold uppercase tracking-wider text-gray-900/50 transition-colors hover:text-gray-900 sm:col-span-1 sm:text-[10px]"
             >
               Clear Filters
             </button>
@@ -593,8 +593,8 @@ export default function Home() {
         </div>
 
         {/* result count */}
-        <div className="mb-4">
-          <p className="text-sm text-luxury-muted">
+        <div className="mb-3 sm:mb-4">
+          <p className="text-xs text-luxury-muted sm:text-sm">
             {loading ? (
               <span className="lux-pulse">Loading fleet...</span>
             ) : (
