@@ -62,6 +62,185 @@ function PropertySlideshow() {
   );
 }
 
+/* ── Travel Insights animated tab section ── */
+const INSIGHT_TABS = [
+  {
+    tab: "Road Trips",
+    title: "Iconic Road Trips in Lebanon",
+    desc: "Discover 17 unforgettable driving routes across mountains, coast, and hidden gems — curated for every season.",
+    href: "/road-trips",
+    icon: (
+      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+      </svg>
+    ),
+  },
+  {
+    tab: "Seasonal Guide",
+    title: "Best Time to Visit Lebanon",
+    desc: "A complete seasonal guide to weather, crowds, prices, and the perfect car for every month of the year.",
+    href: "/seasonal-guide",
+    icon: (
+      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+      </svg>
+    ),
+  },
+  {
+    tab: "FAQ",
+    title: "Everything You Need to Know About Renting",
+    desc: "From documents to fuel policy — our comprehensive FAQ covers every question first-time renters ask.",
+    href: "/faq",
+    icon: (
+      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
+      </svg>
+    ),
+  },
+  {
+    tab: "Extras",
+    title: "Rental Extras & Add-ons",
+    desc: "GPS, child seats, extra drivers, insurance upgrades — enhance your trip with our curated add-on packages.",
+    href: "/extras",
+    icon: (
+      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+  },
+];
+
+function InsightsSection() {
+  const [active, setActive] = useState(0);
+  const [animating, setAnimating] = useState(false);
+  const [direction, setDirection] = useState<"left" | "right">("right");
+  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const goTo = useCallback(
+    (idx: number) => {
+      if (idx === active || animating) return;
+      setDirection(idx > active ? "right" : "left");
+      setAnimating(true);
+      setTimeout(() => {
+        setActive(idx);
+        setTimeout(() => setAnimating(false), 50);
+      }, 250);
+    },
+    [active, animating]
+  );
+
+  // Auto-advance every 5s
+  useEffect(() => {
+    autoRef.current = setInterval(() => {
+      setDirection("right");
+      setAnimating(true);
+      setTimeout(() => {
+        setActive((prev) => (prev + 1) % INSIGHT_TABS.length);
+        setTimeout(() => setAnimating(false), 50);
+      }, 250);
+    }, 5000);
+    return () => {
+      if (autoRef.current) clearInterval(autoRef.current);
+    };
+  }, []);
+
+  // Reset timer on manual click
+  const handleTabClick = useCallback(
+    (idx: number) => {
+      if (autoRef.current) clearInterval(autoRef.current);
+      goTo(idx);
+      autoRef.current = setInterval(() => {
+        setDirection("right");
+        setAnimating(true);
+        setTimeout(() => {
+          setActive((prev) => (prev + 1) % INSIGHT_TABS.length);
+          setTimeout(() => setAnimating(false), 50);
+        }, 250);
+      }, 5000);
+    },
+    [goTo]
+  );
+
+  const current = INSIGHT_TABS[active];
+
+  return (
+    <section className="border-t border-luxury-border">
+      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-20">
+        <div className="mb-5 text-center sm:mb-10">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
+            From our blog
+          </p>
+          <h2 className="mt-2 font-serif text-2xl font-bold text-gray-900 sm:mt-3 sm:text-4xl">
+            TRAVEL INSIGHTS
+          </h2>
+        </div>
+
+        {/* Tab pills */}
+        <div className="mb-5 flex justify-center gap-1.5 overflow-x-auto sm:gap-2 sm:mb-8">
+          {INSIGHT_TABS.map((tab, i) => (
+            <button
+              key={tab.tab}
+              onClick={() => handleTabClick(i)}
+              className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all duration-300 sm:px-5 sm:py-2.5 sm:text-[11px] sm:tracking-[0.15em] ${
+                i === active
+                  ? "bg-navy text-white"
+                  : "border border-gray-200 bg-white text-gray-400 hover:border-navy/30 hover:text-navy"
+              }`}
+            >
+              {tab.icon}
+              <span className="hidden min-[400px]:inline">{tab.tab}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Animated card */}
+        <div className="relative overflow-hidden">
+          <a
+            href={current.href}
+            className={`group block border border-luxury-border bg-luxury-card p-6 transition-all duration-300 hover:border-navy/30 sm:p-10 ${
+              animating
+                ? direction === "right"
+                  ? "translate-x-8 opacity-0"
+                  : "-translate-x-8 opacity-0"
+                : "translate-x-0 opacity-100"
+            }`}
+          >
+            <div className="flex items-start gap-4">
+              <div className="hidden sm:block flex-shrink-0 mt-1 text-navy/30">{current.icon}</div>
+              <div>
+                <div className="mb-3 h-[2px] w-8 bg-navy/30 transition-all group-hover:w-12 group-hover:bg-navy" />
+                <h3 className="font-serif text-xl font-bold text-gray-900 sm:text-2xl">
+                  {current.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-gray-900/40 sm:text-sm">
+                  {current.desc}
+                </p>
+                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-gray-900/60 sm:text-[11px]">
+                  Read More &rarr;
+                </span>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        {/* Progress dots */}
+        <div className="mt-4 flex justify-center gap-2">
+          {INSIGHT_TABS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handleTabClick(i)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                i === active ? "w-6 bg-navy" : "w-1.5 bg-gray-200 hover:bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
@@ -676,52 +855,8 @@ export default function Home() {
         )}
       </div>
 
-      {/* ─── TRAVEL INSIGHTS ─── */}
-      <section className="border-t border-luxury-border">
-        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-20">
-          <div className="mb-6 text-center sm:mb-10">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">From our blog</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">TRAVEL INSIGHTS</h2>
-            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
-          </div>
-          <div className="grid gap-5 sm:grid-cols-3">
-            {[
-              {
-                title: "Iconic Road Trips in Lebanon",
-                desc: "Discover 17 unforgettable driving routes across mountains, coast, and hidden gems — curated for every season.",
-                href: "/road-trips",
-              },
-              {
-                title: "Best Time to Visit Lebanon",
-                desc: "A complete seasonal guide to weather, crowds, prices, and the perfect car for every month of the year.",
-                href: "/seasonal-guide",
-              },
-              {
-                title: "Everything You Need to Know About Renting",
-                desc: "From documents to fuel policy — our comprehensive FAQ covers every question first-time renters ask.",
-                href: "/faq",
-              },
-            ].map((article) => (
-              <a
-                key={article.title}
-                href={article.href}
-                className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-navy/30"
-              >
-                <div className="mb-4 h-[2px] w-8 bg-navy/30 transition-all group-hover:w-12 group-hover:bg-navy" />
-                <h3 className="font-serif text-lg font-bold text-gray-900 transition-colors group-hover:text-gray-900">
-                  {article.title}
-                </h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-gray-900/30">
-                  {article.desc}
-                </p>
-                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-gray-900/60">
-                  Read More &rarr;
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ─── TRAVEL INSIGHTS (animated tabs) ─── */}
+      <InsightsSection />
 
       {/* ─── INSTAGRAM WIDGET ─── */}
       <section className="border-t border-luxury-border">
