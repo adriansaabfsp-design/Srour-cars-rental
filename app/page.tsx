@@ -128,7 +128,7 @@ export default function Home() {
               Rent Your
             </p>
             <p className="mt-1 font-serif text-3xl font-black uppercase tracking-[0.12em] text-white">
-              Dre<svg className="inline-block h-[0.75em] w-[0.75em] text-navy mx-[-0.04em] align-baseline" viewBox="0 0 64 64" fill="currentColor"><path d="M32 4c-1.2 3.2-4 6.4-4 9.6 0 2.4 1.6 4 2.8 5.6-2-.8-4.8-1.6-6.8-.8-2.4 1-3.2 3.2-2.4 5.2.8 1.6 2.8 2.8 4.4 3.2-2.4.4-5.6 1.2-7.2 3.2-1.4 2-.8 4.4.8 6 1.6 1.4 4 2 6 2-1.6 1.2-3.6 2.8-4 4.8-.4 2.4 1.2 4 3.2 4.8H32V4z" /><path d="M32 4c1.2 3.2 4 6.4 4 9.6 0 2.4-1.6 4-2.8 5.6 2-.8 4.8-1.6 6.8-.8 2.4 1 3.2 3.2 2.4 5.2-.8 1.6-2.8 2.8-4.4 3.2 2.4.4 5.6 1.2 7.2 3.2 1.4 2 .8 4.4-.8 6-1.6 1.4-4 2-6 2 1.6 1.2 3.6 2.8 4 4.8.4 2.4-1.2 4-3.2 4.8H32V4z" /><rect x="30" y="48" width="4" height="14" rx="1" /></svg>m Ride
+              Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.02em] align-baseline" />m Ride
             </p>
             <div className="hero-tagline-line mx-auto mt-3 h-[1px] w-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           </div>
@@ -292,7 +292,7 @@ export default function Home() {
                   Rent Your
                 </p>
                 <p className="hero-tagline-word mt-1 font-serif text-6xl font-black uppercase tracking-[0.15em] lg:text-7xl">
-                  <span className="text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">Dre<svg className="inline-block h-[0.75em] w-[0.75em] text-navy mx-[-0.02em] align-baseline drop-shadow-[0_2px_12px_rgba(27,58,92,0.5)]" viewBox="0 0 64 64" fill="currentColor"><path d="M32 4c-1.2 3.2-4 6.4-4 9.6 0 2.4 1.6 4 2.8 5.6-2-.8-4.8-1.6-6.8-.8-2.4 1-3.2 3.2-2.4 5.2.8 1.6 2.8 2.8 4.4 3.2-2.4.4-5.6 1.2-7.2 3.2-1.4 2-.8 4.4.8 6 1.6 1.4 4 2 6 2-1.6 1.2-3.6 2.8-4 4.8-.4 2.4 1.2 4 3.2 4.8H32V4z" /><path d="M32 4c1.2 3.2 4 6.4 4 9.6 0 2.4-1.6 4-2.8 5.6 2-.8 4.8-1.6 6.8-.8 2.4 1 3.2 3.2 2.4 5.2-.8 1.6-2.8 2.8-4.4 3.2 2.4.4 5.6 1.2 7.2 3.2 1.4 2 .8 4.4-.8 6-1.6 1.4-4 2-6 2 1.6 1.2 3.6 2.8 4 4.8.4 2.4-1.2 4-3.2 4.8H32V4z" /><rect x="30" y="48" width="4" height="14" rx="1" /></svg>m Ride</span>
+                  <span className="text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.01em] align-baseline drop-shadow-[0_2px_12px_rgba(27,58,92,0.5)]" />m Ride</span>
                 </p>
                 <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-navy to-transparent" />
               </div>
