@@ -112,7 +112,7 @@ export default function Home() {
       {/* MOBILE: crossfading logo/tagline + car train marquee */}
       <section className="sm:hidden bg-luxury-black">
         {/* Crossfading Logo ↔ Tagline */}
-        <div className="relative flex items-center justify-center pt-12 pb-8 px-4" style={{ minHeight: "180px" }}>
+        <div className="relative flex items-center justify-center pt-12 pb-8 px-4" style={{ height: "160px" }}>
           {/* Lebanon Rental logo */}
           <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
             <Image
@@ -120,16 +120,16 @@ export default function Home() {
               alt="Lebanon Rental"
               width={400}
               height={400}
-              className="h-28 w-auto drop-shadow-[0_4px_40px_rgba(0,0,0,0.6)]"
+              className="h-20 w-auto drop-shadow-[0_4px_40px_rgba(0,0,0,0.6)]"
               priority
             />
           </div>
           {/* Rent Your Dream Ride tagline */}
           <div className="hero-crossfade-b absolute inset-0 flex flex-col items-center justify-center text-center">
-            <p className="font-serif text-lg font-light italic tracking-wide text-white/70">
+            <p className="font-serif text-base font-light italic tracking-wide text-white/70">
               Rent Your
             </p>
-            <p className="mt-1 font-serif text-3xl font-black uppercase tracking-[0.12em] text-white">
+            <p className="mt-0.5 font-serif text-[1.7rem] font-black uppercase tracking-[0.12em] text-white leading-tight">
               Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.02em] align-baseline" />m Ride
             </p>
           </div>
