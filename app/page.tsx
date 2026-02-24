@@ -160,7 +160,7 @@ export default function Home() {
                   Rent Your
                 </p>
                 <p className="hero-tagline-word mt-1 font-serif text-2xl font-black uppercase tracking-[0.15em] sm:text-6xl lg:text-7xl">
-                  <span className="bg-gradient-to-r from-terra via-terra-light to-terra bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(192,86,42,0.4)]">Dream Ride</span>
+                  <span className="text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">Dream Ride</span>
                 </p>
                 <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-navy to-transparent" />
               </div>
@@ -178,7 +178,7 @@ export default function Home() {
               >
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-[0.35em] text-terra sm:text-[11px]">
+                    <div className="text-[9px] font-bold uppercase tracking-[0.35em] text-white/50 sm:text-[11px]">
                       {currentHeroCar.brand} &middot; {currentHeroCar.year}
                     </div>
                     <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
@@ -197,15 +197,15 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <div className="bg-terra px-5 py-2.5 sm:px-6 sm:py-3">
-                      <span className="text-xl font-extrabold text-white sm:text-2xl">
+                    <div className="bg-white/90 backdrop-blur-sm px-5 py-2.5 sm:px-6 sm:py-3">
+                      <span className="text-xl font-extrabold text-black sm:text-2xl">
                         ${currentHeroCar.price}
                       </span>
-                      <span className="text-[10px] font-bold text-white/50 sm:text-xs">/day</span>
+                      <span className="text-[10px] font-bold text-black/50 sm:text-xs">/day</span>
                     </div>
                     <Link
                       href={"/cars/" + currentHeroCar.id}
-                      className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-terra transition-colors hover:text-terra-light sm:text-[11px]"
+                      className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 transition-colors hover:text-white sm:text-[11px]"
                     >
                       View Details &rarr;
                     </Link>
@@ -220,7 +220,7 @@ export default function Home() {
             <>
               <button
                 onClick={heroPrev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-terra hover:text-white sm:left-6 sm:h-12 sm:w-12"
+                className="absolute left-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white sm:left-6 sm:h-12 sm:w-12"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -228,7 +228,7 @@ export default function Home() {
               </button>
               <button
                 onClick={heroNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-terra hover:text-white sm:right-6 sm:h-12 sm:w-12"
+                className="absolute right-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white sm:right-6 sm:h-12 sm:w-12"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -253,7 +253,7 @@ export default function Home() {
                   className={
                     "transition-all duration-300 " +
                     (i === heroIndex % featuredCars.length
-                      ? "h-2 w-7 bg-terra"
+                      ? "h-2 w-7 bg-white"
                       : "h-2 w-2 bg-white/30 hover:bg-white/50")
                   }
                 />
@@ -285,7 +285,7 @@ export default function Home() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
             <a
               href="/#collection"
-              className="inline-block border border-terra bg-terra px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
+              className="inline-block border border-navy bg-navy px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
             >
               Browse Our Fleet
             </a>
@@ -293,7 +293,7 @@ export default function Home() {
               href="https://lebanon-rental.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block border border-terra/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
+              className="inline-block border border-white/20 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 transition-all hover:bg-white/10 hover:text-white"
             >
               Browse Lebanon Rental Properties &rarr;
             </a>
@@ -325,10 +325,10 @@ export default function Home() {
                   setActiveCategory(cat.name);
                   document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex-shrink-0 flex flex-col items-center gap-3 border border-luxury-border bg-luxury-card px-8 py-6 transition-all hover:border-terra/40 hover:bg-terra/5 sm:px-10"
+                className="group flex-shrink-0 flex flex-col items-center gap-3 border border-luxury-border bg-luxury-card px-8 py-6 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:px-10"
               >
-                <div className="text-white/20 transition-colors group-hover:text-terra">{cat.icon}</div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors group-hover:text-terra">
+                <div className="text-white/20 transition-colors group-hover:text-white/60">{cat.icon}</div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors group-hover:text-white/70">
                   {cat.name}
                 </span>
               </button>
@@ -344,7 +344,7 @@ export default function Home() {
           <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
             CHOOSE YOUR CAR RENTAL
           </h2>
-          <div className="mx-auto mt-3 h-[2px] w-20 bg-terra" />
+          <div className="mx-auto mt-3 h-[2px] w-20 bg-navy/30" />
         </div>
 
         {/* search */}
@@ -363,7 +363,7 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, brand, year..."
-              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-12 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-terra/50"
+              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-12 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-navy/50"
             />
             {searchQuery && (
               <button
@@ -393,8 +393,8 @@ export default function Home() {
                 className={
                   "px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] transition-all " +
                   (isActive
-                    ? "bg-terra text-white"
-                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-terra/30 hover:text-white")
+                    ? "bg-navy text-white"
+                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-navy/30 hover:text-white")
                 }
               >
                 {cat}
@@ -422,7 +422,7 @@ export default function Home() {
                 className={
                   "px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all " +
                   (isActive
-                    ? "border border-terra bg-terra/15 text-terra"
+                    ? "border border-navy bg-navy/15 text-white"
                     : "border border-luxury-border text-white/30 hover:border-white/20 hover:text-white/50")
                 }
               >
@@ -437,7 +437,7 @@ export default function Home() {
           <select
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-terra [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
           >
             {BRANDS.map((b) => (
               <option key={b} value={b}>
@@ -448,7 +448,7 @@ export default function Home() {
           <select
             value={fuel}
             onChange={(e) => setFuel(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-terra [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
           >
             <option value="All">All Fuel Types</option>
             {FUEL_TYPES.map((f) => (
@@ -458,7 +458,7 @@ export default function Home() {
           <select
             value={transmission}
             onChange={(e) => setTransmission(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-terra [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
           >
             <option value="All">All Transmissions</option>
             {TRANSMISSIONS.map((t) => (
@@ -468,7 +468,7 @@ export default function Home() {
           {hasFilters && (
             <button
               onClick={resetFilters}
-              className="text-[10px] font-bold uppercase tracking-wider text-terra hover:text-terra-light transition-colors"
+              className="text-[10px] font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors"
             >
               Clear Filters
             </button>
@@ -484,10 +484,10 @@ export default function Home() {
               <>
                 {filteredCars.length} vehicle{filteredCars.length !== 1 ? "s" : ""}
                 {activeCategory !== "All" && (
-                  <span className="text-terra"> &middot; {activeCategory}</span>
+                  <span className="text-white/60"> &middot; {activeCategory}</span>
                 )}
                 {activeRoad !== "All Terrain" && (
-                  <span className="text-terra"> &middot; {activeRoad}</span>
+                  <span className="text-white/60"> &middot; {activeRoad}</span>
                 )}
               </>
             )}
@@ -517,7 +517,7 @@ export default function Home() {
             <p className="mt-2 text-sm text-white/40">Adjust your filters to discover more</p>
             <button
               onClick={resetFilters}
-              className="mt-6 border border-terra bg-transparent px-8 py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
+              className="mt-6 border border-navy bg-transparent px-8 py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-white/60 transition-all hover:bg-navy hover:text-white"
             >
               Reset Filters
             </button>
@@ -549,7 +549,7 @@ export default function Home() {
                 <select
                   value={pickupCity}
                   onChange={(e) => setPickupCity(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
                 >
                   {["Beirut","Tripoli","Jounieh","Batroun","Jbeil (Byblos)","Sidon","Tyre","Faraya","Zahle"].map((c) => (
                     <option key={c} value={c}>{c}</option>
@@ -563,7 +563,7 @@ export default function Home() {
                   type="date"
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
                 />
               </div>
               {/* Return Date */}
@@ -573,7 +573,7 @@ export default function Home() {
                   type="date"
                   value={returnDate}
                   onChange={(e) => setReturnDate(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
                 />
               </div>
               {/* Car Type */}
@@ -582,7 +582,7 @@ export default function Home() {
                 <select
                   value={carType}
                   onChange={(e) => setCarType(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
                 >
                   {["Any","Sedan","SUV","Luxury","Economy","4x4","Convertible"].map((t) => (
                     <option key={t} value={t}>{t}</option>
@@ -602,7 +602,7 @@ export default function Home() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-terra bg-terra px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
+                className="inline-flex items-center gap-2 border border-[#25D366] bg-[#25D366] px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#20BD5A]"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -644,16 +644,16 @@ export default function Home() {
               <a
                 key={article.title}
                 href={article.href}
-                className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-terra/30"
+                className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-navy/30"
               >
-                <div className="mb-4 h-[2px] w-8 bg-terra/30 transition-all group-hover:w-12 group-hover:bg-terra" />
-                <h3 className="font-serif text-lg font-bold text-white transition-colors group-hover:text-terra">
+                <div className="mb-4 h-[2px] w-8 bg-navy/30 transition-all group-hover:w-12 group-hover:bg-navy" />
+                <h3 className="font-serif text-lg font-bold text-white transition-colors group-hover:text-white">
                   {article.title}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-white/30">
                   {article.desc}
                 </p>
-                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-terra">
+                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-white/60">
                   Read More &rarr;
                 </span>
               </a>
@@ -739,7 +739,7 @@ export default function Home() {
           </div>
           <div className="h-12 w-px bg-luxury-border" />
           <a href="https://lebanon-rental.com" target="_blank" rel="noopener noreferrer" className="text-center group">
-            <div className="font-serif text-4xl font-bold text-terra transition-colors group-hover:text-terra-light sm:text-5xl">1000+</div>
+            <div className="font-serif text-4xl font-bold text-white transition-colors group-hover:text-navy-light sm:text-5xl">1000+</div>
             <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40 transition-colors group-hover:text-navy">
               Partner Properties
             </div>

@@ -8,7 +8,7 @@ export default function TopBanner() {
   if (!visible) return null;
 
   return (
-    <div className="relative z-50 flex items-center justify-center bg-gradient-to-r from-terra via-terra-light to-terra px-4 py-2 text-center">
+    <div className="relative z-50 flex items-center justify-center border-b border-white/5 bg-[#111111] px-4 py-2 text-center">
       {/* Social icons — left side */}
       <div className="absolute left-3 top-1/2 -translate-y-1/2 hidden items-center gap-2.5 sm:flex">
         <a href="https://www.instagram.com/lebanon.rental" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-white/60 transition-colors hover:text-white">

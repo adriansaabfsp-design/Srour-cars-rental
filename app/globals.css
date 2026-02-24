@@ -3,9 +3,9 @@
 @theme inline {
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
-  --color-terra: #C0562A;
-  --color-terra-light: #D4764A;
-  --color-terra-dark: #A04520;
+  --color-accent: #1A6B3C;
+  --color-accent-light: #238C4E;
+  --color-accent-dark: #145530;
   --color-navy: #1B3A5C;
   --color-navy-light: #2A5080;
   --color-luxury-black: #0a0a0a;
@@ -45,7 +45,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C0562A;
+  background: #1A6B3C;
 }
 
 /* Gold shimmer animation */
@@ -54,8 +54,8 @@ html {
   100% { background-position: 200% 0; }
 }
 
-.terra-shimmer {
-  background: linear-gradient(90deg, #C0562A 0%, #D4764A 30%, #C0562A 50%, #D4764A 70%, #C0562A 100%);
+.accent-shimmer {
+  background: linear-gradient(90deg, #1A6B3C 0%, #238C4E 30%, #1A6B3C 50%, #238C4E 70%, #1A6B3C 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

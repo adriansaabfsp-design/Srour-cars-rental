@@ -148,12 +148,12 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
             onClick={onPlayVideo}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 group"
           >
-            <div className="flex h-20 w-20 items-center justify-center border-2 border-white/30 bg-black/60 backdrop-blur-sm transition-all duration-300 group-hover:border-terra group-hover:bg-black/80 group-hover:scale-110">
-              <svg className="h-8 w-8 text-white ml-1 transition-colors group-hover:text-terra" fill="currentColor" viewBox="0 0 24 24">
+            <div className="flex h-20 w-20 items-center justify-center border-2 border-white/30 bg-black/60 backdrop-blur-sm transition-all duration-300 group-hover:border-navy group-hover:bg-black/80 group-hover:scale-110">
+              <svg className="h-8 w-8 text-white ml-1 transition-colors group-hover:text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
-            <span className="mt-2 block text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 group-hover:text-terra transition-colors">
+            <span className="mt-2 block text-center text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 group-hover:text-white transition-colors">
               Play Video
             </span>
           </button>
@@ -164,7 +164,7 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
           <>
             <button
               onClick={goPrev}
-              className="absolute left-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-terra/30 hover:bg-black/90"
+              className="absolute left-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-navy/30 hover:bg-black/90"
             >
               <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
@@ -172,7 +172,7 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
             </button>
             <button
               onClick={goNext}
-              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-terra/30 hover:bg-black/90"
+              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-navy/30 hover:bg-black/90"
             >
               <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
@@ -199,7 +199,7 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
                 onClick={() => navigate(actualIndex, actualIndex > selected ? "right" : "left")}
                 className={`group relative aspect-[4/3] overflow-hidden border transition-all duration-300 ${
                   isActive
-                    ? "border-terra opacity-100 navy-glow"
+                    ? "border-navy opacity-100 navy-glow"
                     : "border-luxury-border opacity-50 hover:opacity-80"
                 }`}
               >

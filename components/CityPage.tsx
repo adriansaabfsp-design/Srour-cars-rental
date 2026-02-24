@@ -20,7 +20,7 @@ export default function CityPage({ city }: { city: CityData }) {
           </p>
           <h1 className="mt-4 font-serif text-3xl font-bold text-white sm:text-5xl lg:text-6xl">
             CAR RENTAL IN{" "}
-            <span className="bg-gradient-to-r from-terra via-terra-light to-terra bg-clip-text text-transparent">
+            <span className="text-white">
               {city.name.toUpperCase()}
             </span>
           </h1>
@@ -31,7 +31,7 @@ export default function CityPage({ city }: { city: CityData }) {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
             <Link
               href="/#collection"
-              className="inline-block border border-terra bg-terra px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
+              className="inline-block border border-navy bg-navy px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
             >
               View Our Fleet
             </Link>
@@ -39,7 +39,7 @@ export default function CityPage({ city }: { city: CityData }) {
               href={`https://wa.me/96181062329?text=${whatsappMsg}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border border-terra/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
+              className="inline-flex items-center gap-2 border border-navy/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-all hover:bg-navy hover:text-white"
             >
               <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -69,9 +69,9 @@ export default function CityPage({ city }: { city: CityData }) {
                 key={i}
                 className="flex items-start gap-3 border border-luxury-border bg-luxury-card p-5"
               >
-                <div className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center bg-terra/10">
+                <div className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center bg-navy/10">
                   <svg
-                    className="h-3.5 w-3.5 text-terra"
+                    className="h-3.5 w-3.5 text-navy"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -94,9 +94,9 @@ export default function CityPage({ city }: { city: CityData }) {
       {/* ─── DELIVERY ─── */}
       <section className="border-b border-luxury-border bg-black/40">
         <div className="mx-auto max-w-4xl px-4 py-14 text-center sm:px-6 sm:py-20">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-terra/20 bg-terra/5">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-navy/20 bg-navy/5">
             <svg
-              className="h-8 w-8 text-terra"
+              className="h-8 w-8 text-navy"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -119,7 +119,7 @@ export default function CityPage({ city }: { city: CityData }) {
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a
               href="tel:+96181062329"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-terra transition-colors hover:text-terra-light"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-navy transition-colors hover:text-white"
             >
               <svg
                 className="h-4 w-4"
@@ -139,7 +139,7 @@ export default function CityPage({ city }: { city: CityData }) {
             <span className="hidden text-white/10 sm:inline">|</span>
             <a
               href="mailto:support@lebanon-rental.com"
-              className="text-sm text-white/30 transition-colors hover:text-terra"
+              className="text-sm text-white/30 transition-colors hover:text-white"
             >
               support@lebanon-rental.com
             </a>
@@ -163,8 +163,8 @@ export default function CityPage({ city }: { city: CityData }) {
               {city.crossPromo}
             </p>
             {city.propertyCount && (
-              <div className="mt-6 inline-flex items-center gap-2 border border-terra/20 bg-terra/5 px-5 py-2.5">
-                <span className="font-serif text-2xl font-bold text-terra">
+              <div className="mt-6 inline-flex items-center gap-2 border border-navy/20 bg-navy/5 px-5 py-2.5">
+                <span className="font-serif text-2xl font-bold text-navy">
                   {city.propertyCount}+
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/40">
@@ -175,7 +175,7 @@ export default function CityPage({ city }: { city: CityData }) {
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
               <Link
                 href="/#collection"
-                className="inline-block border border-terra bg-terra px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
+                className="inline-block border border-navy bg-navy px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
               >
                 Browse Our Fleet
               </Link>
@@ -183,7 +183,7 @@ export default function CityPage({ city }: { city: CityData }) {
                 href="https://lebanon-rental.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block border border-terra/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
+                className="inline-block border border-navy/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-all hover:bg-navy hover:text-white"
               >
                 Browse Properties &rarr;
               </a>
@@ -222,7 +222,7 @@ export default function CityPage({ city }: { city: CityData }) {
                 <Link
                   key={c.slug}
                   href={`/${c.slug}`}
-                  className="border border-luxury-border bg-luxury-card px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-white/40 transition-all hover:border-terra/40 hover:text-terra"
+                  className="border border-luxury-border bg-luxury-card px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-white/40 transition-all hover:border-navy/40 hover:text-white"
                 >
                   {c.name}
                 </Link>
@@ -247,7 +247,7 @@ export default function CityPage({ city }: { city: CityData }) {
               href={`https://wa.me/96181062329?text=${whatsappMsg}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 border border-terra bg-terra px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
+              className="inline-flex items-center gap-2 border border-navy bg-navy px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
             >
               <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -257,7 +257,7 @@ export default function CityPage({ city }: { city: CityData }) {
             </a>
             <Link
               href="/#collection"
-              className="inline-block border border-terra/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
+              className="inline-block border border-navy/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-all hover:bg-navy hover:text-white"
             >
               View Full Fleet &rarr;
             </Link>

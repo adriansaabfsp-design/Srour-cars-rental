@@ -48,7 +48,7 @@ const EMPTY_FORM = {
 };
 
 const inputCls =
-  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-terra focus:ring-1 focus:ring-terra/20";
+  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-navy focus:ring-1 focus:ring-navy/20";
 const labelCls =
   "mb-1.5 block text-[10px] font-bold uppercase tracking-[0.25em] text-white/35";
 
@@ -326,8 +326,8 @@ export default function AdminPage() {
           <div className="w-full max-w-sm">
             <div className="border border-luxury-border bg-luxury-card p-8">
               <div className="mb-6 text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center border border-terra/30 bg-terra/5">
-                  <svg className="h-6 w-6 text-terra" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center border border-navy/30 bg-navy/5">
+                  <svg className="h-6 w-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
@@ -341,7 +341,7 @@ export default function AdminPage() {
                   onChange={(e) => { setPassword(e.target.value); setAuthError(false); }}
                   placeholder="Password"
                   autoFocus
-                  className={`w-full border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-terra focus:ring-1 focus:ring-terra/20 ${
+                  className={`w-full border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-navy focus:ring-1 focus:ring-navy/20 ${
                     authError ? "border-red-500/50" : "border-luxury-border"
                   }`}
                 />
@@ -350,7 +350,7 @@ export default function AdminPage() {
                 )}
                 <button
                   type="submit"
-                  className="mt-4 w-full bg-terra py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
+                  className="mt-4 w-full bg-navy py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
                 >
                   Enter
                 </button>
@@ -383,7 +383,7 @@ export default function AdminPage() {
             className={`px-6 py-3 text-[12px] font-bold tracking-[0.15em] uppercase transition-all ${
               showForm
                 ? "border border-luxury-border bg-luxury-card text-white/50 hover:bg-luxury-dark"
-                : "bg-terra text-white hover:bg-terra-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
+                : "bg-navy text-white hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
             }`}
           >
             {showForm ? "Cancel" : "+ Add New Car"}
@@ -543,7 +543,7 @@ export default function AdminPage() {
                         }}
                         className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all ${
                           selected
-                            ? "border border-terra bg-terra/20 text-terra"
+                            ? "border border-navy bg-navy/20 text-navy"
                             : "border border-luxury-border bg-black text-white/30 hover:border-white/20 hover:text-white/50"
                         }`}
                       >
@@ -588,7 +588,7 @@ export default function AdminPage() {
                   type="file"
                   accept="video/*"
                   onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
-                  className="w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white/40 file:mr-4 file:border-0 file:bg-terra file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-terra-light"
+                  className="w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white/40 file:mr-4 file:border-0 file:bg-navy file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-navy-light"
                 />
                 {videoFile && (
                   <p className="mt-1 text-xs text-white/25">
@@ -637,7 +637,7 @@ export default function AdminPage() {
                           type="date"
                           value={form.availableFrom}
                           onChange={(e) => setForm({ ...form, availableFrom: e.target.value })}
-                          className="border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-terra [color-scheme:dark]"
+                          className="border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-navy [color-scheme:dark]"
                         />
                       </div>
                       <div className="flex items-center gap-3">
@@ -649,7 +649,7 @@ export default function AdminPage() {
                           placeholder="e.g. 2 weeks, March 15"
                           value={form.availableEta}
                           onChange={(e) => setForm({ ...form, availableEta: e.target.value })}
-                          className="border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/20 outline-none focus:border-terra w-48"
+                          className="border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/20 outline-none focus:border-navy w-48"
                         />
                       </div>
                     </div>
@@ -661,7 +661,7 @@ export default function AdminPage() {
                           placeholder="Renter's full name"
                           value={form.currentRenterName}
                           onChange={(e) => setForm({ ...form, currentRenterName: e.target.value })}
-                          className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-terra"
+                          className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
                         />
                       </div>
                       <div>
@@ -672,7 +672,7 @@ export default function AdminPage() {
                             placeholder="e.g. 96170123456"
                             value={form.currentRenterPhone}
                             onChange={(e) => setForm({ ...form, currentRenterPhone: e.target.value })}
-                            className="flex-1 border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-terra"
+                            className="flex-1 border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
                           />
                           {form.currentRenterPhone && (
                             <a
@@ -696,7 +696,7 @@ export default function AdminPage() {
 
                 <label className="flex items-center gap-3 cursor-pointer group">
                   <div
-                    className={`relative h-6 w-11 transition-colors ${form.featured ? "bg-terra" : "bg-luxury-border"}`}
+                    className={`relative h-6 w-11 transition-colors ${form.featured ? "bg-navy" : "bg-luxury-border"}`}
                     onClick={() => setForm({ ...form, featured: !form.featured })}
                   >
                     <div
@@ -735,7 +735,7 @@ export default function AdminPage() {
                   <button
                     type="button"
                     onClick={() => setForm({ ...form, rentals: [...form.rentals, { renterName: "", renterPhone: "", startDate: "", endDate: "", notes: "" }] })}
-                    className="text-[10px] font-bold uppercase tracking-wider text-terra hover:text-terra-light transition-colors"
+                    className="text-[10px] font-bold uppercase tracking-wider text-navy hover:text-white transition-colors"
                   >
                     + Add Rental
                   </button>
@@ -768,7 +768,7 @@ export default function AdminPage() {
                               updated[idx] = { ...updated[idx], renterName: e.target.value };
                               setForm({ ...form, rentals: updated });
                             }}
-                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-terra"
+                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
                           />
                         </div>
                         <div>
@@ -783,7 +783,7 @@ export default function AdminPage() {
                                 updated[idx] = { ...updated[idx], renterPhone: e.target.value };
                                 setForm({ ...form, rentals: updated });
                               }}
-                              className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-terra"
+                              className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
                             />
                             {rental.renterPhone && (
                               <a
@@ -811,7 +811,7 @@ export default function AdminPage() {
                               updated[idx] = { ...updated[idx], startDate: e.target.value };
                               setForm({ ...form, rentals: updated });
                             }}
-                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-terra [color-scheme:dark]"
+                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-navy [color-scheme:dark]"
                           />
                         </div>
                         <div>
@@ -824,7 +824,7 @@ export default function AdminPage() {
                               updated[idx] = { ...updated[idx], endDate: e.target.value };
                               setForm({ ...form, rentals: updated });
                             }}
-                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-terra [color-scheme:dark]"
+                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-navy [color-scheme:dark]"
                           />
                         </div>
                       </div>
@@ -839,7 +839,7 @@ export default function AdminPage() {
                             updated[idx] = { ...updated[idx], notes: e.target.value };
                             setForm({ ...form, rentals: updated });
                           }}
-                          className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-terra"
+                          className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
                         />
                       </div>
                     </div>
@@ -859,7 +859,7 @@ export default function AdminPage() {
                     return (
                       <div key={slot.key} className="flex flex-col">
                         <span className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
-                          {slot.label} {slot.required && <span className="text-terra">*</span>}
+                          {slot.label} {slot.required && <span className="text-navy">*</span>}
                         </span>
                         <div className="relative aspect-[4/3] w-full overflow-hidden border border-luxury-border bg-black">
                           {hasPhoto ? (
@@ -925,7 +925,7 @@ export default function AdminPage() {
               <button
                 type="submit"
                 disabled={uploading}
-                className="bg-terra px-6 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-white transition-all hover:bg-terra-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] disabled:opacity-50"
+                className="bg-navy px-6 py-3 text-[12px] font-bold uppercase tracking-[0.15em] text-white transition-all hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] disabled:opacity-50"
               >
                 {uploading
                   ? "Saving..."
@@ -942,7 +942,7 @@ export default function AdminPage() {
                   setPhotoFiles({});
                   setVideoFile(null);
                 }}
-                className="border border-luxury-border bg-black px-6 py-3 text-[12px] font-bold text-white/40 transition-colors hover:border-terra/30 hover:text-white"
+                className="border border-luxury-border bg-black px-6 py-3 text-[12px] font-bold text-white/40 transition-colors hover:border-navy/30 hover:text-white"
               >
                 Cancel
               </button>
@@ -983,8 +983,8 @@ export default function AdminPage() {
                     disabled={savingSettings}
                     className={`h-9 w-9 text-xs font-bold transition-all disabled:opacity-50 ${
                       featuredBarCount === n
-                        ? "border border-terra bg-terra/20 text-terra"
-                        : "border border-luxury-border bg-black text-white/40 hover:border-terra/30 hover:text-white/60"
+                        ? "border border-navy bg-navy/20 text-navy"
+                        : "border border-luxury-border bg-black text-white/40 hover:border-navy/30 hover:text-white/60"
                     }`}
                   >
                     {n}
@@ -1008,13 +1008,13 @@ export default function AdminPage() {
                 placeholder="Search cars..."
                 value={adminSearch}
                 onChange={(e) => setAdminSearch(e.target.value)}
-                className="w-full border border-luxury-border bg-black py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-terra"
+                className="w-full border border-luxury-border bg-black py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-navy"
               />
             </div>
             <select
               value={adminBrandFilter}
               onChange={(e) => setAdminBrandFilter(e.target.value)}
-              className="border border-luxury-border bg-black px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-terra [color-scheme:dark]"
+              className="border border-luxury-border bg-black px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
             >
               <option value="All">All Brands</option>
               {brandsWithoutAll.map((b) => (
@@ -1028,7 +1028,7 @@ export default function AdminPage() {
                   onClick={() => setAdminFilter(f)}
                   className={`px-3 py-2.5 text-[10px] font-bold uppercase tracking-wider transition-all ${
                     adminFilter === f
-                      ? "border border-terra bg-terra/15 text-terra"
+                      ? "border border-navy bg-navy/15 text-navy"
                       : "border border-luxury-border bg-black text-white/30 hover:text-white/50"
                   }`}
                 >
@@ -1055,7 +1055,7 @@ export default function AdminPage() {
               </span>
               <button
                 onClick={() => { setAdminSearch(""); setAdminBrandFilter("All"); setAdminFilter("all"); }}
-                className="text-[10px] font-bold uppercase tracking-wider text-terra hover:text-terra-light transition-colors"
+                className="text-[10px] font-bold uppercase tracking-wider text-navy hover:text-white transition-colors"
               >
                 Clear Filters
               </button>
@@ -1108,7 +1108,7 @@ export default function AdminPage() {
               .map((car) => (
               <div
                 key={car.id}
-                className={`border bg-luxury-card p-5 transition-all hover:border-terra/20 ${car.available === false ? "border-red-500/15" : "border-luxury-border"}`}
+                className={`border bg-luxury-card p-5 transition-all hover:border-navy/20 ${car.available === false ? "border-red-500/15" : "border-luxury-border"}`}
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                   {/* Thumbnail */}
@@ -1155,7 +1155,7 @@ export default function AdminPage() {
                     </div>
                     <p className="text-sm text-white/40">
                       {car.brand} · {car.year} · {car.mileage.toLocaleString()} km ·{" "}
-                      <span className="text-terra">${car.price}/day</span>
+                      <span className="text-navy">${car.price}/day</span>
                       {(() => {
                         const count = car.photos ? Object.values(car.photos).filter(Boolean).length : (car.images?.length || 0);
                         return count > 0 ? ` · ${count} photo${count !== 1 ? "s" : ""}` : "";
@@ -1184,7 +1184,7 @@ export default function AdminPage() {
                       disabled={togglingId === car.id}
                       className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors disabled:opacity-50 ${
                         car.featured
-                          ? "border border-terra/30 bg-terra/15 text-terra hover:bg-terra/25"
+                          ? "border border-navy/30 bg-navy/15 text-navy hover:bg-navy/25"
                           : "border border-luxury-border bg-luxury-dark text-white/30 hover:text-white/50"
                       }`}
                     >
@@ -1194,7 +1194,7 @@ export default function AdminPage() {
                     {/* Edit */}
                     <button
                       onClick={() => handleEdit(car)}
-                      className="border border-terra/30 bg-terra/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-terra transition-colors hover:bg-terra/20"
+                      className="border border-navy/30 bg-navy/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy/20"
                     >
                       Edit
                     </button>

@@ -19,7 +19,7 @@ interface FiltersProps {
 }
 
 const inputClasses =
-  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all focus:border-terra focus:ring-1 focus:ring-terra/20";
+  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy/20";
 
 export default function Filters({
   brand,
@@ -47,7 +47,7 @@ export default function Filters({
         {hasActiveFilters && (
           <button
             onClick={onReset}
-            className="text-[10px] font-bold uppercase tracking-[0.2em] text-terra transition-colors hover:text-terra-light"
+            className="text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors hover:text-white"
           >
             Clear all
           </button>

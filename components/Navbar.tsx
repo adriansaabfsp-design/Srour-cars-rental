@@ -50,7 +50,7 @@ export default function Navbar() {
               href={link.href}
               className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
                 isActive(link.href)
-                  ? "text-terra"
+                  ? "text-white"
                   : "text-white/60 hover:text-white"
               }`}
             >
@@ -62,13 +62,13 @@ export default function Navbar() {
             href="/admin"
             className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
               pathname === "/admin"
-                ? "text-terra"
+                ? "text-white"
                 : "text-white/60 hover:text-white"
             }`}
           >
             Admin
             {pathname === "/admin" && (
-              <span className="absolute -bottom-1 left-0 h-px w-full bg-terra" />
+              <span className="absolute -bottom-1 left-0 h-px w-full bg-white" />
             )}
           </Link>
         </div>
@@ -100,7 +100,7 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`text-[13px] font-medium uppercase tracking-[0.2em] ${
-                  isActive(link.href) ? "text-terra" : "text-white/60"
+                  isActive(link.href) ? "text-white" : "text-white/60"
                 }`}
               >
                 {link.label}
@@ -111,7 +111,7 @@ export default function Navbar() {
               href="/admin"
               onClick={() => setMenuOpen(false)}
               className={`text-[13px] font-medium uppercase tracking-[0.2em] ${
-                pathname === "/admin" ? "text-terra" : "text-white/60"
+                pathname === "/admin" ? "text-white" : "text-white/60"
               }`}
             >
               Admin
