@@ -662,6 +662,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── INSTAGRAM WIDGET ─── */}
+      <section className="border-t border-luxury-border">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
+          <div className="mb-10 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Follow us</p>
+            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
+              @LEBANON.RENTAL
+            </h2>
+            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+          </div>
+          <div className="w-full overflow-hidden rounded-sm">
+            <iframe
+              src="https://f2ebe9a82e094dde98dfe2f1d10431fd.elf.site"
+              title="Instagram Feed"
+              className="w-full border-0"
+              style={{ minHeight: "400px", height: "600px" }}
+              loading="lazy"
+              allowTransparency
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ─── GOOGLE REVIEWS WIDGET ─── */}
       <section className="border-t border-luxury-border">
         <div className="relative overflow-hidden">
