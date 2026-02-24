@@ -126,32 +126,28 @@ export default function CarCard({ car }: { car: Car }) {
 
       {/* Info section */}
       <div className="px-4 py-3 sm:px-5 sm:py-4">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0 flex-1">
-            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-900/30">
-              {car.brand}
-            </p>
-            <h3 className="mt-0.5 font-serif text-base font-bold leading-tight text-gray-900 sm:text-lg">{car.name}</h3>
+        {car.featured && (
+          <div className="flex items-center gap-1 mb-1.5">
+            <svg className="h-2.5 w-2.5 text-navy" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            <span className="text-[8px] font-bold uppercase tracking-[0.1em] text-navy/60">Featured</span>
           </div>
-          <div className="flex flex-col items-end flex-shrink-0">
-            {car.featured && (
-              <div className="flex items-center gap-1 mb-1">
-                <svg className="h-2.5 w-2.5 text-navy" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-                <span className="text-[8px] font-bold uppercase tracking-[0.1em] text-navy/60">Featured</span>
-              </div>
-            )}
-            <div className="whitespace-nowrap">
-              <span className="text-base font-bold text-navy sm:text-lg">${car.price}</span>
-              <span className="text-[9px] font-medium text-gray-400">/day</span>
-            </div>
+        )}
+        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-900/30">
+          {car.brand}
+        </p>
+        <h3 className="mt-0.5 font-serif text-base font-bold leading-tight text-gray-900 sm:text-lg">{car.name}</h3>
+        <div className="mt-2 flex items-center justify-between">
+          <div className="flex items-center gap-4 text-[10px] font-medium uppercase tracking-wider text-gray-900/25">
+            <span>{car.year}</span>
+            <span className="hidden min-[400px]:inline">{car.mileage.toLocaleString()} km</span>
+            <span>{car.transmission === "Automatic" ? "Auto" : car.transmission}</span>
           </div>
-        </div>
-        <div className="mt-2 flex items-center gap-4 text-[10px] font-medium uppercase tracking-wider text-gray-900/25">
-          <span>{car.year}</span>
-          <span className="hidden min-[400px]:inline">{car.mileage.toLocaleString()} km</span>
-          <span>{car.transmission === "Automatic" ? "Auto" : car.transmission}</span>
+          <div className="whitespace-nowrap">
+            <span className="text-base font-bold text-navy sm:text-lg">${car.price}</span>
+            <span className="text-[9px] font-medium text-gray-400">/day</span>
+          </div>
         </div>
       </div>
     </Link>
