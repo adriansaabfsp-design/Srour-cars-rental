@@ -40,9 +40,9 @@ export default function RootLayout({
                 <Image
                   src="/logo.png"
                   alt="Lebanon Rental"
-                  width={200}
-                  height={200}
-                  className="h-20 w-auto"
+                  width={250}
+                  height={250}
+                  className="h-28 w-auto"
                 />
                 <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
                   A Lebanon Rental Company

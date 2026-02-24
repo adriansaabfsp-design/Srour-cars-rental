@@ -32,9 +32,9 @@ export default function Navbar() {
           <Image
             src="/logo.png"
             alt="Lebanon Rental"
-            width={160}
-            height={160}
-            className="h-14 w-auto"
+            width={200}
+            height={200}
+            className="h-20 w-auto"
             priority
           />
         </Link>

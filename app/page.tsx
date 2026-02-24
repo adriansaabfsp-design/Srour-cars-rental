@@ -139,9 +139,9 @@ export default function Home() {
               <Image
                 src="/logo.png"
                 alt="Lebanon Rental"
-                width={300}
-                height={300}
-                className="h-16 w-auto drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:h-28 lg:h-36"
+                width={400}
+                height={400}
+                className="h-24 w-auto drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:h-40 lg:h-52"
                 priority
               />
             </div>
