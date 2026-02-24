@@ -1,200 +1,397 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
-const DIFFICULTY_COLORS: Record<string, string> = {
+/* ── colours ── */
+const DIFF_STYLE: Record<string, string> = {
   Easy: "bg-emerald-500/15 text-emerald-400 border-emerald-500/30",
   Moderate: "bg-amber-500/15 text-amber-400 border-amber-500/30",
   Adventure: "bg-red-500/15 text-red-400 border-red-500/30",
 };
 
-interface RoadTrip {
+const SEASON_ICON: Record<string, string> = {
+  Winter: "❄️",
+  Summer: "☀️",
+  Spring: "🌸",
+  "Spring/Fall": "🍂",
+  "Spring/Summer": "🌿",
+  "Any season": "📅",
+};
+
+/* ── categories ── */
+const CATEGORIES = [
+  "All",
+  "Mountains & Nature",
+  "Historical & Cultural",
+  "Coastal Drives",
+  "Hidden Gems",
+] as const;
+
+type Category = (typeof CATEGORIES)[number];
+
+/* ── data ── */
+interface Trip {
   title: string;
+  category: Category;
   distance: string;
   description: string;
   bestTime: string;
   recommendedCar: string;
-  carType: string;
   difficulty: "Easy" | "Moderate" | "Adventure";
-  highlights: string[];
 }
 
-const ROAD_TRIPS: RoadTrip[] = [
+const TRIPS: Trip[] = [
+  // ─── Mountains & Nature ───
   {
     title: "Beirut to Faraya",
+    category: "Mountains & Nature",
     distance: "46 km · ~1 hr",
     description:
-      "Wind through Mount Lebanon's dramatic switchbacks to reach Faraya-Mzaar, Lebanon's premier ski resort. The route climbs from sea level to 1,850m, passing through charming mountain villages, pine forests, and opening up to sweeping panoramic views of the Mediterranean below.",
-    bestTime: "Winter (Dec – Mar)",
+      "Lebanon's premier ski resort via dramatic mountain switchbacks. Climb from sea level to 1,850 m through pine forests and panoramic Mediterranean views.",
+    bestTime: "Winter",
     recommendedCar: "SUV",
-    carType: "SUV",
     difficulty: "Moderate",
-    highlights: ["Jounieh Bay views", "Harissa statue", "Faqra ruins", "Mzaar ski slopes"],
   },
   {
-    title: "Beirut to Tyre",
-    distance: "83 km · ~1.5 hrs",
+    title: "Beirut to Laklouk",
+    category: "Mountains & Nature",
+    distance: "70 km · ~1.5 hrs",
     description:
-      "Cruise the stunning southern coastal highway along the Mediterranean. This relaxed drive takes you past ancient Sidon, through banana plantations, and ends at the UNESCO World Heritage site of Tyre with its pristine beaches and Roman-era hippodrome ruins.",
-    bestTime: "Summer (Jun – Sep)",
-    recommendedCar: "Sedan",
-    carType: "Sedan",
-    difficulty: "Easy",
-    highlights: ["Sidon Sea Castle", "Orange groves", "Tyre Roman ruins", "Sour beaches"],
+      "A quieter alternative to Faraya with pristine slopes and fewer crowds. The winding road passes through charming villages and snow-dusted cedars.",
+    bestTime: "Winter",
+    recommendedCar: "SUV",
+    difficulty: "Moderate",
   },
+  {
+    title: "Beirut to Ehden",
+    category: "Mountains & Nature",
+    distance: "120 km · ~2.5 hrs",
+    description:
+      "Reach one of Lebanon's most beautiful mountain villages. Ehden Nature Reserve hosts ancient cedars, wild orchids, and cool summer breezes.",
+    bestTime: "Summer",
+    recommendedCar: "SUV",
+    difficulty: "Moderate",
+  },
+  {
+    title: "Beirut to Tannourine",
+    category: "Mountains & Nature",
+    distance: "80 km · ~2 hrs",
+    description:
+      "Home to the famous Tannourine Cedar Reserve and the spectacular Baatara Gorge sinkhole waterfall — one of Lebanon's natural wonders.",
+    bestTime: "Spring",
+    recommendedCar: "4×4",
+    difficulty: "Adventure",
+  },
+  {
+    title: "Beirut to Jezzine",
+    category: "Mountains & Nature",
+    distance: "82 km · ~1.5 hrs",
+    description:
+      "Southern Lebanon's jewel with the iconic 40-meter waterfall, pine-covered hillsides, and artisan cutlery shops in a scenic mountain town.",
+    bestTime: "Spring/Summer",
+    recommendedCar: "Sedan / SUV",
+    difficulty: "Easy",
+  },
+  {
+    title: "Wadi Qadisha Full Loop",
+    category: "Mountains & Nature",
+    distance: "140 km · ~4 hrs",
+    description:
+      "Explore the Holy Valley — one of the most scenic gorges in the Middle East — with ancient monasteries carved into cliff faces and breathtaking depths.",
+    bestTime: "Spring/Fall",
+    recommendedCar: "4×4",
+    difficulty: "Adventure",
+  },
+
+  // ─── Historical & Cultural ───
   {
     title: "Beirut to Baalbek",
+    category: "Historical & Cultural",
     distance: "86 km · ~2 hrs",
     description:
-      "Cross the Mount Lebanon range into the Bekaa Valley to reach one of the most impressive Roman temple complexes in the world. The drive offers a dramatic contrast — from the bustling coast over a mountain pass into the wide, fertile Bekaa plain stretching to the Anti-Lebanon mountains.",
-    bestTime: "Spring / Fall",
+      "Cross the Mount Lebanon range into the Bekaa Valley to witness the most impressive Roman temple complex on Earth — the Temple of Jupiter.",
+    bestTime: "Spring/Fall",
     recommendedCar: "SUV",
-    carType: "SUV",
     difficulty: "Moderate",
-    highlights: ["Dahr el Baydar pass", "Bekaa vineyards", "Ksara winery", "Temple of Jupiter"],
   },
   {
-    title: "The Chouf Cedar Road",
+    title: "Beirut to Byblos (Jbeil)",
+    category: "Historical & Cultural",
+    distance: "42 km · ~45 min",
+    description:
+      "Visit one of the oldest continuously inhabited cities in the world. Crusader castle, ancient harbour, and vibrant old souk by the sea.",
+    bestTime: "Any season",
+    recommendedCar: "Sedan",
+    difficulty: "Easy",
+  },
+  {
+    title: "Beirut to Sidon (Saida)",
+    category: "Historical & Cultural",
+    distance: "44 km · ~45 min",
+    description:
+      "Explore the ancient Phoenician port city with its iconic Sea Castle, bustling Khan el-Franj, and labyrinthine old souk.",
+    bestTime: "Any season",
+    recommendedCar: "Sedan",
+    difficulty: "Easy",
+  },
+  {
+    title: "Beirut to Anjar",
+    category: "Historical & Cultural",
+    distance: "58 km · ~1 hr",
+    description:
+      "Discover the unique Umayyad palace ruins in the Bekaa Valley — the only significant Umayyad remains in Lebanon, surrounded by vineyards.",
+    bestTime: "Spring/Fall",
+    recommendedCar: "Sedan",
+    difficulty: "Easy",
+  },
+  {
+    title: "Beirut to Deir el Qamar",
+    category: "Historical & Cultural",
+    distance: "42 km · ~1 hr",
+    description:
+      "A perfectly preserved Ottoman-era mountain town in the Chouf with palaces, churches, and a stunning central square frozen in time.",
+    bestTime: "Any season",
+    recommendedCar: "Sedan",
+    difficulty: "Easy",
+  },
+
+  // ─── Coastal Drives ───
+  {
+    title: "Beirut to Tyre (Sour)",
+    category: "Coastal Drives",
+    distance: "83 km · ~1.5 hrs",
+    description:
+      "The full southern coastal Mediterranean drive past ancient cities, banana groves, and ending at UNESCO-listed Tyre with pristine beaches.",
+    bestTime: "Summer",
+    recommendedCar: "Sedan / Convertible",
+    difficulty: "Easy",
+  },
+  {
+    title: "Beirut to Jounieh",
+    category: "Coastal Drives",
+    distance: "20 km · ~30 min",
+    description:
+      "Cruise along the famous Jounieh Bay to the Casino du Liban, then ride the Téléférique cable car up to Harissa for sweeping coastal views.",
+    bestTime: "Any season",
+    recommendedCar: "Sedan",
+    difficulty: "Easy",
+  },
+  {
+    title: "The Full Coast Drive",
+    category: "Coastal Drives",
+    distance: "220 km · ~5 hrs",
+    description:
+      "The ultimate Lebanese coastal road trip — Tripoli all the way south to Naqoura along the entire Mediterranean shoreline. Top down, windows down.",
+    bestTime: "Summer",
+    recommendedCar: "Convertible",
+    difficulty: "Moderate",
+  },
+
+  // ─── Hidden Gems ───
+  {
+    title: "Akkar Region",
+    category: "Hidden Gems",
+    distance: "140 km · ~3 hrs",
+    description:
+      "Untouched north Lebanon with secret waterfalls, ancient forests, and mountain villages barely known to tourists. True off-the-grid Lebanon.",
+    bestTime: "Spring/Summer",
+    recommendedCar: "4×4",
+    difficulty: "Adventure",
+  },
+  {
+    title: "Chouf Cedar Road",
+    category: "Hidden Gems",
     distance: "60 km · ~2 hrs",
     description:
-      "Journey into the heart of the Chouf Mountains to witness the legendary cedars of Lebanon — some over 2,000 years old. The route passes through Druze villages, the magnificent Beiteddine Palace, and into the Al Shouf Cedar Nature Reserve, the largest protected area in Lebanon.",
-    bestTime: "Spring (Apr – Jun)",
-    recommendedCar: "4×4",
-    carType: "SUV",
-    difficulty: "Adventure",
-    highlights: ["Beiteddine Palace", "Deir el Qamar", "Al Shouf Cedar Reserve", "Cedar forests"],
+      "Journey through the UNESCO Al-Shouf Cedar Nature Reserve — Lebanon's largest protected area — past Druze villages and 2,000-year-old cedars.",
+    bestTime: "Spring",
+    recommendedCar: "SUV",
+    difficulty: "Moderate",
   },
   {
     title: "North Lebanon Loop",
+    category: "Hidden Gems",
     distance: "160 km · ~5 hrs",
     description:
-      "The ultimate North Lebanon circuit: drive from Beirut to Bcharre — home of Khalil Gibran — descend into the breathtaking Qadisha Valley (Holy Valley), a UNESCO site carved into dramatic limestone gorges, then loop through Tripoli with its Crusader castle, souks, and the best street food in Lebanon.",
-    bestTime: "Summer (Jun – Sep)",
-    recommendedCar: "Any car",
-    carType: "All",
+      "Bcharre, Qadisha Valley, and Tripoli in one epic loop. Gibran Museum, Cedars of God, crusader castles, and the best street food in Lebanon.",
+    bestTime: "Summer",
+    recommendedCar: "SUV",
     difficulty: "Adventure",
-    highlights: ["Qadisha Valley", "Gibran Museum", "The Cedars of God", "Tripoli souks"],
   },
 ];
 
+/* ── page ── */
 export default function RoadTripsPage() {
+  const [activeCategory, setActiveCategory] = useState<Category>("All");
+
+  const filtered =
+    activeCategory === "All"
+      ? TRIPS
+      : TRIPS.filter((t) => t.category === activeCategory);
+
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border bg-black">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(201,168,76,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
-        <div className="relative mx-auto max-w-5xl px-4 py-24 text-center sm:py-32 lg:py-40">
-          <div className="animate-fade-in-up">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/60 sm:text-xs">
-              Explore the country
-            </p>
-            <h1 className="mt-4 font-serif text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              DISCOVER
-              <br />
-              <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">
-                LEBANON
-              </span>
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-white/40 sm:text-base">
-              Iconic Road Trips &amp; The Perfect Car for Each
-            </p>
-            <div className="mx-auto mt-6 h-[2px] w-20 bg-gradient-to-r from-transparent via-gold to-transparent" />
-          </div>
+        <div className="relative mx-auto max-w-5xl px-4 py-20 text-center sm:py-28 lg:py-36">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/60 sm:text-xs">
+            Explore the country
+          </p>
+          <h1 className="mt-4 font-serif text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
+            DISCOVER
+            <br />
+            <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">
+              LEBANON
+            </span>
+          </h1>
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/40 sm:text-base">
+            Iconic Road Trips &amp; The Perfect Car for Each
+          </p>
+          <div className="mx-auto mt-5 h-[2px] w-20 bg-gradient-to-r from-transparent via-gold to-transparent" />
         </div>
       </section>
 
-      {/* ─── ROAD TRIP CARDS ─── */}
-      <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
-        <div className="space-y-8">
-          {ROAD_TRIPS.map((trip, index) => (
+      {/* ─── CATEGORY TABS ─── */}
+      <div className="sticky top-20 z-30 border-b border-luxury-border bg-black/95 backdrop-blur-md">
+        <div className="mx-auto flex max-w-5xl items-center gap-1 overflow-x-auto px-4 py-3 sm:justify-center sm:gap-2 sm:px-6">
+          {CATEGORIES.map((cat) => {
+            const isActive = activeCategory === cat;
+            const count =
+              cat === "All" ? TRIPS.length : TRIPS.filter((t) => t.category === cat).length;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={
+                  "flex-shrink-0 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all sm:text-[11px] " +
+                  (isActive
+                    ? "bg-gold text-black"
+                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-gold/30 hover:text-white")
+                }
+              >
+                {cat === "All" ? "All Routes" : cat}
+                <span
+                  className={
+                    "ml-1.5 text-[9px] " + (isActive ? "text-black/50" : "text-gold/50")
+                  }
+                >
+                  ({count})
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* ─── TRIP CARDS ─── */}
+      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        {/* category heading when filtered */}
+        {activeCategory !== "All" && (
+          <h2 className="mb-8 font-serif text-2xl font-bold text-white sm:text-3xl">
+            {activeCategory}
+            <span className="ml-3 text-sm font-normal text-white/30">
+              {filtered.length} route{filtered.length !== 1 ? "s" : ""}
+            </span>
+          </h2>
+        )}
+
+        <div className="grid gap-5 sm:grid-cols-2">
+          {filtered.map((trip, i) => (
             <article
               key={trip.title}
-              className="group overflow-hidden border border-luxury-border bg-luxury-card transition-all hover:border-gold/20"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="group flex flex-col overflow-hidden border border-luxury-border bg-luxury-card transition-all hover:border-gold/20"
             >
-              <div className="p-6 sm:p-8">
-                {/* top row */}
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/25">
-                        Route {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span
-                        className={
-                          "border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider " +
-                          DIFFICULTY_COLORS[trip.difficulty]
-                        }
-                      >
-                        {trip.difficulty}
-                      </span>
-                    </div>
-                    <h2 className="mt-2 font-serif text-2xl font-bold text-white sm:text-3xl">
-                      {trip.title}
-                    </h2>
-                    <div className="mt-1 flex items-center gap-2 text-xs text-white/30">
-                      <svg className="h-3.5 w-3.5 text-gold/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <span>{trip.distance}</span>
-                    </div>
-                  </div>
+              <div className="flex flex-1 flex-col p-5 sm:p-6">
+                {/* badges row */}
+                <div className="mb-3 flex flex-wrap items-center gap-2">
+                  <span
+                    className={
+                      "border px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider " +
+                      DIFF_STYLE[trip.difficulty]
+                    }
+                  >
+                    {trip.difficulty}
+                  </span>
+                  <span className="border border-luxury-border bg-luxury-dark px-2.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-white/30">
+                    {SEASON_ICON[trip.bestTime] || "📅"} {trip.bestTime}
+                  </span>
+                </div>
+
+                {/* title + distance */}
+                <h3 className="font-serif text-xl font-bold text-white sm:text-2xl">
+                  {trip.title}
+                </h3>
+                <div className="mt-1 flex items-center gap-1.5 text-[11px] text-white/25">
+                  <svg
+                    className="h-3 w-3 text-gold/40"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  {trip.distance}
                 </div>
 
                 {/* description */}
-                <p className="mt-4 text-sm leading-relaxed text-white/40">
+                <p className="mt-3 flex-1 text-[13px] leading-relaxed text-white/35">
                   {trip.description}
                 </p>
 
-                {/* highlights */}
-                <div className="mt-5 flex flex-wrap gap-2">
-                  {trip.highlights.map((h) => (
-                    <span
-                      key={h}
-                      className="border border-luxury-border bg-luxury-dark px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-white/30"
-                    >
-                      {h}
-                    </span>
-                  ))}
-                </div>
-
-                {/* bottom info row */}
-                <div className="mt-6 flex flex-wrap items-center gap-6 border-t border-luxury-border pt-5">
+                {/* bottom row */}
+                <div className="mt-5 flex items-center justify-between border-t border-luxury-border pt-4">
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/20">
-                      Best Time
+                    <div className="text-[8px] font-bold uppercase tracking-[0.25em] text-white/20">
+                      Recommended
                     </div>
-                    <div className="mt-1 text-sm font-semibold text-white/70">
-                      {trip.bestTime}
-                    </div>
-                  </div>
-                  <div className="h-8 w-px bg-luxury-border" />
-                  <div>
-                    <div className="text-[9px] font-bold uppercase tracking-[0.25em] text-white/20">
-                      Recommended Car
-                    </div>
-                    <div className="mt-1 text-sm font-semibold text-gold">
+                    <div className="mt-0.5 text-sm font-semibold text-gold">
                       {trip.recommendedCar}
                     </div>
                   </div>
-                  <div className="ml-auto">
-                    <Link
-                      href={trip.carType === "All" ? "/#collection" : `/#collection`}
-                      className="inline-flex items-center gap-2 border border-gold bg-transparent px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gold transition-all hover:bg-gold hover:text-black"
+                  <Link
+                    href="/#collection"
+                    className="inline-flex items-center gap-1.5 border border-gold/60 px-4 py-2 text-[9px] font-bold uppercase tracking-[0.15em] text-gold transition-all hover:bg-gold hover:text-black"
+                  >
+                    View Fleet
+                    <svg
+                      className="h-3 w-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 17h8M8 17v-4m8 4v-4m-8 0h8m-8 0L6 9h12l-2 4M6 9l-2 4h2m12-4l2 4h-2" />
-                      </svg>
-                      Book This Car
-                    </Link>
-                  </div>
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </Link>
                 </div>
               </div>
             </article>
           ))}
         </div>
+
+        {filtered.length === 0 && (
+          <div className="py-20 text-center">
+            <p className="text-lg text-white/30">No routes in this category yet.</p>
+          </div>
+        )}
       </div>
 
       {/* ─── PLAN YOUR TRIP ─── */}
@@ -208,7 +405,7 @@ export default function RoadTripsPage() {
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/30">
             Our team can help you choose the perfect car, plan your itinerary, and arrange
-            everything for an unforgettable Lebanese road trip experience.
+            everything for an unforgettable Lebanese road trip.
           </p>
           <a
             href="https://wa.me/961"
