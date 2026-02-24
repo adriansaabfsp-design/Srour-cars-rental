@@ -30,7 +30,7 @@ export default function Navbar() {
       <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center">
           <Image
-            src="/logo.png"
+            src="/logo-hd.png"
             alt="Lebanon Rental"
             width={200}
             height={200}

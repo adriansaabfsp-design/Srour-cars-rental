@@ -18,47 +18,48 @@ const PROPERTY_IMAGES = [
 ];
 
 function PropertySlideshow() {
-  const [idx, setIdx] = useState(0);
-  const [fade, setFade] = useState(false);
-  const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [nextIdx, setNextIdx] = useState(1);
+  const [transitioning, setTransitioning] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setFade(true);
-      if (transitionTimeoutRef.current) {
-        clearTimeout(transitionTimeoutRef.current);
-      }
-      transitionTimeoutRef.current = setTimeout(() => {
-        setIdx((prevIdx) => {
-          if (PROPERTY_IMAGES.length <= 1) return prevIdx;
-          let nextIdx = (prevIdx + 1) % PROPERTY_IMAGES.length;
-          let guard = 0;
-          while (
-            PROPERTY_IMAGES[nextIdx] === PROPERTY_IMAGES[prevIdx] &&
-            guard < PROPERTY_IMAGES.length
-          ) {
-            nextIdx = (nextIdx + 1) % PROPERTY_IMAGES.length;
-            guard += 1;
-          }
-          return nextIdx;
-        });
-        setFade(false);
-      }, 600);
+    timerRef.current = setInterval(() => {
+      setTransitioning(true);
+      setNextIdx((prev) => {
+        const next = (prev + 1) % PROPERTY_IMAGES.length;
+        return next;
+      });
     }, 5000);
-    return () => {
-      clearInterval(timer);
-      if (transitionTimeoutRef.current) {
-        clearTimeout(transitionTimeoutRef.current);
-      }
-    };
+    return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
+  // After transition completes, swap current to next
+  useEffect(() => {
+    if (!transitioning) return;
+    const t = setTimeout(() => {
+      setCurrentIdx(nextIdx);
+      setNextIdx((nextIdx + 1) % PROPERTY_IMAGES.length);
+      setTransitioning(false);
+    }, 700);
+    return () => clearTimeout(t);
+  }, [transitioning, nextIdx]);
+
   return (
-    <img
-      src={PROPERTY_IMAGES[idx]}
-      alt="Lebanon Rental property"
-      className={`h-full w-full object-cover transition-opacity duration-600 ${fade ? "opacity-0" : "opacity-100"}`}
-    />
+    <div className="relative h-full w-full">
+      {/* Current image (always visible underneath) */}
+      <img
+        src={PROPERTY_IMAGES[currentIdx]}
+        alt="Lebanon Rental property"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      {/* Next image (fades in on top) */}
+      <img
+        src={PROPERTY_IMAGES[nextIdx]}
+        alt="Lebanon Rental property"
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${transitioning ? "opacity-100" : "opacity-0"}`}
+      />
+    </div>
   );
 }
 
@@ -356,15 +357,15 @@ export default function Home() {
         </div>
 
         {/* Crossfading Logo ↔ Tagline */}
-        <div className="relative flex items-center justify-center px-4 pt-6 pb-4" style={{ height: "180px" }}>
+        <div className="relative flex items-center justify-center px-4 pt-6 pb-4" style={{ height: "280px" }}>
           {/* Lebanon Rental logo */}
           <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
             <Image
               src="/logo.png"
               alt="Lebanon Rental"
-              width={400}
-              height={400}
-              className="h-44 w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
+              width={600}
+              height={600}
+              className="h-[11rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
               priority
             />
           </div>
@@ -385,10 +386,10 @@ export default function Home() {
           {/* Search icon overlay */}
           <button
             onClick={() => document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" })}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-lg backdrop-blur-sm transition-all hover:bg-white"
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-navy shadow-lg transition-all hover:bg-navy-light"
             aria-label="Search cars"
           >
-            <svg className="h-4 w-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>

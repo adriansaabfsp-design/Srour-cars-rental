@@ -39,7 +39,7 @@ export default function RootLayout({
               {/* Brand — compact on mobile */}
               <div className="flex items-center gap-3 sm:flex-col sm:items-start sm:gap-1 sm:min-w-[200px]">
                 <Image
-                  src="/logo.png"
+                  src="/logo-hd.png"
                   alt="Lebanon Rental"
                   width={250}
                   height={250}
