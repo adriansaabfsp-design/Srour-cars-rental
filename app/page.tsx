@@ -297,6 +297,98 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── GOOGLE REVIEWS ─── */}
+      <section className="border-b border-luxury-border bg-black/40">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
+          <div className="mb-10 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Testimonials</p>
+            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
+              WHAT OUR CLIENTS SAY
+            </h2>
+            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+            {/* star rating */}
+            <div className="mt-6 flex items-center justify-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} className="h-6 w-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <p className="mt-2 text-sm text-white/40">
+              <span className="font-semibold text-gold/70">Excellent</span> — Based on Google Reviews
+            </p>
+            <a
+              href="https://share.google/ZeLTQsAdf6nb6EQlP"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-block border border-gold/30 bg-gold/5 px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gold transition-all hover:bg-gold hover:text-black"
+            >
+              Read Our Reviews
+            </a>
+          </div>
+
+          {/* review cards */}
+          <div className="grid gap-5 sm:grid-cols-3">
+            {[
+              { name: "Marc D.", quote: "Absolutely incredible service! The car was spotless, delivered right to our Airbnb in Batroun. Made our Lebanon trip unforgettable. Will definitely rent again next summer." },
+              { name: "Sarah K.", quote: "Best rental experience I've ever had — anywhere in the world. The team was responsive on WhatsApp within minutes, and the SUV was perfect for mountain roads. Highly recommend!" },
+              { name: "Omar R.", quote: "Rented a sedan for a week-long road trip from Beirut to Baalbek and back. Smooth process, fair prices, and the car was in perfect condition. Five stars all the way." },
+            ].map((review) => (
+              <div key={review.name} className="border border-luxury-border bg-luxury-card p-6">
+                <div className="flex gap-0.5">
+                  {[...Array(5)].map((_, i) => (
+                    <svg key={i} className="h-4 w-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="mt-4 text-[13px] leading-relaxed text-white/40 italic">
+                  &ldquo;{review.quote}&rdquo;
+                </p>
+                <p className="mt-4 text-xs font-bold uppercase tracking-wider text-gold/60">
+                  {review.name}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── BROWSE BY CATEGORY ─── */}
+      <section className="border-b border-luxury-border">
+        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+          <div className="mb-8 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Find your perfect match</p>
+            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">BROWSE BY CATEGORY</h2>
+            <div className="mx-auto mt-3 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+          </div>
+          <div className="flex gap-4 overflow-x-auto pb-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
+            {([
+              { name: "Sedan", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h13L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "SUV", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l1.5-4h15L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="9" width="18" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "Luxury", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4.5L6 21l1.5-7.5L2 9h7l3-7z" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "Economy", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 0V4m0 16v-4m8-4h-4M8 12H4" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "4x4", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M2 13l2-5h16l2 5M7 17a2.5 2.5 0 11-5 0M22 17a2.5 2.5 0 11-5 0M10 8V5M14 8V5" strokeLinecap="round" strokeLinejoin="round" /><rect x="2" y="13" width="20" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "Convertible", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h8l4.5 1L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+            ] as const).map((cat) => (
+              <button
+                key={cat.name}
+                onClick={() => {
+                  setActiveCategory(cat.name);
+                  document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="group flex-shrink-0 flex flex-col items-center gap-3 border border-luxury-border bg-luxury-card px-8 py-6 transition-all hover:border-gold/40 hover:bg-gold/5 sm:px-10"
+              >
+                <div className="text-white/20 transition-colors group-hover:text-gold">{cat.icon}</div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors group-hover:text-gold">
+                  {cat.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── COLLECTION ─── */}
       <div id="collection" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* heading */}
@@ -492,6 +584,53 @@ export default function Home() {
           </div>
         )}
       </div>
+
+      {/* ─── TRAVEL INSIGHTS ─── */}
+      <section className="border-t border-luxury-border">
+        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
+          <div className="mb-10 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">From our blog</p>
+            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">TRAVEL INSIGHTS</h2>
+            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-3">
+            {[
+              {
+                title: "Iconic Road Trips in Lebanon",
+                desc: "Discover 17 unforgettable driving routes across mountains, coast, and hidden gems — curated for every season.",
+                href: "/road-trips",
+              },
+              {
+                title: "Best Time to Visit Lebanon",
+                desc: "A complete seasonal guide to weather, crowds, prices, and the perfect car for every month of the year.",
+                href: "/seasonal-guide",
+              },
+              {
+                title: "Everything You Need to Know About Renting",
+                desc: "From documents to fuel policy — our comprehensive FAQ covers every question first-time renters ask.",
+                href: "/faq",
+              },
+            ].map((article) => (
+              <a
+                key={article.title}
+                href={article.href}
+                className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-gold/30"
+              >
+                <div className="mb-4 h-[2px] w-8 bg-gold/30 transition-all group-hover:w-12 group-hover:bg-gold" />
+                <h3 className="font-serif text-lg font-bold text-white transition-colors group-hover:text-gold">
+                  {article.title}
+                </h3>
+                <p className="mt-2 text-[13px] leading-relaxed text-white/30">
+                  {article.desc}
+                </p>
+                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-gold/50 transition-colors group-hover:text-gold">
+                  Read More &rarr;
+                </span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ─── STATS (bottom) ─── */}
       <section className="border-t border-luxury-border bg-luxury-card">
