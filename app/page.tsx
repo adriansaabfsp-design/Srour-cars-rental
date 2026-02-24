@@ -8,6 +8,39 @@ import CarCard from "@/components/CarCard";
 import Image from "next/image";
 import Link from "next/link";
 
+const PROPERTY_IMAGES = [
+  "/property-1.jpeg",
+  "/property-2.jpeg",
+  "/property-3.jpeg",
+  "/property-4.jpeg",
+  "/property-5.jpeg",
+  "/property-6.jpeg",
+];
+
+function PropertySlideshow() {
+  const [idx, setIdx] = useState(0);
+  const [fade, setFade] = useState(false);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFade(true);
+      setTimeout(() => {
+        setIdx((p) => (p + 1) % PROPERTY_IMAGES.length);
+        setFade(false);
+      }, 400);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <img
+      src={PROPERTY_IMAGES[idx]}
+      alt="Lebanon Rental property"
+      className={`h-full w-full object-cover transition-opacity duration-400 ${fade ? "opacity-0" : "opacity-100"}`}
+    />
+  );
+}
+
 export default function Home() {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
@@ -338,39 +371,49 @@ export default function Home() {
       {/* ─── COMPLETE YOUR STAY ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(27,58,92,0.06),_transparent)]" />
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 0L40 20L20 40L0 20Z\' fill=\'none\' stroke=\'%231B3A5C\' stroke-width=\'0.5\'/%3E%3C/svg%3E")', backgroundSize: '40px 40px' }} />
-        <div className="relative mx-auto max-w-4xl px-4 py-10 text-center sm:px-6 sm:py-20">
-          <div className="mx-auto mb-6 h-[1px] w-24 bg-gradient-to-r from-transparent via-navy/40 to-transparent" />
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
-            Cross Promotion
-          </p>
-          <h2 className="mt-4 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
-            STAYING IN LEBANON?
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-navy sm:text-base">
-            Complete your experience with a premium car delivered to your villa or chalet
-          </p>
-          <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-gray-900/30">
-            Lebanon Rental guests enjoy priority delivery to over 1,000+ properties across Lebanon
-            — from Batroun to Beirut, Jbeil to the Chouf.
-          </p>
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-            <Link
-              href="/#collection"
-              className="inline-block border border-navy bg-navy px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
-            >
-              Browse Our Fleet
-            </Link>
-            <a
-              href="https://lebanon-rental.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block border border-white/20 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/60 transition-all hover:bg-white/10 hover:text-gray-900"
-            >
-              Browse Lebanon Rental Properties &rarr;
-            </a>
+        <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-14">
+          <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-10">
+            {/* Left: text */}
+            <div className="flex-1 text-center sm:text-left">
+              <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
+                Cross Promotion
+              </p>
+              <h2 className="mt-2 font-serif text-xl font-bold text-gray-900 sm:mt-3 sm:text-3xl lg:text-4xl">
+                STAYING IN LEBANON?
+              </h2>
+              <p className="mt-2 text-sm font-medium text-navy sm:text-base">
+                Complete your experience with a premium car delivered to your villa or chalet
+              </p>
+              <p className="mt-2 text-[12px] leading-relaxed text-gray-900/30 sm:text-[13px]">
+                Lebanon Rental guests enjoy priority delivery to over 1,000+ properties across Lebanon.
+              </p>
+              <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:items-start sm:gap-3">
+                <Link
+                  href="/#collection"
+                  className="inline-block border border-navy bg-navy px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
+                >
+                  Browse Our Fleet
+                </Link>
+                <a
+                  href="https://lebanon-rental.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block border border-gray-300 bg-transparent px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/60 transition-all hover:bg-gray-100 hover:text-gray-900"
+                >
+                  Properties &rarr;
+                </a>
+              </div>
+            </div>
+
+            {/* Right: looping property photos */}
+            <div className="relative w-full flex-shrink-0 overflow-hidden rounded-sm sm:w-[340px] lg:w-[400px]" style={{ height: "220px" }}>
+              <PropertySlideshow />
+              {/* White fade edges */}
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-white to-transparent" />
+            </div>
           </div>
-          <div className="mx-auto mt-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-navy/40 to-transparent" />
         </div>
       </section>
 
