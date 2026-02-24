@@ -178,8 +178,12 @@ html {
   100% { transform: translateX(-33.333%); }
 }
 .car-train-track {
-  animation: trainScroll 20s linear infinite;
+  animation: trainScroll 10s linear infinite;
   will-change: transform;
+}
+.car-train-track a {
+  position: relative;
+  z-index: 2;
 }
 
 /* Hide scrollbar for thumbnail train */
