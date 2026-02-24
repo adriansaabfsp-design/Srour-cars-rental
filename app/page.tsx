@@ -126,10 +126,10 @@ export default function Home() {
           </div>
           {/* Rent Your Dream Ride tagline */}
           <div className="hero-crossfade-b absolute inset-0 flex flex-col items-center justify-center text-center">
-            <p className="font-serif text-base font-light italic tracking-wide text-white/70">
+            <p className="font-serif text-base font-light italic tracking-wide text-gray-900/70">
               Rent Your
             </p>
-            <p className="mt-0.5 font-serif text-[1.7rem] font-black uppercase tracking-[0.12em] text-white leading-tight">
+            <p className="mt-0.5 font-serif text-[1.7rem] font-black uppercase tracking-[0.12em] text-gray-900 leading-tight">
               Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.02em] align-baseline" />m Ride
             </p>
           </div>
@@ -172,7 +172,7 @@ export default function Home() {
       </section>
 
       {/* DESKTOP: existing immersive hero */}
-      <section className="relative hidden w-full overflow-hidden bg-black sm:block">
+      <section className="relative hidden w-full overflow-hidden bg-white sm:block">
         <div className="relative h-[70vh] lg:h-[80vh]">
           {/* background image */}
           {currentHeroCar ? (
@@ -193,7 +193,7 @@ export default function Home() {
           )}
 
           {/* overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-black/50 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
           {/* corner logo */}
@@ -278,7 +278,7 @@ export default function Home() {
             <>
               <button
                 onClick={heroPrev}
-                className="absolute left-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white"
+                className="absolute left-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/20 hover:text-white"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -286,7 +286,7 @@ export default function Home() {
               </button>
               <button
                 onClick={heroNext}
-                className="absolute right-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white"
+                className="absolute right-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/20 hover:text-white"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -330,13 +330,13 @@ export default function Home() {
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Cross Promotion
           </p>
-          <h2 className="mt-4 font-serif text-2xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-4 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
             STAYING IN LEBANON?
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-navy sm:text-base">
             Complete your experience with a premium car delivered to your villa or chalet
           </p>
-          <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-white/30">
+          <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-gray-900/30">
             Lebanon Rental guests enjoy priority delivery to over 1,000+ properties across Lebanon
             — from Batroun to Beirut, Jbeil to the Chouf.
           </p>
@@ -351,7 +351,7 @@ export default function Home() {
               href="https://lebanon-rental.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block border border-white/20 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 transition-all hover:bg-white/10 hover:text-white"
+              className="inline-block border border-white/20 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/60 transition-all hover:bg-white/10 hover:text-gray-900"
             >
               Browse Lebanon Rental Properties &rarr;
             </a>
@@ -365,7 +365,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="mb-8 text-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Find your perfect match</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">BROWSE BY CATEGORY</h2>
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">BROWSE BY CATEGORY</h2>
             <div className="mx-auto mt-3 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
@@ -385,8 +385,8 @@ export default function Home() {
                 }}
                 className="group flex-shrink-0 flex flex-col items-center gap-3 border border-luxury-border bg-luxury-card px-8 py-6 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:px-10"
               >
-                <div className="text-white/20 transition-colors group-hover:text-white/60">{cat.icon}</div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors group-hover:text-white/70">
+                <div className="text-gray-900/20 transition-colors group-hover:text-gray-900/60">{cat.icon}</div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/40 transition-colors group-hover:text-gray-900/70">
                   {cat.name}
                 </span>
               </button>
@@ -399,7 +399,7 @@ export default function Home() {
       <div id="collection" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* heading */}
         <div className="mb-6 text-center">
-          <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
             CHOOSE YOUR CAR RENTAL
           </h2>
           <div className="mx-auto mt-3 h-[2px] w-20 bg-navy/30" />
@@ -409,7 +409,7 @@ export default function Home() {
         <div className="mx-auto mb-5 max-w-2xl">
           <div className="relative">
             <svg
-              className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/30"
+              className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-900/30"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -421,12 +421,12 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, brand, year..."
-              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-12 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-navy/50"
+              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-12 pr-4 text-sm text-gray-900 placeholder-white/30 outline-none transition-all focus:border-navy/50"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-900/30 hover:text-gray-900"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -452,12 +452,12 @@ export default function Home() {
                   "px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] transition-all " +
                   (isActive
                     ? "bg-navy text-white"
-                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-navy/30 hover:text-white")
+                    : "border border-luxury-border bg-luxury-card text-gray-900/50 hover:border-navy/30 hover:text-gray-900")
                 }
               >
                 {cat}
                 {count > 0 && (
-                  <span className={"ml-1.5 text-[9px] " + (isActive ? "text-white/50" : "text-navy")}>
+                  <span className={"ml-1.5 text-[9px] " + (isActive ? "text-gray-900/50" : "text-navy")}>
                     ({count})
                   </span>
                 )}
@@ -468,7 +468,7 @@ export default function Home() {
 
         {/* road type pills */}
         <div className="mb-4 flex flex-wrap items-center justify-center gap-2">
-          <span className="mr-1 text-[9px] font-bold uppercase tracking-[0.25em] text-white/25">
+          <span className="mr-1 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-900/25">
             Best for:
           </span>
           {ROAD_TYPES.map((road) => {
@@ -480,8 +480,8 @@ export default function Home() {
                 className={
                   "px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all " +
                   (isActive
-                    ? "border border-navy bg-navy/15 text-white"
-                    : "border border-luxury-border text-white/30 hover:border-white/20 hover:text-white/50")
+                    ? "border border-navy bg-navy/15 text-gray-900"
+                    : "border border-luxury-border text-gray-900/30 hover:border-white/20 hover:text-gray-900/50")
                 }
               >
                 {road === "All Terrain" ? "All" : road}
@@ -495,7 +495,7 @@ export default function Home() {
           <select
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light]"
           >
             {BRANDS.map((b) => (
               <option key={b} value={b}>
@@ -506,7 +506,7 @@ export default function Home() {
           <select
             value={fuel}
             onChange={(e) => setFuel(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light]"
           >
             <option value="All">All Fuel Types</option>
             {FUEL_TYPES.map((f) => (
@@ -516,7 +516,7 @@ export default function Home() {
           <select
             value={transmission}
             onChange={(e) => setTransmission(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light]"
           >
             <option value="All">All Transmissions</option>
             {TRANSMISSIONS.map((t) => (
@@ -526,7 +526,7 @@ export default function Home() {
           {hasFilters && (
             <button
               onClick={resetFilters}
-              className="text-[10px] font-bold uppercase tracking-wider text-white/50 hover:text-white transition-colors"
+              className="text-[10px] font-bold uppercase tracking-wider text-gray-900/50 hover:text-gray-900 transition-colors"
             >
               Clear Filters
             </button>
@@ -542,10 +542,10 @@ export default function Home() {
               <>
                 {filteredCars.length} vehicle{filteredCars.length !== 1 ? "s" : ""}
                 {activeCategory !== "All" && (
-                  <span className="text-white/60"> &middot; {activeCategory}</span>
+                  <span className="text-gray-900/60"> &middot; {activeCategory}</span>
                 )}
                 {activeRoad !== "All Terrain" && (
-                  <span className="text-white/60"> &middot; {activeRoad}</span>
+                  <span className="text-gray-900/60"> &middot; {activeRoad}</span>
                 )}
               </>
             )}
@@ -568,14 +568,14 @@ export default function Home() {
           </div>
         ) : filteredCars.length === 0 ? (
           <div className="flex flex-col items-center justify-center border border-luxury-border bg-luxury-card py-20">
-            <svg className="h-16 w-16 text-white/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-16 w-16 text-gray-900/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <h3 className="mt-4 font-serif text-2xl font-bold text-white">NO VEHICLES FOUND</h3>
-            <p className="mt-2 text-sm text-white/40">Adjust your filters to discover more</p>
+            <h3 className="mt-4 font-serif text-2xl font-bold text-gray-900">NO VEHICLES FOUND</h3>
+            <p className="mt-2 text-sm text-gray-900/40">Adjust your filters to discover more</p>
             <button
               onClick={resetFilters}
-              className="mt-6 border border-navy bg-transparent px-8 py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-white/60 transition-all hover:bg-navy hover:text-white"
+              className="mt-6 border border-navy bg-transparent px-8 py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-gray-900/60 transition-all hover:bg-navy hover:text-white"
             >
               Reset Filters
             </button>
@@ -592,22 +592,22 @@ export default function Home() {
       </div>
 
       {/* ─── CHECK AVAILABILITY ─── */}
-      <section className="border-t border-luxury-border bg-black/40">
+      <section className="border-t border-luxury-border bg-gray-50">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-8 text-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Booking</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">CHECK AVAILABILITY</h2>
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">CHECK AVAILABILITY</h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
           <div className="mx-auto max-w-4xl border border-luxury-border bg-luxury-card p-6 sm:p-8">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {/* Pickup Location */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Pickup Location</label>
+                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900/40">Pickup Location</label>
                 <select
                   value={pickupCity}
                   onChange={(e) => setPickupCity(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-navy/50 [color-scheme:light]"
                 >
                   {["Beirut","Tripoli","Jounieh","Batroun","Jbeil (Byblos)","Sidon","Tyre","Faraya","Zahle"].map((c) => (
                     <option key={c} value={c}>{c}</option>
@@ -616,31 +616,31 @@ export default function Home() {
               </div>
               {/* Pickup Date */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Pickup Date</label>
+                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900/40">Pickup Date</label>
                 <input
                   type="date"
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-navy/50 [color-scheme:light]"
                 />
               </div>
               {/* Return Date */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Return Date</label>
+                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900/40">Return Date</label>
                 <input
                   type="date"
                   value={returnDate}
                   onChange={(e) => setReturnDate(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-navy/50 [color-scheme:light]"
                 />
               </div>
               {/* Car Type */}
               <div className="flex flex-col gap-1.5">
-                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/40">Car Type</label>
+                <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900/40">Car Type</label>
                 <select
                   value={carType}
                   onChange={(e) => setCarType(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-navy/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-navy/50 [color-scheme:light]"
                 >
                   {["Any","Sedan","SUV","Luxury","Economy","4x4","Convertible"].map((t) => (
                     <option key={t} value={t}>{t}</option>
@@ -678,7 +678,7 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-10 text-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">From our blog</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">TRAVEL INSIGHTS</h2>
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">TRAVEL INSIGHTS</h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
           <div className="grid gap-5 sm:grid-cols-3">
@@ -705,13 +705,13 @@ export default function Home() {
                 className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-navy/30"
               >
                 <div className="mb-4 h-[2px] w-8 bg-navy/30 transition-all group-hover:w-12 group-hover:bg-navy" />
-                <h3 className="font-serif text-lg font-bold text-white transition-colors group-hover:text-white">
+                <h3 className="font-serif text-lg font-bold text-gray-900 transition-colors group-hover:text-gray-900">
                   {article.title}
                 </h3>
-                <p className="mt-2 text-[13px] leading-relaxed text-white/30">
+                <p className="mt-2 text-[13px] leading-relaxed text-gray-900/30">
                   {article.desc}
                 </p>
-                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-white/60">
+                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-gray-900/60">
                   Read More &rarr;
                 </span>
               </a>
@@ -725,7 +725,7 @@ export default function Home() {
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-10 text-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Follow us</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
               @LEBANON.RENTAL
             </h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -740,7 +740,7 @@ export default function Home() {
               allowTransparency
             />
             {/* Cover Elfsight branding */}
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-luxury-black" />
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-white" />
           </div>
         </div>
       </section>
@@ -752,7 +752,7 @@ export default function Home() {
           <div className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
             <div className="mb-10 text-center">
               <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Reviews</p>
-              <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
+              <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
                 TRUSTED BY OUR CLIENTS
               </h2>
               <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -767,9 +767,9 @@ export default function Home() {
                 allowTransparency
               />
               {/* Cover Elfsight branding */}
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-luxury-black" />
+              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-white" />
             </div>
-            <p className="mx-auto mt-6 max-w-md text-center text-[11px] leading-relaxed text-white/20">
+            <p className="mx-auto mt-6 max-w-md text-center text-[11px] leading-relaxed text-gray-900/20">
               Reviews are for Lebanon Rental, our parent property rental company. Srour Cars is our dedicated car rental service.
             </p>
           </div>
@@ -780,29 +780,29 @@ export default function Home() {
       <section className="border-t border-luxury-border bg-luxury-card">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-8 px-4 py-12 sm:gap-12 sm:py-16 md:gap-16">
           <div className="text-center">
-            <div className="font-serif text-4xl font-bold text-white sm:text-5xl">50+</div>
-            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
+            <div className="font-serif text-4xl font-bold text-gray-900 sm:text-5xl">50+</div>
+            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-900/40">
               Luxury Cars
             </div>
           </div>
           <div className="h-12 w-px bg-luxury-border" />
           <div className="text-center">
-            <div className="font-serif text-4xl font-bold text-white sm:text-5xl">24/7</div>
-            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
+            <div className="font-serif text-4xl font-bold text-gray-900 sm:text-5xl">24/7</div>
+            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-900/40">
               Support
             </div>
           </div>
           <div className="h-12 w-px bg-luxury-border" />
           <div className="text-center">
-            <div className="font-serif text-4xl font-bold text-white sm:text-5xl">VIP</div>
-            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
+            <div className="font-serif text-4xl font-bold text-gray-900 sm:text-5xl">VIP</div>
+            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-900/40">
               Service
             </div>
           </div>
           <div className="h-12 w-px bg-luxury-border" />
           <a href="https://lebanon-rental.com" target="_blank" rel="noopener noreferrer" className="text-center group">
-            <div className="font-serif text-4xl font-bold text-white transition-colors group-hover:text-navy-light sm:text-5xl">1000+</div>
-            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40 transition-colors group-hover:text-navy">
+            <div className="font-serif text-4xl font-bold text-gray-900 transition-colors group-hover:text-navy-light sm:text-5xl">1000+</div>
+            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-900/40 transition-colors group-hover:text-navy">
               Partner Properties
             </div>
           </a>

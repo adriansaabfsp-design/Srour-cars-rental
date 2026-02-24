@@ -26,7 +26,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-white/5 bg-black/95 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center">
           <Image
@@ -47,25 +47,25 @@ export default function Navbar() {
               href={link.href}
               className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
                 isActive(link.href)
-                  ? "text-white"
-                  : "text-white/60 hover:text-white"
+                  ? "text-gray-900"
+                  : "text-gray-900/60 hover:text-gray-900"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="h-5 w-px bg-white/10" />
+          <div className="h-5 w-px bg-gray-300" />
           <Link
             href="/admin"
             className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
               pathname === "/admin"
-                ? "text-white"
-                : "text-white/60 hover:text-white"
+                ? "text-gray-900"
+                : "text-gray-900/60 hover:text-gray-900"
             }`}
           >
             Admin
             {pathname === "/admin" && (
-              <span className="absolute -bottom-1 left-0 h-px w-full bg-white" />
+              <span className="absolute -bottom-1 left-0 h-px w-full bg-gray-900" />
             )}
           </Link>
         </div>
@@ -73,7 +73,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-10 w-10 items-center justify-center text-white/60 sm:hidden"
+          className="flex h-10 w-10 items-center justify-center text-gray-900/60 sm:hidden"
         >
           {menuOpen ? (
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,7 +89,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="border-t border-white/5 bg-black/98 px-4 py-4 backdrop-blur-md sm:hidden">
+        <div className="border-t border-gray-200 bg-white/98 px-4 py-4 backdrop-blur-md sm:hidden">
           <div className="flex flex-col gap-3">
             {NAV_LINKS.map((link) => (
               <Link
@@ -97,7 +97,7 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`text-[13px] font-medium uppercase tracking-[0.2em] ${
-                  isActive(link.href) ? "text-white" : "text-white/60"
+                  isActive(link.href) ? "text-gray-900" : "text-gray-900/60"
                 }`}
               >
                 {link.label}
@@ -108,7 +108,7 @@ export default function Navbar() {
               href="/admin"
               onClick={() => setMenuOpen(false)}
               className={`text-[13px] font-medium uppercase tracking-[0.2em] ${
-                pathname === "/admin" ? "text-white" : "text-white/60"
+                pathname === "/admin" ? "text-gray-900" : "text-gray-900/60"
               }`}
             >
               Admin

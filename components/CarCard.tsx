@@ -46,10 +46,10 @@ export default function CarCard({ car }: { car: Car }) {
   return (
     <Link
       href={`/cars/${car.id}`}
-      className={`group relative block overflow-hidden border border-white/[0.06] bg-[#111111] transition-all duration-500 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
+      className={`group relative block overflow-hidden border border-gray-200 bg-white transition-all duration-500 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
     >
       {/* Image — clean, no overlay */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-black">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-white">
         {photoList.length > 0 ? (
           <img
             src={photoList[currentIndex]}
@@ -57,7 +57,7 @@ export default function CarCard({ car }: { car: Car }) {
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
           />
         ) : (
-          <div className="flex h-full items-center justify-center bg-[#111111] text-white/10">
+          <div className="flex h-full items-center justify-center bg-gray-100 text-gray-300">
             <svg className="h-16 w-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
             </svg>
@@ -142,11 +142,11 @@ export default function CarCard({ car }: { car: Car }) {
 
       {/* Info section — clean, minimal */}
       <div className="px-4 py-4 sm:px-5 sm:py-5">
-        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-white/30">
+        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-900/30">
           {car.brand}
         </p>
-        <h3 className="mt-1 font-serif text-lg font-bold text-white sm:text-xl">{car.name}</h3>
-        <div className="mt-3 flex items-center gap-4 text-[10px] font-medium uppercase tracking-wider text-white/25">
+        <h3 className="mt-1 font-serif text-lg font-bold text-gray-900 sm:text-xl">{car.name}</h3>
+        <div className="mt-3 flex items-center gap-4 text-[10px] font-medium uppercase tracking-wider text-gray-900/25">
           <span>{car.year}</span>
           <span className="hidden min-[400px]:inline">{car.mileage.toLocaleString()} km</span>
           <span>{car.transmission === "Automatic" ? "Auto" : car.transmission}</span>

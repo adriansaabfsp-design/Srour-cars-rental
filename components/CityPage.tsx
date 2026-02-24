@@ -11,21 +11,21 @@ export default function CityPage({ city }: { city: CityData }) {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden bg-black">
+      <section className="relative overflow-hidden bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-luxury-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-white" />
         <div className="relative mx-auto max-w-4xl px-4 pb-16 pt-32 text-center sm:px-6 sm:pb-24 sm:pt-40">
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Leb🌲non Rental
           </p>
-          <h1 className="mt-4 font-serif text-3xl font-bold text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 font-serif text-3xl font-bold text-gray-900 sm:text-5xl lg:text-6xl">
             CAR RENTAL IN{" "}
-            <span className="text-white">
+            <span className="text-gray-900">
               {city.name.toUpperCase()}
             </span>
           </h1>
           <div className="mx-auto mt-4 h-[2px] w-20 bg-gradient-to-r from-transparent via-navy to-transparent" />
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-white/40 sm:text-base">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-gray-900/40 sm:text-base">
             {city.heroDescription}
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
@@ -58,7 +58,7 @@ export default function CityPage({ city }: { city: CityData }) {
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
               Explore {city.name}
             </p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-3xl">
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-3xl">
               WHY RENT A CAR IN {city.name.toUpperCase()}?
             </h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -84,7 +84,7 @@ export default function CityPage({ city }: { city: CityData }) {
                     />
                   </svg>
                 </div>
-                <p className="text-[13px] leading-relaxed text-white/40">{reason}</p>
+                <p className="text-[13px] leading-relaxed text-gray-900/40">{reason}</p>
               </div>
             ))}
           </div>
@@ -92,7 +92,7 @@ export default function CityPage({ city }: { city: CityData }) {
       </section>
 
       {/* ─── DELIVERY ─── */}
-      <section className="border-b border-luxury-border bg-black/40">
+      <section className="border-b border-luxury-border bg-gray-50">
         <div className="mx-auto max-w-4xl px-4 py-14 text-center sm:px-6 sm:py-20">
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center border border-navy/20 bg-navy/5">
             <svg
@@ -109,17 +109,17 @@ export default function CityPage({ city }: { city: CityData }) {
               />
             </svg>
           </div>
-          <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl">
+          <h2 className="font-serif text-2xl font-bold text-gray-900 sm:text-3xl">
             DELIVERED TO YOUR DOOR IN {city.name.toUpperCase()}
           </h2>
           <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
-          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-white/40">
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-relaxed text-gray-900/40">
             {city.deliveryText}
           </p>
           <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <a
               href="tel:+96181062329"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-navy transition-colors hover:text-white"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-navy transition-colors hover:text-gray-900"
             >
               <svg
                 className="h-4 w-4"
@@ -136,10 +136,10 @@ export default function CityPage({ city }: { city: CityData }) {
               </svg>
               +961 81 062 329
             </a>
-            <span className="hidden text-white/10 sm:inline">|</span>
+            <span className="hidden text-gray-900/10 sm:inline">|</span>
             <a
               href="mailto:support@lebanon-rental.com"
-              className="text-sm text-white/30 transition-colors hover:text-white"
+              className="text-sm text-gray-900/30 transition-colors hover:text-gray-900"
             >
               support@lebanon-rental.com
             </a>
@@ -156,10 +156,10 @@ export default function CityPage({ city }: { city: CityData }) {
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
               Complete Your Stay
             </p>
-            <h2 className="mt-4 font-serif text-2xl font-bold text-white sm:text-3xl">
+            <h2 className="mt-4 font-serif text-2xl font-bold text-gray-900 sm:text-3xl">
               STAYING IN {city.name.toUpperCase()}?
             </h2>
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-white/40">
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-gray-900/40">
               {city.crossPromo}
             </p>
             {city.propertyCount && (
@@ -167,7 +167,7 @@ export default function CityPage({ city }: { city: CityData }) {
                 <span className="font-serif text-2xl font-bold text-navy">
                   {city.propertyCount}+
                 </span>
-                <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-white/40">
+                <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-900/40">
                   Properties Available
                 </span>
               </div>
@@ -200,7 +200,7 @@ export default function CityPage({ city }: { city: CityData }) {
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
               More locations
             </p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-3xl">
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-3xl">
               EXPLORE OTHER CITIES
             </h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -222,7 +222,7 @@ export default function CityPage({ city }: { city: CityData }) {
                 <Link
                   key={c.slug}
                   href={`/${c.slug}`}
-                  className="border border-luxury-border bg-luxury-card px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-white/40 transition-all hover:border-navy/40 hover:text-white"
+                  className="border border-luxury-border bg-luxury-card px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-gray-900/40 transition-all hover:border-navy/40 hover:text-gray-900"
                 >
                   {c.name}
                 </Link>
@@ -232,12 +232,12 @@ export default function CityPage({ city }: { city: CityData }) {
       </section>
 
       {/* ─── CTA ─── */}
-      <section className="bg-black/40">
+      <section className="bg-gray-50">
         <div className="mx-auto max-w-3xl px-4 py-14 text-center sm:px-6 sm:py-20">
-          <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl">
+          <h2 className="font-serif text-2xl font-bold text-gray-900 sm:text-3xl">
             READY TO EXPLORE {city.name.toUpperCase()}?
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-sm text-white/30">
+          <p className="mx-auto mt-3 max-w-lg text-sm text-gray-900/30">
             Book your premium rental car today. We deliver to your door in{" "}
             {city.name} — free delivery, 24/7 support, and the best rates in
             Lebanon.

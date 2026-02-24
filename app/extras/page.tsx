@@ -72,21 +72,21 @@ export default function ExtrasPage() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden border-b border-luxury-border bg-black">
+      <section className="relative overflow-hidden border-b border-luxury-border bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
         <div className="relative mx-auto max-w-5xl px-4 py-20 text-center sm:py-28 lg:py-32">
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Add-ons &amp; Services
           </p>
-          <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
             ENHANCE YOUR
             <br />
-            <span className="text-white">
+            <span className="text-gray-900">
               EXPERIENCE
             </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/40 sm:text-base">
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-gray-900/40 sm:text-base">
             Contact us via WhatsApp to add any of these extras to your rental
           </p>
           <div className="mx-auto mt-5 h-[2px] w-20 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -101,11 +101,11 @@ export default function ExtrasPage() {
               key={extra.name}
               className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-navy/30"
             >
-              <div className="mb-4 text-navy/40 transition-colors group-hover:text-white">
+              <div className="mb-4 text-navy/40 transition-colors group-hover:text-gray-900">
                 {extra.icon}
               </div>
-              <h3 className="font-serif text-lg font-bold text-white">{extra.name}</h3>
-              <p className="mt-2 text-[13px] leading-relaxed text-white/30">
+              <h3 className="font-serif text-lg font-bold text-gray-900">{extra.name}</h3>
+              <p className="mt-2 text-[13px] leading-relaxed text-gray-900/30">
                 {extra.desc}
               </p>
               <a
@@ -131,10 +131,10 @@ export default function ExtrasPage() {
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
             Need something specific?
           </p>
-          <h2 className="mt-4 font-serif text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-4 font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
             CUSTOM REQUESTS WELCOME
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/30">
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-gray-900/30">
             Don&apos;t see what you need? We&apos;re happy to accommodate special requests —
             from wedding decorations to multi-city itineraries.
           </p>

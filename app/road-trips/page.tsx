@@ -233,21 +233,21 @@ export default function RoadTripsPage() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden border-b border-luxury-border bg-black">
+      <section className="relative overflow-hidden border-b border-luxury-border bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
         <div className="relative mx-auto max-w-5xl px-4 py-20 text-center sm:py-28 lg:py-36">
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Explore the country
           </p>
-          <h1 className="mt-4 font-serif text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
+          <h1 className="mt-4 font-serif text-4xl font-black tracking-tight text-gray-900 sm:text-6xl lg:text-7xl">
             DISCOVER
             <br />
-            <span className="text-white">
+            <span className="text-gray-900">
               LEBANON
             </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/40 sm:text-base">
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-gray-900/40 sm:text-base">
             Iconic Road Trips &amp; The Perfect Car for Each
           </p>
           <div className="mx-auto mt-5 h-[2px] w-20 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -255,7 +255,7 @@ export default function RoadTripsPage() {
       </section>
 
       {/* ─── CATEGORY TABS ─── */}
-      <div className="sticky top-20 z-30 border-b border-luxury-border bg-black/95 backdrop-blur-md">
+      <div className="sticky top-20 z-30 border-b border-luxury-border bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-5xl items-center gap-1 overflow-x-auto px-4 py-3 sm:justify-center sm:gap-2 sm:px-6">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
@@ -269,13 +269,13 @@ export default function RoadTripsPage() {
                   "flex-shrink-0 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all sm:text-[11px] " +
                   (isActive
                     ? "bg-navy text-white"
-                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-navy/30 hover:text-white")
+                    : "border border-luxury-border bg-luxury-card text-gray-900/50 hover:border-navy/30 hover:text-gray-900")
                 }
               >
                 {cat === "All" ? "All Routes" : cat}
                 <span
                   className={
-                    "ml-1.5 text-[9px] " + (isActive ? "text-white/50" : "text-navy")
+                    "ml-1.5 text-[9px] " + (isActive ? "text-gray-900/50" : "text-navy")
                   }
                 >
                   ({count})
@@ -290,9 +290,9 @@ export default function RoadTripsPage() {
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
         {/* category heading when filtered */}
         {activeCategory !== "All" && (
-          <h2 className="mb-8 font-serif text-2xl font-bold text-white sm:text-3xl">
+          <h2 className="mb-8 font-serif text-2xl font-bold text-gray-900 sm:text-3xl">
             {activeCategory}
-            <span className="ml-3 text-sm font-normal text-white/30">
+            <span className="ml-3 text-sm font-normal text-gray-900/30">
               {filtered.length} route{filtered.length !== 1 ? "s" : ""}
             </span>
           </h2>
@@ -315,16 +315,16 @@ export default function RoadTripsPage() {
                   >
                     {trip.difficulty}
                   </span>
-                  <span className="border border-luxury-border bg-luxury-dark px-2.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-white/30">
+                  <span className="border border-luxury-border bg-luxury-dark px-2.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-gray-900/30">
                     {SEASON_ICON[trip.bestTime] || "📅"} {trip.bestTime}
                   </span>
                 </div>
 
                 {/* title + distance */}
-                <h3 className="font-serif text-xl font-bold text-white sm:text-2xl">
+                <h3 className="font-serif text-xl font-bold text-gray-900 sm:text-2xl">
                   {trip.title}
                 </h3>
-                <div className="mt-1 flex items-center gap-1.5 text-[11px] text-white/25">
+                <div className="mt-1 flex items-center gap-1.5 text-[11px] text-gray-900/25">
                   <svg
                     className="h-3 w-3 text-navy/40"
                     fill="none"
@@ -348,14 +348,14 @@ export default function RoadTripsPage() {
                 </div>
 
                 {/* description */}
-                <p className="mt-3 flex-1 text-[13px] leading-relaxed text-white/35">
+                <p className="mt-3 flex-1 text-[13px] leading-relaxed text-gray-900/35">
                   {trip.description}
                 </p>
 
                 {/* bottom row */}
                 <div className="mt-5 flex items-center justify-between border-t border-luxury-border pt-4">
                   <div>
-                    <div className="text-[8px] font-bold uppercase tracking-[0.25em] text-white/20">
+                    <div className="text-[8px] font-bold uppercase tracking-[0.25em] text-gray-900/20">
                       Recommended
                     </div>
                     <div className="mt-0.5 text-sm font-semibold text-navy">
@@ -389,7 +389,7 @@ export default function RoadTripsPage() {
 
         {filtered.length === 0 && (
           <div className="py-20 text-center">
-            <p className="text-lg text-white/30">No routes in this category yet.</p>
+            <p className="text-lg text-gray-900/30">No routes in this category yet.</p>
           </div>
         )}
       </div>
@@ -400,10 +400,10 @@ export default function RoadTripsPage() {
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
             Ready to hit the road?
           </p>
-          <h2 className="mt-4 font-serif text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-4 font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
             PLAN YOUR TRIP
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/30">
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-gray-900/30">
             Our team can help you choose the perfect car, plan your itinerary, and arrange
             everything for an unforgettable Lebanese road trip.
           </p>

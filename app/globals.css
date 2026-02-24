@@ -8,11 +8,11 @@
   --color-accent-dark: #145530;
   --color-navy: #1B3A5C;
   --color-navy-light: #2A5080;
-  --color-luxury-black: #0a0a0a;
-  --color-luxury-dark: #0e0e0e;
-  --color-luxury-card: #141414;
-  --color-luxury-border: #1e1e1e;
-  --color-luxury-muted: #666666;
+  --color-luxury-black: #ffffff;
+  --color-luxury-dark: #f8f8f8;
+  --color-luxury-card: #f3f3f3;
+  --color-luxury-border: #e0e0e0;
+  --color-luxury-muted: #888888;
 }
 
 * {

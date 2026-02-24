@@ -54,12 +54,12 @@ export default function CarDetailPage() {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-luxury-black">
         <div className="mb-6 flex h-24 w-24 items-center justify-center border border-luxury-border">
-          <svg className="h-10 w-10 text-white/15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-10 w-10 text-gray-900/15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
           </svg>
         </div>
-        <h2 className="font-serif text-3xl font-bold text-white">VEHICLE NOT FOUND</h2>
-        <p className="mt-2 text-white/40">This listing may have been removed.</p>
+        <h2 className="font-serif text-3xl font-bold text-gray-900">VEHICLE NOT FOUND</h2>
+        <p className="mt-2 text-gray-900/40">This listing may have been removed.</p>
         <Link
           href="/"
           className="mt-8 border border-navy bg-transparent px-10 py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] text-navy transition-all duration-300 hover:bg-navy hover:text-white"
@@ -77,20 +77,20 @@ export default function CarDetailPage() {
         <nav className="mb-8 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em]">
           <Link
             href="/"
-            className="text-white/40 transition-colors hover:text-white"
+            className="text-gray-900/40 transition-colors hover:text-gray-900"
           >
             Home
           </Link>
-          <svg className="h-3 w-3 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-3 w-3 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
           <Link
             href="/#collection"
-            className="text-white/40 transition-colors hover:text-white"
+            className="text-gray-900/40 transition-colors hover:text-gray-900"
           >
             Collection
           </Link>
-          <svg className="h-3 w-3 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="h-3 w-3 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
           <span className="text-navy">{car.name}</span>
@@ -132,7 +132,7 @@ export default function CarDetailPage() {
                   </span>
                 )}
               </div>
-              <h1 className="font-serif text-4xl font-bold text-white sm:text-5xl">
+              <h1 className="font-serif text-4xl font-bold text-gray-900 sm:text-5xl">
                 {car.name}
               </h1>
 
@@ -140,39 +140,39 @@ export default function CarDetailPage() {
                 <span className="font-serif text-5xl font-bold text-navy">
                   ${car.price}
                 </span>
-                <span className="text-sm text-white/30">/day</span>
+                <span className="text-sm text-gray-900/30">/day</span>
               </div>
 
               <div className="my-7 h-px bg-luxury-border" />
 
               {/* Specs Grid */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="border border-luxury-border bg-black p-4 text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">Year</p>
-                  <p className="mt-1 text-xl font-bold text-white">{car.year}</p>
+                <div className="border border-luxury-border bg-white p-4 text-center">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Year</p>
+                  <p className="mt-1 text-xl font-bold text-gray-900">{car.year}</p>
                 </div>
-                <div className="border border-luxury-border bg-black p-4 text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">Mileage</p>
-                  <p className="mt-1 text-xl font-bold text-white">{car.mileage.toLocaleString()} km</p>
+                <div className="border border-luxury-border bg-white p-4 text-center">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Mileage</p>
+                  <p className="mt-1 text-xl font-bold text-gray-900">{car.mileage.toLocaleString()} km</p>
                 </div>
-                <div className="border border-luxury-border bg-black p-4 text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">Fuel</p>
-                  <p className="mt-1 text-xl font-bold text-white">{car.fuel}</p>
+                <div className="border border-luxury-border bg-white p-4 text-center">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Fuel</p>
+                  <p className="mt-1 text-xl font-bold text-gray-900">{car.fuel}</p>
                 </div>
-                <div className="border border-luxury-border bg-black p-4 text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">Transmission</p>
-                  <p className="mt-1 text-xl font-bold text-white">{car.transmission}</p>
+                <div className="border border-luxury-border bg-white p-4 text-center">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Transmission</p>
+                  <p className="mt-1 text-xl font-bold text-gray-900">{car.transmission}</p>
                 </div>
-                <div className="col-span-2 border border-luxury-border bg-black p-4 text-center">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">Seats</p>
-                  <p className="mt-1 text-xl font-bold text-white">{car.seats}</p>
+                <div className="col-span-2 border border-luxury-border bg-white p-4 text-center">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Seats</p>
+                  <p className="mt-1 text-xl font-bold text-gray-900">{car.seats}</p>
                 </div>
               </div>
 
               {car.description && (
                 <div className="mt-7">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30">About This Vehicle</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-white/60">{car.description}</p>
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">About This Vehicle</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-900/60">{car.description}</p>
                 </div>
               )}
 

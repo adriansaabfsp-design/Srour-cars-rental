@@ -58,7 +58,7 @@ export default function FeaturedBar({ cars, visibleCount }: FeaturedBarProps) {
           <svg className="h-4 w-4 text-navy" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
-          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/40">
+          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-gray-900/40">
             Featured
           </span>
         </div>
@@ -100,10 +100,10 @@ export default function FeaturedBar({ cars, visibleCount }: FeaturedBarProps) {
           <Link
             key={car.id}
             href={`/cars/${car.id}`}
-            className="group relative overflow-hidden border border-white/[0.06] bg-[#111111] transition-all duration-500 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.12)]"
+            className="group relative overflow-hidden border border-gray-200 bg-white transition-all duration-500 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.12)]"
           >
             {/* Image */}
-            <div className="relative aspect-[16/9] w-full overflow-hidden bg-black">
+            <div className="relative aspect-[16/9] w-full overflow-hidden bg-white">
               {(car.photos?.main || car.images?.[0]) ? (
                 <img
                   src={car.photos?.main || car.images[0]}
@@ -111,7 +111,7 @@ export default function FeaturedBar({ cars, visibleCount }: FeaturedBarProps) {
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
               ) : (
-                <div className="flex h-full items-center justify-center bg-luxury-card text-white/10">
+                <div className="flex h-full items-center justify-center bg-luxury-card text-gray-900/10">
                   <svg className="h-12 w-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={0.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
                   </svg>

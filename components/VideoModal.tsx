@@ -69,7 +69,7 @@ export default function VideoModal({ videoUrl, onClose }: VideoModalProps) {
         </button>
 
         {/* Video container */}
-        <div className="border border-luxury-border bg-black">
+        <div className="border border-luxury-border bg-white">
           {youtubeId ? (
             <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
               <iframe

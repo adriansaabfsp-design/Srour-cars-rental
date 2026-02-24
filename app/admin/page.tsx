@@ -48,9 +48,9 @@ const EMPTY_FORM = {
 };
 
 const inputCls =
-  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-navy focus:ring-1 focus:ring-navy/20";
+  "w-full border border-luxury-border bg-white px-4 py-3 text-sm text-gray-900 placeholder-white/20 outline-none transition-colors focus:border-navy focus:ring-1 focus:ring-navy/20";
 const labelCls =
-  "mb-1.5 block text-[10px] font-bold uppercase tracking-[0.25em] text-white/35";
+  "mb-1.5 block text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/35";
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -331,8 +331,8 @@ export default function AdminPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                 </div>
-                <h1 className="font-serif text-2xl font-bold text-white">ADMIN ACCESS</h1>
-                <p className="mt-1 text-[11px] text-white/30">Enter password to continue</p>
+                <h1 className="font-serif text-2xl font-bold text-gray-900">ADMIN ACCESS</h1>
+                <p className="mt-1 text-[11px] text-gray-900/30">Enter password to continue</p>
               </div>
               <form onSubmit={handleLogin}>
                 <input
@@ -341,7 +341,7 @@ export default function AdminPage() {
                   onChange={(e) => { setPassword(e.target.value); setAuthError(false); }}
                   placeholder="Password"
                   autoFocus
-                  className={`w-full border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-navy focus:ring-1 focus:ring-navy/20 ${
+                  className={`w-full border bg-white px-4 py-3 text-sm text-gray-900 placeholder-white/20 outline-none transition-colors focus:border-navy focus:ring-1 focus:ring-navy/20 ${
                     authError ? "border-red-500/50" : "border-luxury-border"
                   }`}
                 />
@@ -363,10 +363,10 @@ export default function AdminPage() {
         {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="font-serif text-3xl font-bold text-white">
+            <h1 className="font-serif text-3xl font-bold text-gray-900">
               ADMIN PANEL
             </h1>
-            <p className="mt-1 text-sm text-white/30">
+            <p className="mt-1 text-sm text-gray-900/30">
               Manage your car listings
             </p>
           </div>
@@ -382,7 +382,7 @@ export default function AdminPage() {
             }}
             className={`px-6 py-3 text-[12px] font-bold tracking-[0.15em] uppercase transition-all ${
               showForm
-                ? "border border-luxury-border bg-luxury-card text-white/50 hover:bg-luxury-dark"
+                ? "border border-luxury-border bg-luxury-card text-gray-900/50 hover:bg-luxury-dark"
                 : "bg-navy text-white hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
             }`}
           >
@@ -396,7 +396,7 @@ export default function AdminPage() {
             onSubmit={handleSubmit}
             className="mb-10 border border-luxury-border bg-luxury-card p-6 sm:p-8"
           >
-            <h2 className="mb-6 font-serif text-xl font-bold text-white">
+            <h2 className="mb-6 font-serif text-xl font-bold text-gray-900">
               {editingId ? "EDIT CAR" : "ADD NEW CAR"}
             </h2>
 
@@ -544,7 +544,7 @@ export default function AdminPage() {
                         className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all ${
                           selected
                             ? "border border-navy bg-navy/20 text-navy"
-                            : "border border-luxury-border bg-black text-white/30 hover:border-white/20 hover:text-white/50"
+                            : "border border-luxury-border bg-white text-gray-900/30 hover:border-white/20 hover:text-gray-900/50"
                         }`}
                       >
                         {road}
@@ -570,11 +570,11 @@ export default function AdminPage() {
               <div className="sm:col-span-2">
                 <label className={labelCls}>Car Video</label>
                 {form.videoUrl && !videoFile && (
-                  <div className="mb-2 flex items-center gap-3 border border-luxury-border bg-black px-4 py-2">
+                  <div className="mb-2 flex items-center gap-3 border border-luxury-border bg-white px-4 py-2">
                     <svg className="h-4 w-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-xs text-white/50">Video uploaded</span>
+                    <span className="text-xs text-gray-900/50">Video uploaded</span>
                     <button
                       type="button"
                       onClick={() => setForm({ ...form, videoUrl: "" })}
@@ -588,10 +588,10 @@ export default function AdminPage() {
                   type="file"
                   accept="video/*"
                   onChange={(e) => setVideoFile(e.target.files?.[0] || null)}
-                  className="w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white/40 file:mr-4 file:border-0 file:bg-navy file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-navy-light"
+                  className="w-full border border-luxury-border bg-white px-4 py-3 text-sm text-gray-900/40 file:mr-4 file:border-0 file:bg-navy file:px-4 file:py-2 file:text-sm file:font-bold file:text-white hover:file:bg-navy-light"
                 />
                 {videoFile && (
-                  <p className="mt-1 text-xs text-white/25">
+                  <p className="mt-1 text-xs text-gray-900/25">
                     {videoFile.name} ({(videoFile.size / 1024 / 1024).toFixed(1)} MB)
                   </p>
                 )}
@@ -620,7 +620,7 @@ export default function AdminPage() {
                       className={`absolute top-0.5 h-5 w-5 bg-white transition-transform ${form.available ? "translate-x-[22px]" : "translate-x-0.5"}`}
                     />
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-white/50 group-hover:text-white/70">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-gray-900/50 group-hover:text-gray-900/70">
                     Available
                   </span>
                 </label>
@@ -630,18 +630,18 @@ export default function AdminPage() {
                   <div className="sm:col-span-2 space-y-4 mt-2 border border-red-500/15 bg-red-500/[0.03] p-4">
                     <div className="flex flex-wrap items-center gap-4">
                       <div className="flex items-center gap-3">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-white/35">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-900/35">
                           Available from:
                         </label>
                         <input
                           type="date"
                           value={form.availableFrom}
                           onChange={(e) => setForm({ ...form, availableFrom: e.target.value })}
-                          className="border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-navy [color-scheme:dark]"
+                          className="border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-navy [color-scheme:light]"
                         />
                       </div>
                       <div className="flex items-center gap-3">
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-white/35">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-gray-900/35">
                           ETA:
                         </label>
                         <input
@@ -649,30 +649,30 @@ export default function AdminPage() {
                           placeholder="e.g. 2 weeks, March 15"
                           value={form.availableEta}
                           onChange={(e) => setForm({ ...form, availableEta: e.target.value })}
-                          className="border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/20 outline-none focus:border-navy w-48"
+                          className="border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 placeholder-white/20 outline-none focus:border-navy w-48"
                         />
                       </div>
                     </div>
                     <div className="grid gap-3 sm:grid-cols-2">
                       <div>
-                        <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-white/25">Current Renter Name</label>
+                        <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-gray-900/25">Current Renter Name</label>
                         <input
                           type="text"
                           placeholder="Renter's full name"
                           value={form.currentRenterName}
                           onChange={(e) => setForm({ ...form, currentRenterName: e.target.value })}
-                          className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
+                          className="w-full border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 placeholder-white/15 outline-none focus:border-navy"
                         />
                       </div>
                       <div>
-                        <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-white/25">Renter Phone (WhatsApp)</label>
+                        <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-gray-900/25">Renter Phone (WhatsApp)</label>
                         <div className="flex gap-2">
                           <input
                             type="text"
                             placeholder="e.g. 96170123456"
                             value={form.currentRenterPhone}
                             onChange={(e) => setForm({ ...form, currentRenterPhone: e.target.value })}
-                            className="flex-1 border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
+                            className="flex-1 border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 placeholder-white/15 outline-none focus:border-navy"
                           />
                           {form.currentRenterPhone && (
                             <a
@@ -703,7 +703,7 @@ export default function AdminPage() {
                       className={`absolute top-0.5 h-5 w-5 bg-white transition-transform ${form.featured ? "translate-x-[22px]" : "translate-x-0.5"}`}
                     />
                   </div>
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-white/50 group-hover:text-white/70">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-gray-900/50 group-hover:text-gray-900/70">
                     Featured
                   </span>
                 </label>
@@ -713,7 +713,7 @@ export default function AdminPage() {
               <div className="sm:col-span-2">
                 <label className={labelCls}>
                   <span className="flex items-center gap-1.5">
-                    <svg className="h-3 w-3 text-white/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-3 w-3 text-gray-900/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                     </svg>
                     Private Admin Notes
@@ -735,19 +735,19 @@ export default function AdminPage() {
                   <button
                     type="button"
                     onClick={() => setForm({ ...form, rentals: [...form.rentals, { renterName: "", renterPhone: "", startDate: "", endDate: "", notes: "" }] })}
-                    className="text-[10px] font-bold uppercase tracking-wider text-navy hover:text-white transition-colors"
+                    className="text-[10px] font-bold uppercase tracking-wider text-navy hover:text-gray-900 transition-colors"
                   >
                     + Add Rental
                   </button>
                 </div>
                 {form.rentals.length === 0 && (
-                  <p className="text-[11px] text-white/20 py-3 border border-dashed border-luxury-border text-center">No rental records yet</p>
+                  <p className="text-[11px] text-gray-900/20 py-3 border border-dashed border-luxury-border text-center">No rental records yet</p>
                 )}
                 <div className="space-y-3">
                   {form.rentals.map((rental, idx) => (
                     <div key={idx} className="border border-luxury-border bg-luxury-dark p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-white/30">Rental #{idx + 1}</span>
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-gray-900/30">Rental #{idx + 1}</span>
                         <button
                           type="button"
                           onClick={() => setForm({ ...form, rentals: form.rentals.filter((_, i) => i !== idx) })}
@@ -758,7 +758,7 @@ export default function AdminPage() {
                       </div>
                       <div className="grid gap-3 sm:grid-cols-4">
                         <div>
-                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-white/25">Renter Name</label>
+                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-gray-900/25">Renter Name</label>
                           <input
                             type="text"
                             placeholder="Name"
@@ -768,11 +768,11 @@ export default function AdminPage() {
                               updated[idx] = { ...updated[idx], renterName: e.target.value };
                               setForm({ ...form, rentals: updated });
                             }}
-                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
+                            className="w-full border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 placeholder-white/15 outline-none focus:border-navy"
                           />
                         </div>
                         <div>
-                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-white/25">Phone (WhatsApp)</label>
+                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-gray-900/25">Phone (WhatsApp)</label>
                           <div className="flex gap-1">
                             <input
                               type="text"
@@ -783,7 +783,7 @@ export default function AdminPage() {
                                 updated[idx] = { ...updated[idx], renterPhone: e.target.value };
                                 setForm({ ...form, rentals: updated });
                               }}
-                              className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
+                              className="w-full border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 placeholder-white/15 outline-none focus:border-navy"
                             />
                             {rental.renterPhone && (
                               <a
@@ -802,7 +802,7 @@ export default function AdminPage() {
                           </div>
                         </div>
                         <div>
-                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-white/25">Start Date</label>
+                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-gray-900/25">Start Date</label>
                           <input
                             type="date"
                             value={rental.startDate}
@@ -811,11 +811,11 @@ export default function AdminPage() {
                               updated[idx] = { ...updated[idx], startDate: e.target.value };
                               setForm({ ...form, rentals: updated });
                             }}
-                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-navy [color-scheme:dark]"
+                            className="w-full border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-navy [color-scheme:light]"
                           />
                         </div>
                         <div>
-                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-white/25">End Date</label>
+                          <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-gray-900/25">End Date</label>
                           <input
                             type="date"
                             value={rental.endDate}
@@ -824,12 +824,12 @@ export default function AdminPage() {
                               updated[idx] = { ...updated[idx], endDate: e.target.value };
                               setForm({ ...form, rentals: updated });
                             }}
-                            className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white outline-none focus:border-navy [color-scheme:dark]"
+                            className="w-full border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 outline-none focus:border-navy [color-scheme:light]"
                           />
                         </div>
                       </div>
                       <div className="mt-3">
-                        <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-white/25">Rental Notes</label>
+                        <label className="mb-1 block text-[9px] font-bold uppercase tracking-wider text-gray-900/25">Rental Notes</label>
                         <input
                           type="text"
                           placeholder="Optional notes about this rental..."
@@ -839,7 +839,7 @@ export default function AdminPage() {
                             updated[idx] = { ...updated[idx], notes: e.target.value };
                             setForm({ ...form, rentals: updated });
                           }}
-                          className="w-full border border-luxury-border bg-black px-3 py-2 text-sm text-white placeholder-white/15 outline-none focus:border-navy"
+                          className="w-full border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 placeholder-white/15 outline-none focus:border-navy"
                         />
                       </div>
                     </div>
@@ -858,10 +858,10 @@ export default function AdminPage() {
 
                     return (
                       <div key={slot.key} className="flex flex-col">
-                        <span className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-white/40">
+                        <span className="mb-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-gray-900/40">
                           {slot.label} {slot.required && <span className="text-navy">*</span>}
                         </span>
-                        <div className="relative aspect-[4/3] w-full overflow-hidden border border-luxury-border bg-black">
+                        <div className="relative aspect-[4/3] w-full overflow-hidden border border-luxury-border bg-white">
                           {hasPhoto ? (
                             <>
                               <img
@@ -897,10 +897,10 @@ export default function AdminPage() {
                             </>
                           ) : (
                             <label className="flex h-full w-full cursor-pointer flex-col items-center justify-center gap-2 transition-colors hover:bg-luxury-dark">
-                              <svg className="h-6 w-6 text-white/15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="h-6 w-6 text-gray-900/15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
                               </svg>
-                              <span className="text-[8px] font-bold uppercase tracking-wider text-white/20">Upload</span>
+                              <span className="text-[8px] font-bold uppercase tracking-wider text-gray-900/20">Upload</span>
                               <input
                                 type="file"
                                 accept="image/*"
@@ -942,7 +942,7 @@ export default function AdminPage() {
                   setPhotoFiles({});
                   setVideoFile(null);
                 }}
-                className="border border-luxury-border bg-black px-6 py-3 text-[12px] font-bold text-white/40 transition-colors hover:border-navy/30 hover:text-white"
+                className="border border-luxury-border bg-white px-6 py-3 text-[12px] font-bold text-gray-900/40 transition-colors hover:border-navy/30 hover:text-gray-900"
               >
                 Cancel
               </button>
@@ -954,8 +954,8 @@ export default function AdminPage() {
         <div className="mb-8 border border-luxury-border bg-luxury-card p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-white">Featured Bar</h3>
-              <p className="mt-1 text-[11px] text-white/30">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-gray-900">Featured Bar</h3>
+              <p className="mt-1 text-[11px] text-gray-900/30">
                 Shows featured cars in a rotating banner at the top of the homepage.
                 {(() => {
                   const count = cars.filter((c) => c.featured).length;
@@ -964,7 +964,7 @@ export default function AdminPage() {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-white/40">Show at once</label>
+              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-900/40">Show at once</label>
               <div className="flex gap-1">
                 {[1, 2, 3, 4].map((n) => (
                   <button
@@ -984,7 +984,7 @@ export default function AdminPage() {
                     className={`h-9 w-9 text-xs font-bold transition-all disabled:opacity-50 ${
                       featuredBarCount === n
                         ? "border border-navy bg-navy/20 text-navy"
-                        : "border border-luxury-border bg-black text-white/40 hover:border-navy/30 hover:text-white/60"
+                        : "border border-luxury-border bg-white text-gray-900/40 hover:border-navy/30 hover:text-gray-900/60"
                     }`}
                   >
                     {n}
@@ -1000,7 +1000,7 @@ export default function AdminPage() {
         <div className="mb-5 space-y-3">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
             <div className="relative flex-1">
-              <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <input
@@ -1008,13 +1008,13 @@ export default function AdminPage() {
                 placeholder="Search cars..."
                 value={adminSearch}
                 onChange={(e) => setAdminSearch(e.target.value)}
-                className="w-full border border-luxury-border bg-black py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/20 outline-none transition-colors focus:border-navy"
+                className="w-full border border-luxury-border bg-white py-2.5 pl-10 pr-4 text-sm text-gray-900 placeholder-white/20 outline-none transition-colors focus:border-navy"
               />
             </div>
             <select
               value={adminBrandFilter}
               onChange={(e) => setAdminBrandFilter(e.target.value)}
-              className="border border-luxury-border bg-black px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-navy [color-scheme:dark]"
+              className="border border-luxury-border bg-white px-3 py-2.5 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light]"
             >
               <option value="All">All Brands</option>
               {brandsWithoutAll.map((b) => (
@@ -1029,7 +1029,7 @@ export default function AdminPage() {
                   className={`px-3 py-2.5 text-[10px] font-bold uppercase tracking-wider transition-all ${
                     adminFilter === f
                       ? "border border-navy bg-navy/15 text-navy"
-                      : "border border-luxury-border bg-black text-white/30 hover:text-white/50"
+                      : "border border-luxury-border bg-white text-gray-900/30 hover:text-gray-900/50"
                   }`}
                 >
                   {f}
@@ -1039,7 +1039,7 @@ export default function AdminPage() {
           </div>
           {(adminSearch || adminBrandFilter !== "All" || adminFilter !== "all") && (
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-white/25">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-gray-900/25">
                 {cars.filter((car) => {
                   if (adminFilter === "available" && !car.available) return false;
                   if (adminFilter === "rented" && car.available !== false) return false;
@@ -1055,7 +1055,7 @@ export default function AdminPage() {
               </span>
               <button
                 onClick={() => { setAdminSearch(""); setAdminBrandFilter("All"); setAdminFilter("all"); }}
-                className="text-[10px] font-bold uppercase tracking-wider text-navy hover:text-white transition-colors"
+                className="text-[10px] font-bold uppercase tracking-wider text-navy hover:text-gray-900 transition-colors"
               >
                 Clear Filters
               </button>
@@ -1080,13 +1080,13 @@ export default function AdminPage() {
           </div>
         ) : cars.length === 0 ? (
           <div className="flex flex-col items-center justify-center border border-luxury-border bg-luxury-card py-24">
-            <svg className="h-16 w-16 text-white/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="h-16 w-16 text-gray-900/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <h3 className="mt-4 font-serif text-lg font-semibold text-white">
+            <h3 className="mt-4 font-serif text-lg font-semibold text-gray-900">
               NO CARS YET
             </h3>
-            <p className="mt-1 text-sm text-white/30">
+            <p className="mt-1 text-sm text-gray-900/30">
               Add your first car listing
             </p>
           </div>
@@ -1112,7 +1112,7 @@ export default function AdminPage() {
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                   {/* Thumbnail */}
-                  <div className="h-24 w-full flex-shrink-0 overflow-hidden bg-black sm:w-36">
+                  <div className="h-24 w-full flex-shrink-0 overflow-hidden bg-white sm:w-36">
                     {(car.photos?.main || car.images?.[0]) ? (
                       <img
                         src={car.photos?.main || car.images[0]}
@@ -1120,7 +1120,7 @@ export default function AdminPage() {
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <div className="flex h-full items-center justify-center text-white/10">
+                      <div className="flex h-full items-center justify-center text-gray-900/10">
                         <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
                         </svg>
@@ -1131,7 +1131,7 @@ export default function AdminPage() {
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-serif font-bold text-white">{car.name}</h3>
+                      <h3 className="font-serif font-bold text-gray-900">{car.name}</h3>
                       {car.featured && (
                         <span className="flex items-center gap-1 bg-navy/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-navy-light">
                           <svg className="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 24 24">
@@ -1148,12 +1148,12 @@ export default function AdminPage() {
                         </span>
                       )}
                       {car.videoUrl && (
-                        <span className="bg-white/5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white/40">
+                        <span className="bg-white/5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-gray-900/40">
                           Video
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-white/40">
+                    <p className="text-sm text-gray-900/40">
                       {car.brand} · {car.year} · {car.mileage.toLocaleString()} km ·{" "}
                       <span className="text-navy">${car.price}/day</span>
                       {(() => {
@@ -1185,7 +1185,7 @@ export default function AdminPage() {
                       className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors disabled:opacity-50 ${
                         car.featured
                           ? "border border-navy/30 bg-navy/15 text-navy hover:bg-navy/25"
-                          : "border border-luxury-border bg-luxury-dark text-white/30 hover:text-white/50"
+                          : "border border-luxury-border bg-luxury-dark text-gray-900/30 hover:text-gray-900/50"
                       }`}
                     >
                       ★ {car.featured ? "Featured" : "Feature"}
@@ -1216,22 +1216,22 @@ export default function AdminPage() {
                     <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
                       {car.currentRenterName && (
                         <div className="flex items-center gap-2">
-                          <svg className="h-3.5 w-3.5 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="h-3.5 w-3.5 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                           </svg>
-                          <span className="text-[11px] text-white/50">
-                            <span className="text-[9px] font-bold uppercase tracking-wider text-white/25 mr-1.5">Renter:</span>
+                          <span className="text-[11px] text-gray-900/50">
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-gray-900/25 mr-1.5">Renter:</span>
                             {car.currentRenterName}
                           </span>
                         </div>
                       )}
                       {car.currentRenterPhone && (
                         <div className="flex items-center gap-2">
-                          <svg className="h-3.5 w-3.5 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="h-3.5 w-3.5 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                           </svg>
-                          <span className="text-[11px] text-white/50">
-                            <span className="text-[9px] font-bold uppercase tracking-wider text-white/25 mr-1.5">Phone:</span>
+                          <span className="text-[11px] text-gray-900/50">
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-gray-900/25 mr-1.5">Phone:</span>
                             {car.currentRenterPhone}
                           </span>
                           <a
@@ -1250,22 +1250,22 @@ export default function AdminPage() {
                       )}
                       {car.availableFrom && (
                         <div className="flex items-center gap-2">
-                          <svg className="h-3.5 w-3.5 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="h-3.5 w-3.5 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
-                          <span className="text-[11px] text-white/50">
-                            <span className="text-[9px] font-bold uppercase tracking-wider text-white/25 mr-1.5">Returns:</span>
+                          <span className="text-[11px] text-gray-900/50">
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-gray-900/25 mr-1.5">Returns:</span>
                             {new Date(car.availableFrom + "T00:00:00").toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
                           </span>
                         </div>
                       )}
                       {car.availableEta && (
                         <div className="flex items-center gap-2">
-                          <svg className="h-3.5 w-3.5 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <svg className="h-3.5 w-3.5 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
-                          <span className="text-[11px] text-white/50">
-                            <span className="text-[9px] font-bold uppercase tracking-wider text-white/25 mr-1.5">ETA:</span>
+                          <span className="text-[11px] text-gray-900/50">
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-gray-900/25 mr-1.5">ETA:</span>
                             {car.availableEta}
                           </span>
                         </div>

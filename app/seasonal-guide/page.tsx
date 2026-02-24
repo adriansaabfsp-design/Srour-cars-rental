@@ -209,7 +209,7 @@ function activityBadge(activity: string) {
     Beach:   "bg-amber-500/15 text-amber-300 border-amber-500/20",
     Culture: "bg-purple-500/15 text-purple-300 border-purple-500/20",
   };
-  return map[activity] || "bg-white/10 text-white/50";
+  return map[activity] || "bg-white/10 text-gray-900/50";
 }
 
 /* ── quiz logic ── */
@@ -258,7 +258,7 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
           }
         >
           <Icon className="h-10 w-10 text-[#C9A84C]" />
-          <h3 className="font-serif text-2xl font-bold uppercase tracking-wide text-white sm:text-3xl">
+          <h3 className="font-serif text-2xl font-bold uppercase tracking-wide text-gray-900 sm:text-3xl">
             {season.name}
           </h3>
           <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C9A84C]">
@@ -271,7 +271,7 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
           {/* weather */}
           <div className="mb-6">
             <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">Weather</p>
-            <p className="text-sm leading-relaxed text-white/50">{season.weather}</p>
+            <p className="text-sm leading-relaxed text-gray-900/50">{season.weather}</p>
           </div>
 
           {/* destinations */}
@@ -296,10 +296,10 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
             <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">
               Recommended Car:
             </p>
-            <span className="text-sm font-semibold text-white/70">{season.recommendedCar}</span>
+            <span className="text-sm font-semibold text-gray-900/70">{season.recommendedCar}</span>
             <a
               href="/#collection"
-              className="ml-auto border border-[#C9A84C]/30 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A84C] transition-all hover:bg-[#C9A84C] hover:text-white"
+              className="ml-auto border border-[#C9A84C]/30 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A84C] transition-all hover:bg-[#C9A84C] hover:text-gray-900"
             >
               View Fleet →
             </a>
@@ -313,7 +313,7 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
               </p>
               <ul className="space-y-2">
                 {season.pros.map((p) => (
-                  <li key={p} className="flex items-start gap-2 text-[13px] leading-snug text-white/45">
+                  <li key={p} className="flex items-start gap-2 text-[13px] leading-snug text-gray-900/45">
                     <CheckIcon /> {p}
                   </li>
                 ))}
@@ -325,7 +325,7 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
               </p>
               <ul className="space-y-2">
                 {season.cons.map((c) => (
-                  <li key={c} className="flex items-start gap-2 text-[13px] leading-snug text-white/35">
+                  <li key={c} className="flex items-start gap-2 text-[13px] leading-snug text-gray-900/35">
                     <XIcon /> {c}
                   </li>
                 ))}
@@ -354,8 +354,8 @@ function QuizBtn({
       className={
         "border px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] transition-all sm:px-5 " +
         (active
-          ? "border-[#C9A84C] bg-[#C9A84C] text-white"
-          : "border-luxury-border bg-luxury-card text-white/50 hover:border-[#C9A84C]/30 hover:text-white")
+          ? "border-[#C9A84C] bg-[#C9A84C] text-gray-900"
+          : "border-luxury-border bg-luxury-card text-gray-900/50 hover:border-[#C9A84C]/30 hover:text-gray-900")
       }
     >
       {label}
@@ -377,7 +377,7 @@ export default function SeasonalGuidePage() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden border-b border-luxury-border bg-black">
+      <section className="relative overflow-hidden border-b border-luxury-border bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
 
@@ -385,14 +385,14 @@ export default function SeasonalGuidePage() {
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C] sm:text-xs">
             Plan your trip
           </p>
-          <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
             WHEN TO VISIT
             <br />
-            <span className="text-white">
+            <span className="text-gray-900">
               LEBANON
             </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/40 sm:text-base">
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-gray-900/40 sm:text-base">
             Your seasonal guide to exploring Lebanon in style
           </p>
           <div className="mx-auto mt-5 h-[2px] w-20 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -409,13 +409,13 @@ export default function SeasonalGuidePage() {
       </section>
 
       {/* ─── MONTH BY MONTH ─── */}
-      <section className="border-t border-luxury-border bg-black/40">
+      <section className="border-t border-luxury-border bg-gray-50">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-10 text-center">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C]">
               Quick Reference
             </p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
               MONTH BY MONTH
             </h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -443,7 +443,7 @@ export default function SeasonalGuidePage() {
                       key={m.month}
                       className="border-b border-luxury-border/50 transition-colors hover:bg-white/[0.02]"
                     >
-                      <td className="px-4 py-3.5 text-sm font-semibold text-white/70">
+                      <td className="px-4 py-3.5 text-sm font-semibold text-gray-900/70">
                         {m.month}
                       </td>
                       <td className="px-4 py-3.5">
@@ -478,10 +478,10 @@ export default function SeasonalGuidePage() {
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C]">
               Interactive
             </p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
+            <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
               NOT SURE WHICH CAR TO PICK?
             </h2>
-            <p className="mx-auto mt-3 max-w-lg text-sm text-white/30">
+            <p className="mx-auto mt-3 max-w-lg text-sm text-gray-900/30">
               Answer three quick questions and we&apos;ll recommend the perfect vehicle for your
               Lebanon adventure.
             </p>
@@ -534,13 +534,13 @@ export default function SeasonalGuidePage() {
                 <p className="mt-3 font-serif text-2xl font-bold text-[#C9A84C] sm:text-3xl">
                   {recommendation}
                 </p>
-                <p className="mt-2 text-sm text-white/35">
+                <p className="mt-2 text-sm text-gray-900/35">
                   Perfect for a {qSeason?.toLowerCase()} trip to the {qDest?.toLowerCase()} with{" "}
                   {qPeople} traveler{qPeople === "1-2" ? "s" : "s"}.
                 </p>
                 <a
                   href="/#collection"
-                  className="mt-6 inline-block bg-[#C9A84C] px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#C9A84C]-light"
+                  className="mt-6 inline-block bg-[#C9A84C] px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900 transition-all hover:bg-[#C9A84C]-light"
                 >
                   View Fleet →
                 </a>
@@ -556,10 +556,10 @@ export default function SeasonalGuidePage() {
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C]">
             Need personalized help?
           </p>
-          <h2 className="mt-4 font-serif text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-4 font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
             ASK OUR TEAM
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/30">
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-gray-900/30">
             Not sure which season suits you best? Our team knows Lebanon inside and out — reach
             out for personalized advice tailored to your trip.
           </p>
@@ -567,7 +567,7 @@ export default function SeasonalGuidePage() {
             href="https://wa.me/96181062329"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-3 bg-[#C9A84C] px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#C9A84C]-light"
+            className="mt-8 inline-flex items-center gap-3 bg-[#C9A84C] px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-gray-900 transition-all hover:bg-[#C9A84C]-light"
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />

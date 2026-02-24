@@ -314,9 +314,9 @@ function AccordionItem({ item }: { item: FaqItem }) {
     <div className="border-b border-luxury-border last:border-b-0">
       <button
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-white"
+        className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-gray-900"
       >
-        <span className={"text-sm font-semibold sm:text-base " + (open ? "text-navy" : "text-white/80")}>
+        <span className={"text-sm font-semibold sm:text-base " + (open ? "text-navy" : "text-gray-900/80")}>
           {item.question}
         </span>
         <svg
@@ -339,7 +339,7 @@ function AccordionItem({ item }: { item: FaqItem }) {
         }}
       >
         <div className="overflow-hidden">
-          <p className="pb-5 text-[13px] leading-relaxed text-white/35 sm:text-sm">
+          <p className="pb-5 text-[13px] leading-relaxed text-gray-900/35 sm:text-sm">
             {item.answer}
           </p>
         </div>
@@ -360,21 +360,21 @@ export default function FaqPage() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden border-b border-luxury-border bg-black">
+      <section className="relative overflow-hidden border-b border-luxury-border bg-white">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
         <div className="relative mx-auto max-w-5xl px-4 py-20 text-center sm:py-28 lg:py-32">
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             We&apos;re here to help
           </p>
-          <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
             FREQUENTLY ASKED
             <br />
-            <span className="text-white">
+            <span className="text-gray-900">
               QUESTIONS
             </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/40 sm:text-base">
+          <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-gray-900/40 sm:text-base">
             Everything you need to know about renting with Lebanon Rental
           </p>
           <div className="mx-auto mt-5 h-[2px] w-20 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -382,7 +382,7 @@ export default function FaqPage() {
       </section>
 
       {/* ─── CATEGORY TABS ─── */}
-      <div className="sticky top-20 z-30 border-b border-luxury-border bg-black/95 backdrop-blur-md">
+      <div className="sticky top-20 z-30 border-b border-luxury-border bg-white/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center gap-1 overflow-x-auto px-4 py-3 sm:justify-center sm:gap-2 sm:px-6">
           {CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
@@ -396,11 +396,11 @@ export default function FaqPage() {
                   "flex-shrink-0 px-3 py-2 text-[9px] font-bold uppercase tracking-[0.1em] transition-all sm:px-4 sm:text-[11px] " +
                   (isActive
                     ? "bg-navy text-white"
-                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-navy/30 hover:text-white")
+                    : "border border-luxury-border bg-luxury-card text-gray-900/50 hover:border-navy/30 hover:text-gray-900")
                 }
               >
                 {cat === "All" ? "All" : cat}
-                <span className={"ml-1 text-[8px] sm:text-[9px] " + (isActive ? "text-white/50" : "text-navy")}>
+                <span className={"ml-1 text-[8px] sm:text-[9px] " + (isActive ? "text-gray-900/50" : "text-navy")}>
                   ({count})
                 </span>
               </button>
@@ -412,9 +412,9 @@ export default function FaqPage() {
       {/* ─── FAQ ACCORDION ─── */}
       <div className="mx-auto max-w-3xl px-4 py-10 sm:px-6 sm:py-14">
         {activeCategory !== "All" && (
-          <h2 className="mb-6 font-serif text-xl font-bold text-white sm:text-2xl">
+          <h2 className="mb-6 font-serif text-xl font-bold text-gray-900 sm:text-2xl">
             {activeCategory}
-            <span className="ml-3 text-sm font-normal text-white/30">
+            <span className="ml-3 text-sm font-normal text-gray-900/30">
               {filtered.length} question{filtered.length !== 1 ? "s" : ""}
             </span>
           </h2>
@@ -428,7 +428,7 @@ export default function FaqPage() {
 
         {filtered.length === 0 && (
           <div className="py-20 text-center">
-            <p className="text-lg text-white/30">No questions in this category.</p>
+            <p className="text-lg text-gray-900/30">No questions in this category.</p>
           </div>
         )}
       </div>
@@ -439,10 +439,10 @@ export default function FaqPage() {
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
             Can&apos;t find what you&apos;re looking for?
           </p>
-          <h2 className="mt-4 font-serif text-3xl font-bold text-white sm:text-4xl">
+          <h2 className="mt-4 font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
             STILL HAVE QUESTIONS?
           </h2>
-          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/30">
+          <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-gray-900/30">
             Our team is available around the clock to help you with anything. Reach out on WhatsApp
             for an instant response.
           </p>

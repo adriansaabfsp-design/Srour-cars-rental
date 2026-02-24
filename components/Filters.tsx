@@ -19,7 +19,7 @@ interface FiltersProps {
 }
 
 const inputClasses =
-  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy/20";
+  "w-full border border-luxury-border bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy/20";
 
 export default function Filters({
   brand,
@@ -43,11 +43,11 @@ export default function Filters({
   return (
     <div className="border border-luxury-border bg-luxury-card p-6">
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="font-serif text-lg font-bold text-white">REFINE</h2>
+        <h2 className="font-serif text-lg font-bold text-gray-900">REFINE</h2>
         {hasActiveFilters && (
           <button
             onClick={onReset}
-            className="text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors hover:text-white"
+            className="text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors hover:text-gray-900"
           >
             Clear all
           </button>
@@ -56,7 +56,7 @@ export default function Filters({
 
       {/* Brand */}
       <div className="mb-5">
-        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/40">
           Brand
         </label>
         <select value={brand} onChange={(e) => setBrand(e.target.value)} className={inputClasses}>
@@ -70,7 +70,7 @@ export default function Filters({
 
       {/* Price Range */}
       <div className="mb-5">
-        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/40">
           Price Range ($/day)
         </label>
         <div className="flex gap-2">
@@ -81,7 +81,7 @@ export default function Filters({
 
       {/* Year Range */}
       <div>
-        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/40">
           Year
         </label>
         <div className="flex gap-2">
@@ -92,7 +92,7 @@ export default function Filters({
 
       {/* Availability Toggle */}
       <div className="mt-5">
-        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-white/40">
+        <label className="mb-2 block text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/40">
           Availability
         </label>
         <button
@@ -100,7 +100,7 @@ export default function Filters({
           className={`flex w-full items-center gap-3 border px-4 py-3 text-sm transition-all ${
             showAvailableOnly
               ? "border-green-500/30 bg-green-500/10 text-green-400"
-              : "border-luxury-border bg-black text-white/40 hover:border-white/20"
+              : "border-luxury-border bg-white text-gray-900/40 hover:border-gray-300"
           }`}
         >
           <div
