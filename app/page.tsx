@@ -110,9 +110,23 @@ export default function Home() {
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
       {/* MOBILE: crossfading logo/tagline + car train marquee */}
-      <section className="sm:hidden bg-luxury-black">
+      <section className="relative overflow-hidden sm:hidden bg-luxury-black">
+        {/* Hero background with subtle overlay to fill the top bar on mobile */}
+        <div className="absolute inset-0">
+          {currentHeroCar ? (
+            <img
+              src={currentHeroCar.photos?.main || currentHeroCar.images?.[0] || ""}
+              alt={currentHeroCar.name}
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="h-full w-full bg-[radial-gradient(ellipse_90%_55%_at_50%_-10%,_rgba(27,58,92,0.18),_transparent)]" />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/70" />
+        </div>
+
         {/* Crossfading Logo ↔ Tagline */}
-        <div className="relative flex items-center justify-center pt-12 pb-8 px-4" style={{ height: "160px" }}>
+        <div className="relative flex items-center justify-center px-4 pt-6 pb-4" style={{ height: "180px" }}>
           {/* Lebanon Rental logo */}
           <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
             <Image
@@ -120,31 +134,31 @@ export default function Home() {
               alt="Lebanon Rental"
               width={400}
               height={400}
-              className="h-20 w-auto drop-shadow-[0_4px_40px_rgba(0,0,0,0.6)]"
+              className="h-32 w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
               priority
             />
           </div>
           {/* Rent Your Dream Ride tagline */}
           <div className="hero-crossfade-b absolute inset-0 flex flex-col items-center justify-center text-center">
-            <p className="font-serif text-base font-light italic tracking-wide text-gray-900/70">
+            <p className="font-serif text-lg font-light italic tracking-wide text-white/80">
               Rent Your
             </p>
-            <p className="mt-0.5 font-serif text-[1.7rem] font-black uppercase tracking-[0.12em] text-gray-900 leading-tight">
+            <p className="mt-1 font-serif text-[2.1rem] font-black uppercase tracking-[0.16em] text-white leading-tight drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
               Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.02em] align-baseline" />m Ride
             </p>
           </div>
-          <div className="hero-tagline-line absolute bottom-4 left-1/2 -translate-x-1/2 h-[1px] w-24 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+          <div className="hero-tagline-line absolute bottom-5 left-1/2 -translate-x-1/2 h-[1px] w-28 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
         </div>
 
         {/* Auto-scrolling car train */}
-        <div className="relative w-full overflow-hidden pb-6">
+        <div className="relative w-full overflow-hidden pb-4">
           <div className="car-train-track flex">
             {/* Duplicate the list for seamless infinite scroll */}
             {[...featuredCars, ...featuredCars, ...featuredCars].map((car, i) => (
               <Link
                 key={car.id + "-" + i}
                 href={"/cars/" + car.id}
-                className="car-train-card relative flex-shrink-0 w-48 mx-1.5 overflow-hidden group"
+                className="car-train-card relative flex-shrink-0 w-40 mx-1.5 overflow-hidden group"
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <img
@@ -325,7 +339,7 @@ export default function Home() {
       <section className="relative overflow-hidden border-b border-luxury-border">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(27,58,92,0.06),_transparent)]" />
         <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 0L40 20L20 40L0 20Z\' fill=\'none\' stroke=\'%231B3A5C\' stroke-width=\'0.5\'/%3E%3C/svg%3E")', backgroundSize: '40px 40px' }} />
-        <div className="relative mx-auto max-w-4xl px-4 py-14 text-center sm:px-6 sm:py-20">
+        <div className="relative mx-auto max-w-4xl px-4 py-10 text-center sm:px-6 sm:py-20">
           <div className="mx-auto mb-6 h-[1px] w-24 bg-gradient-to-r from-transparent via-navy/40 to-transparent" />
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Cross Promotion
@@ -341,12 +355,12 @@ export default function Home() {
             — from Batroun to Beirut, Jbeil to the Chouf.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
-            <a
+            <Link
               href="/#collection"
               className="inline-block border border-navy bg-navy px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
             >
               Browse Our Fleet
-            </a>
+            </Link>
             <a
               href="https://lebanon-rental.com"
               target="_blank"
@@ -362,13 +376,13 @@ export default function Home() {
 
       {/* ─── BROWSE BY CATEGORY ─── */}
       <section className="border-b border-luxury-border">
-        <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-          <div className="mb-8 text-center">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-16">
+          <div className="mb-5 text-center sm:mb-8">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Find your perfect match</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">BROWSE BY CATEGORY</h2>
             <div className="mx-auto mt-3 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
-          <div className="flex gap-4 overflow-x-auto pb-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
+          <div className="flex gap-3 overflow-x-auto pb-2 sm:gap-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
             {([
               { name: "Sedan", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h13L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
               { name: "SUV", icon: <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l1.5-4h15L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="9" width="18" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" /></svg> },
@@ -383,7 +397,7 @@ export default function Home() {
                   setActiveCategory(cat.name);
                   document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex-shrink-0 flex flex-col items-center gap-3 border border-luxury-border bg-luxury-card px-8 py-6 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:px-10"
+                className="group flex-shrink-0 flex flex-col items-center gap-2.5 border border-luxury-border bg-luxury-card px-6 py-4 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:px-10 sm:py-6"
               >
                 <div className="text-gray-900/20 transition-colors group-hover:text-gray-900/60">{cat.icon}</div>
                 <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/40 transition-colors group-hover:text-gray-900/70">
@@ -396,7 +410,7 @@ export default function Home() {
       </section>
 
       {/* ─── COLLECTION ─── */}
-      <div id="collection" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div id="collection" className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8">
         {/* heading */}
         <div className="mb-6 text-center">
           <h2 className="font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
@@ -567,7 +581,7 @@ export default function Home() {
             ))}
           </div>
         ) : filteredCars.length === 0 ? (
-          <div className="flex flex-col items-center justify-center border border-luxury-border bg-luxury-card py-20">
+          <div className="flex flex-col items-center justify-center border border-luxury-border bg-luxury-card py-14 sm:py-20">
             <svg className="h-16 w-16 text-gray-900/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -593,13 +607,13 @@ export default function Home() {
 
       {/* ─── CHECK AVAILABILITY ─── */}
       <section className="border-t border-luxury-border bg-gray-50">
-        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
-          <div className="mb-8 text-center">
+        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-20">
+          <div className="mb-6 text-center sm:mb-8">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Booking</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">CHECK AVAILABILITY</h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
-          <div className="mx-auto max-w-4xl border border-luxury-border bg-luxury-card p-6 sm:p-8">
+          <div className="mx-auto max-w-4xl border border-luxury-border bg-luxury-card p-4 sm:p-8">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {/* Pickup Location */}
               <div className="flex flex-col gap-1.5">
@@ -648,7 +662,7 @@ export default function Home() {
                 </select>
               </div>
             </div>
-            <div className="mt-6 text-center">
+            <div className="mt-5 text-center sm:mt-6">
               <a
                 href={`https://wa.me/96181062329?text=${encodeURIComponent(
                   `Hi, I would like to check car availability:\n` +
@@ -675,8 +689,8 @@ export default function Home() {
 
       {/* ─── TRAVEL INSIGHTS ─── */}
       <section className="border-t border-luxury-border">
-        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
-          <div className="mb-10 text-center">
+        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-20">
+          <div className="mb-6 text-center sm:mb-10">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">From our blog</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">TRAVEL INSIGHTS</h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -722,8 +736,8 @@ export default function Home() {
 
       {/* ─── INSTAGRAM WIDGET ─── */}
       <section className="border-t border-luxury-border">
-        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
-          <div className="mb-10 text-center">
+        <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-20">
+          <div className="mb-6 text-center sm:mb-10">
             <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Follow us</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
               @LEBANON.RENTAL
@@ -734,8 +748,7 @@ export default function Home() {
             <iframe
               src="https://f2ebe9a82e094dde98dfe2f1d10431fd.elf.site"
               title="Instagram Feed"
-              className="w-full border-0"
-              style={{ minHeight: "400px", height: "640px" }}
+              className="h-[460px] w-full border-0 sm:h-[640px]"
               loading="lazy"
               allowTransparency
             />
@@ -749,8 +762,8 @@ export default function Home() {
       <section className="border-t border-luxury-border">
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(27,58,92,0.05),_transparent)]" />
-          <div className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
-            <div className="mb-10 text-center">
+          <div className="relative mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-20">
+            <div className="mb-6 text-center sm:mb-10">
               <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Reviews</p>
               <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
                 TRUSTED BY OUR CLIENTS
@@ -761,8 +774,7 @@ export default function Home() {
               <iframe
                 src="https://e4d32f7c7ba948688a5a5396616a4f69.elf.site"
                 title="Google Reviews"
-                className="w-full border-0"
-                style={{ minHeight: "400px", height: "540px" }}
+                className="h-[420px] w-full border-0 sm:h-[540px]"
                 loading="lazy"
                 allowTransparency
               />
@@ -778,7 +790,7 @@ export default function Home() {
 
       {/* ─── STATS (bottom) ─── */}
       <section className="border-t border-luxury-border bg-luxury-card">
-        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-8 px-4 py-12 sm:gap-12 sm:py-16 md:gap-16">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-6 px-4 py-8 sm:gap-12 sm:py-16 md:gap-16">
           <div className="text-center">
             <div className="font-serif text-4xl font-bold text-gray-900 sm:text-5xl">50+</div>
             <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-gray-900/40">
