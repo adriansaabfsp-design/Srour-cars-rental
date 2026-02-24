@@ -73,23 +73,23 @@ export default function ExtrasPage() {
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border bg-black">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(201,168,76,0.12),_transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
         <div className="relative mx-auto max-w-5xl px-4 py-20 text-center sm:py-28 lg:py-32">
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/60 sm:text-xs">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Add-ons &amp; Services
           </p>
           <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
             ENHANCE YOUR
             <br />
-            <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-terra via-terra-light to-terra bg-clip-text text-transparent">
               EXPERIENCE
             </span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-white/40 sm:text-base">
             Contact us via WhatsApp to add any of these extras to your rental
           </p>
-          <div className="mx-auto mt-5 h-[2px] w-20 bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <div className="mx-auto mt-5 h-[2px] w-20 bg-gradient-to-r from-transparent via-navy to-transparent" />
         </div>
       </section>
 
@@ -99,9 +99,9 @@ export default function ExtrasPage() {
           {EXTRAS.map((extra) => (
             <div
               key={extra.name}
-              className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-gold/30"
+              className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-terra/30"
             >
-              <div className="mb-4 text-gold/40 transition-colors group-hover:text-gold">
+              <div className="mb-4 text-terra/40 transition-colors group-hover:text-terra">
                 {extra.icon}
               </div>
               <h3 className="font-serif text-lg font-bold text-white">{extra.name}</h3>
@@ -112,7 +112,7 @@ export default function ExtrasPage() {
                 href={"https://wa.me/96181062329?text=" + encodeURIComponent("Hi! I'd like to add " + extra.name + " to my rental.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-2 border border-gold/30 bg-gold/5 px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gold transition-all hover:bg-gold hover:text-black"
+                className="mt-5 inline-flex items-center gap-2 border border-terra/30 bg-terra/5 px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
               >
                 <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -128,7 +128,7 @@ export default function ExtrasPage() {
       {/* ─── CTA ─── */}
       <section className="border-t border-luxury-border bg-luxury-card">
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:py-20">
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
             Need something specific?
           </p>
           <h2 className="mt-4 font-serif text-3xl font-bold text-white sm:text-4xl">
@@ -142,7 +142,7 @@ export default function ExtrasPage() {
             href="https://wa.me/96181062329"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-3 bg-gold px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-black transition-all hover:bg-gold-light"
+            className="mt-8 inline-flex items-center gap-3 bg-terra px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />

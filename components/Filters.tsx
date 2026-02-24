@@ -19,7 +19,7 @@ interface FiltersProps {
 }
 
 const inputClasses =
-  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all focus:border-gold focus:ring-1 focus:ring-gold/20";
+  "w-full border border-luxury-border bg-black px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all focus:border-terra focus:ring-1 focus:ring-terra/20";
 
 export default function Filters({
   brand,
@@ -47,7 +47,7 @@ export default function Filters({
         {hasActiveFilters && (
           <button
             onClick={onReset}
-            className="text-[10px] font-bold uppercase tracking-[0.2em] text-gold transition-colors hover:text-gold-light"
+            className="text-[10px] font-bold uppercase tracking-[0.2em] text-terra transition-colors hover:text-terra-light"
           >
             Clear all
           </button>
@@ -121,7 +121,7 @@ export default function Filters({
       </div>
 
       {/* Decorative line */}
-      <div className="mt-6 h-[1px] w-full bg-gradient-to-r from-gold/30 via-gold/10 to-transparent" />
+      <div className="mt-6 h-[1px] w-full bg-gradient-to-r from-navy/30 via-navy/10 to-transparent" />
     </div>
   );
 }

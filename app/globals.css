@@ -3,9 +3,11 @@
 @theme inline {
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
-  --color-gold: #C9A84C;
-  --color-gold-light: #E2C97E;
-  --color-gold-dark: #A8872E;
+  --color-terra: #C0562A;
+  --color-terra-light: #D4764A;
+  --color-terra-dark: #A04520;
+  --color-navy: #1B3A5C;
+  --color-navy-light: #2A5080;
   --color-luxury-black: #0a0a0a;
   --color-luxury-dark: #0e0e0e;
   --color-luxury-card: #141414;
@@ -43,7 +45,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #C9A84C;
+  background: #C0562A;
 }
 
 /* Gold shimmer animation */
@@ -52,8 +54,8 @@ html {
   100% { background-position: 200% 0; }
 }
 
-.gold-shimmer {
-  background: linear-gradient(90deg, #C9A84C 0%, #f0d78c 30%, #C9A84C 50%, #f0d78c 70%, #C9A84C 100%);
+.terra-shimmer {
+  background: linear-gradient(90deg, #C0562A 0%, #D4764A 30%, #C0562A 50%, #D4764A 70%, #C0562A 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -88,9 +90,9 @@ html {
 .stagger-children > *:nth-child(8) { animation-delay: 0.4s; }
 .stagger-children > *:nth-child(9) { animation-delay: 0.45s; }
 
-/* Gold border glow */
-.gold-glow {
-  box-shadow: 0 0 25px rgba(201, 168, 76, 0.25);
+/* Navy border glow */
+.navy-glow {
+  box-shadow: 0 0 25px rgba(27, 58, 92, 0.35);
 }
 
 /* Luxury pulse skeleton */
@@ -128,11 +130,11 @@ html {
 
 /* Sun glow rotating around cedar */
 @keyframes cedarSunGlow {
-  0%   { box-shadow: 0 -8px 16px -4px rgba(201,168,76,0.6), 0 0 0 0 transparent; }
-  25%  { box-shadow: 8px 0 16px -4px rgba(201,168,76,0.6), 0 0 0 0 transparent; }
-  50%  { box-shadow: 0 8px 16px -4px rgba(201,168,76,0.6), 0 0 0 0 transparent; }
-  75%  { box-shadow: -8px 0 16px -4px rgba(201,168,76,0.6), 0 0 0 0 transparent; }
-  100% { box-shadow: 0 -8px 16px -4px rgba(201,168,76,0.6), 0 0 0 0 transparent; }
+  0%   { box-shadow: 0 -8px 16px -4px rgba(27,58,92,0.6), 0 0 0 0 transparent; }
+  25%  { box-shadow: 8px 0 16px -4px rgba(27,58,92,0.6), 0 0 0 0 transparent; }
+  50%  { box-shadow: 0 8px 16px -4px rgba(27,58,92,0.6), 0 0 0 0 transparent; }
+  75%  { box-shadow: -8px 0 16px -4px rgba(27,58,92,0.6), 0 0 0 0 transparent; }
+  100% { box-shadow: 0 -8px 16px -4px rgba(27,58,92,0.6), 0 0 0 0 transparent; }
 }
 
 .cedar-sun-glow {
@@ -208,19 +210,19 @@ select option {
 }
 .card-dramatic:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(201, 168, 76, 0.08);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(27, 58, 92, 0.12);
 }
 
-/* Gold underline effect */
-.gold-line {
+/* Navy underline effect */
+.navy-line {
   position: relative;
 }
-.gold-line::after {
+.navy-line::after {
   content: '';
   position: absolute;
   bottom: -8px;
   left: 0;
   width: 60px;
   height: 2px;
-  background: #C9A84C;
+  background: #1B3A5C;
 }

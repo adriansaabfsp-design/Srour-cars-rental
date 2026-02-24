@@ -125,7 +125,7 @@ export default function Home() {
               />
             </div>
           ) : (
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(201,168,76,0.15),_transparent)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.15),_transparent)]" />
           )}
 
           {/* overlays */}
@@ -137,17 +137,17 @@ export default function Home() {
             <div className="hero-corner-enter">
               <h1 className="font-serif leading-[0.95] drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">
                 <span className="flex items-baseline">
-                  <span className="text-xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">Leb</span>
+                  <span className="text-xl font-black tracking-wider text-white sm:text-5xl lg:text-6xl">Leb</span>
                   <span className="cedar-sun-glow relative inline-flex items-center justify-center mx-[-1px] sm:mx-[-2px]">
-                    <svg className="h-5 w-5 text-gold drop-shadow-[0_2px_12px_rgba(201,168,76,0.5)] sm:h-12 sm:w-12 lg:h-14 lg:w-14" viewBox="0 0 64 64" fill="currentColor">
+                    <svg className="h-5 w-5 text-navy drop-shadow-[0_2px_12px_rgba(27,58,92,0.5)] sm:h-12 sm:w-12 lg:h-14 lg:w-14" viewBox="0 0 64 64" fill="currentColor">
                       <path d="M32 4c-1.2 3.2-4 6.4-4 9.6 0 2.4 1.6 4 2.8 5.6-2-.8-4.8-1.6-6.8-.8-2.4 1-3.2 3.2-2.4 5.2.8 1.6 2.8 2.8 4.4 3.2-2.4.4-5.6 1.2-7.2 3.2-1.4 2-.8 4.4.8 6 1.6 1.4 4 2 6 2-1.6 1.2-3.6 2.8-4 4.8-.4 2.4 1.2 4 3.2 4.8H32V4z" />
                       <path d="M32 4c1.2 3.2 4 6.4 4 9.6 0 2.4-1.6 4-2.8 5.6 2-.8 4.8-1.6 6.8-.8 2.4 1 3.2 3.2 2.4 5.2-.8 1.6-2.8 2.8-4.4 3.2 2.4.4 5.6 1.2 7.2 3.2 1.4 2 .8 4.4-.8 6-1.6 1.4-4 2-6 2 1.6 1.2 3.6 2.8 4 4.8.4 2.4-1.2 4-3.2 4.8H32V4z" />
                       <rect x="30" y="48" width="4" height="14" rx="1" />
                     </svg>
                   </span>
-                  <span className="text-xl font-black tracking-wider text-gold sm:text-5xl lg:text-6xl">non</span>
+                  <span className="text-xl font-black tracking-wider text-white sm:text-5xl lg:text-6xl">non</span>
                 </span>
-                <span className="block text-xs font-bold uppercase tracking-[0.4em] text-gold/70 sm:text-2xl lg:text-3xl">Rental</span>
+                <span className="block text-xs font-bold uppercase tracking-[0.4em] text-white/50 sm:text-2xl lg:text-3xl">Rental</span>
               </h1>
             </div>
           </div>
@@ -160,9 +160,9 @@ export default function Home() {
                   Rent Your
                 </p>
                 <p className="hero-tagline-word mt-1 font-serif text-2xl font-black uppercase tracking-[0.15em] sm:text-6xl lg:text-7xl">
-                  <span className="bg-gradient-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(201,168,76,0.4)]">Dream Ride</span>
+                  <span className="bg-gradient-to-r from-terra via-terra-light to-terra bg-clip-text text-transparent drop-shadow-[0_2px_20px_rgba(192,86,42,0.4)]">Dream Ride</span>
                 </p>
-                <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-gold to-transparent" />
+                <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-navy to-transparent" />
               </div>
             </div>
           </div>
@@ -178,7 +178,7 @@ export default function Home() {
               >
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-[0.35em] text-gold sm:text-[11px]">
+                    <div className="text-[9px] font-bold uppercase tracking-[0.35em] text-terra sm:text-[11px]">
                       {currentHeroCar.brand} &middot; {currentHeroCar.year}
                     </div>
                     <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
@@ -197,15 +197,15 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <div className="bg-gold px-5 py-2.5 sm:px-6 sm:py-3">
-                      <span className="text-xl font-extrabold text-black sm:text-2xl">
+                    <div className="bg-terra px-5 py-2.5 sm:px-6 sm:py-3">
+                      <span className="text-xl font-extrabold text-white sm:text-2xl">
                         ${currentHeroCar.price}
                       </span>
-                      <span className="text-[10px] font-bold text-black/50 sm:text-xs">/day</span>
+                      <span className="text-[10px] font-bold text-white/50 sm:text-xs">/day</span>
                     </div>
                     <Link
                       href={"/cars/" + currentHeroCar.id}
-                      className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-gold transition-colors hover:text-gold-light sm:text-[11px]"
+                      className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-terra transition-colors hover:text-terra-light sm:text-[11px]"
                     >
                       View Details &rarr;
                     </Link>
@@ -220,7 +220,7 @@ export default function Home() {
             <>
               <button
                 onClick={heroPrev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-gold hover:text-black sm:left-6 sm:h-12 sm:w-12"
+                className="absolute left-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-terra hover:text-white sm:left-6 sm:h-12 sm:w-12"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -228,7 +228,7 @@ export default function Home() {
               </button>
               <button
                 onClick={heroNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-gold hover:text-black sm:right-6 sm:h-12 sm:w-12"
+                className="absolute right-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-terra hover:text-white sm:right-6 sm:h-12 sm:w-12"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -253,7 +253,7 @@ export default function Home() {
                   className={
                     "transition-all duration-300 " +
                     (i === heroIndex % featuredCars.length
-                      ? "h-2 w-7 bg-gold"
+                      ? "h-2 w-7 bg-terra"
                       : "h-2 w-2 bg-white/30 hover:bg-white/50")
                   }
                 />
@@ -265,17 +265,17 @@ export default function Home() {
 
       {/* ─── COMPLETE YOUR STAY ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(201,168,76,0.06),_transparent)]" />
-        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 0L40 20L20 40L0 20Z\' fill=\'none\' stroke=\'%23C9A84C\' stroke-width=\'0.5\'/%3E%3C/svg%3E")', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(27,58,92,0.06),_transparent)]" />
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 0L40 20L20 40L0 20Z\' fill=\'none\' stroke=\'%231B3A5C\' stroke-width=\'0.5\'/%3E%3C/svg%3E")', backgroundSize: '40px 40px' }} />
         <div className="relative mx-auto max-w-4xl px-4 py-14 text-center sm:px-6 sm:py-20">
-          <div className="mx-auto mb-6 h-[1px] w-24 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50 sm:text-xs">
+          <div className="mx-auto mb-6 h-[1px] w-24 bg-gradient-to-r from-transparent via-navy/40 to-transparent" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Cross Promotion
           </p>
           <h2 className="mt-4 font-serif text-2xl font-bold text-white sm:text-4xl">
             STAYING IN LEBANON?
           </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-gold/60 sm:text-base">
+          <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-navy sm:text-base">
             Complete your experience with a premium car delivered to your villa or chalet
           </p>
           <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-white/30">
@@ -285,7 +285,7 @@ export default function Home() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
             <a
               href="/#collection"
-              className="inline-block border border-gold bg-gold px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-black transition-all hover:bg-gold-light"
+              className="inline-block border border-terra bg-terra px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
             >
               Browse Our Fleet
             </a>
@@ -293,12 +293,12 @@ export default function Home() {
               href="https://lebanon-rental.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block border border-gold/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-gold transition-all hover:bg-gold hover:text-black"
+              className="inline-block border border-terra/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
             >
               Browse Lebanon Rental Properties &rarr;
             </a>
           </div>
-          <div className="mx-auto mt-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+          <div className="mx-auto mt-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-navy/40 to-transparent" />
         </div>
       </section>
 
@@ -306,9 +306,9 @@ export default function Home() {
       <section className="border-b border-luxury-border">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="mb-8 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Find your perfect match</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Find your perfect match</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">BROWSE BY CATEGORY</h2>
-            <div className="mx-auto mt-3 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+            <div className="mx-auto mt-3 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
           <div className="flex gap-4 overflow-x-auto pb-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
             {([
@@ -325,10 +325,10 @@ export default function Home() {
                   setActiveCategory(cat.name);
                   document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex-shrink-0 flex flex-col items-center gap-3 border border-luxury-border bg-luxury-card px-8 py-6 transition-all hover:border-gold/40 hover:bg-gold/5 sm:px-10"
+                className="group flex-shrink-0 flex flex-col items-center gap-3 border border-luxury-border bg-luxury-card px-8 py-6 transition-all hover:border-terra/40 hover:bg-terra/5 sm:px-10"
               >
-                <div className="text-white/20 transition-colors group-hover:text-gold">{cat.icon}</div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors group-hover:text-gold">
+                <div className="text-white/20 transition-colors group-hover:text-terra">{cat.icon}</div>
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/40 transition-colors group-hover:text-terra">
                   {cat.name}
                 </span>
               </button>
@@ -344,7 +344,7 @@ export default function Home() {
           <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
             CHOOSE YOUR CAR RENTAL
           </h2>
-          <div className="mx-auto mt-3 h-[2px] w-20 bg-gold" />
+          <div className="mx-auto mt-3 h-[2px] w-20 bg-terra" />
         </div>
 
         {/* search */}
@@ -363,7 +363,7 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, brand, year..."
-              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-12 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-gold/50"
+              className="w-full border border-luxury-border bg-luxury-card py-3.5 pl-12 pr-4 text-sm text-white placeholder-white/30 outline-none transition-all focus:border-terra/50"
             />
             {searchQuery && (
               <button
@@ -393,13 +393,13 @@ export default function Home() {
                 className={
                   "px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.12em] transition-all " +
                   (isActive
-                    ? "bg-gold text-black"
-                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-gold/30 hover:text-white")
+                    ? "bg-terra text-white"
+                    : "border border-luxury-border bg-luxury-card text-white/50 hover:border-terra/30 hover:text-white")
                 }
               >
                 {cat}
                 {count > 0 && (
-                  <span className={"ml-1.5 text-[9px] " + (isActive ? "text-black/50" : "text-gold/60")}>
+                  <span className={"ml-1.5 text-[9px] " + (isActive ? "text-white/50" : "text-navy")}>
                     ({count})
                   </span>
                 )}
@@ -422,7 +422,7 @@ export default function Home() {
                 className={
                   "px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider transition-all " +
                   (isActive
-                    ? "border border-gold bg-gold/15 text-gold"
+                    ? "border border-terra bg-terra/15 text-terra"
                     : "border border-luxury-border text-white/30 hover:border-white/20 hover:text-white/50")
                 }
               >
@@ -437,7 +437,7 @@ export default function Home() {
           <select
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-gold [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-terra [color-scheme:dark]"
           >
             {BRANDS.map((b) => (
               <option key={b} value={b}>
@@ -448,7 +448,7 @@ export default function Home() {
           <select
             value={fuel}
             onChange={(e) => setFuel(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-gold [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-terra [color-scheme:dark]"
           >
             <option value="All">All Fuel Types</option>
             {FUEL_TYPES.map((f) => (
@@ -458,7 +458,7 @@ export default function Home() {
           <select
             value={transmission}
             onChange={(e) => setTransmission(e.target.value)}
-            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-gold [color-scheme:dark]"
+            className="border border-luxury-border bg-luxury-card px-4 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white/50 outline-none transition-colors focus:border-terra [color-scheme:dark]"
           >
             <option value="All">All Transmissions</option>
             {TRANSMISSIONS.map((t) => (
@@ -468,7 +468,7 @@ export default function Home() {
           {hasFilters && (
             <button
               onClick={resetFilters}
-              className="text-[10px] font-bold uppercase tracking-wider text-gold hover:text-gold-light transition-colors"
+              className="text-[10px] font-bold uppercase tracking-wider text-terra hover:text-terra-light transition-colors"
             >
               Clear Filters
             </button>
@@ -484,10 +484,10 @@ export default function Home() {
               <>
                 {filteredCars.length} vehicle{filteredCars.length !== 1 ? "s" : ""}
                 {activeCategory !== "All" && (
-                  <span className="text-gold"> &middot; {activeCategory}</span>
+                  <span className="text-terra"> &middot; {activeCategory}</span>
                 )}
                 {activeRoad !== "All Terrain" && (
-                  <span className="text-gold"> &middot; {activeRoad}</span>
+                  <span className="text-terra"> &middot; {activeRoad}</span>
                 )}
               </>
             )}
@@ -517,7 +517,7 @@ export default function Home() {
             <p className="mt-2 text-sm text-white/40">Adjust your filters to discover more</p>
             <button
               onClick={resetFilters}
-              className="mt-6 border border-gold bg-transparent px-8 py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-gold transition-all hover:bg-gold hover:text-black"
+              className="mt-6 border border-terra bg-transparent px-8 py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-terra transition-all hover:bg-terra hover:text-white"
             >
               Reset Filters
             </button>
@@ -537,9 +537,9 @@ export default function Home() {
       <section className="border-t border-luxury-border bg-black/40">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-8 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Booking</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Booking</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">CHECK AVAILABILITY</h2>
-            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
           <div className="mx-auto max-w-4xl border border-luxury-border bg-luxury-card p-6 sm:p-8">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -549,7 +549,7 @@ export default function Home() {
                 <select
                   value={pickupCity}
                   onChange={(e) => setPickupCity(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-gold/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
                 >
                   {["Beirut","Tripoli","Jounieh","Batroun","Jbeil (Byblos)","Sidon","Tyre","Faraya","Zahle"].map((c) => (
                     <option key={c} value={c}>{c}</option>
@@ -563,7 +563,7 @@ export default function Home() {
                   type="date"
                   value={pickupDate}
                   onChange={(e) => setPickupDate(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-gold/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
                 />
               </div>
               {/* Return Date */}
@@ -573,7 +573,7 @@ export default function Home() {
                   type="date"
                   value={returnDate}
                   onChange={(e) => setReturnDate(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-gold/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
                 />
               </div>
               {/* Car Type */}
@@ -582,7 +582,7 @@ export default function Home() {
                 <select
                   value={carType}
                   onChange={(e) => setCarType(e.target.value)}
-                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-gold/50 [color-scheme:dark]"
+                  className="border border-luxury-border bg-luxury-dark px-4 py-3 text-sm text-white outline-none transition-colors focus:border-terra/50 [color-scheme:dark]"
                 >
                   {["Any","Sedan","SUV","Luxury","Economy","4x4","Convertible"].map((t) => (
                     <option key={t} value={t}>{t}</option>
@@ -602,7 +602,7 @@ export default function Home() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 border border-gold bg-gold px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-black transition-all hover:bg-gold-light"
+                className="inline-flex items-center gap-2 border border-terra bg-terra px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-terra-light"
               >
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
@@ -619,9 +619,9 @@ export default function Home() {
       <section className="border-t border-luxury-border">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-10 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">From our blog</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">From our blog</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">TRAVEL INSIGHTS</h2>
-            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
           <div className="grid gap-5 sm:grid-cols-3">
             {[
@@ -644,16 +644,16 @@ export default function Home() {
               <a
                 key={article.title}
                 href={article.href}
-                className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-gold/30"
+                className="group border border-luxury-border bg-luxury-card p-6 transition-all hover:border-terra/30"
               >
-                <div className="mb-4 h-[2px] w-8 bg-gold/30 transition-all group-hover:w-12 group-hover:bg-gold" />
-                <h3 className="font-serif text-lg font-bold text-white transition-colors group-hover:text-gold">
+                <div className="mb-4 h-[2px] w-8 bg-terra/30 transition-all group-hover:w-12 group-hover:bg-terra" />
+                <h3 className="font-serif text-lg font-bold text-white transition-colors group-hover:text-terra">
                   {article.title}
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-white/30">
                   {article.desc}
                 </p>
-                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-gold/50 transition-colors group-hover:text-gold">
+                <span className="mt-4 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-terra">
                   Read More &rarr;
                 </span>
               </a>
@@ -666,11 +666,11 @@ export default function Home() {
       <section className="border-t border-luxury-border">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-10 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Follow us</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Follow us</p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
               @LEBANON.RENTAL
             </h2>
-            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
           <div className="w-full overflow-hidden rounded-sm">
             <iframe
@@ -688,14 +688,14 @@ export default function Home() {
       {/* ─── GOOGLE REVIEWS WIDGET ─── */}
       <section className="border-t border-luxury-border">
         <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(201,168,76,0.05),_transparent)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(27,58,92,0.05),_transparent)]" />
           <div className="relative mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
             <div className="mb-10 text-center">
-              <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Reviews</p>
+              <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Reviews</p>
               <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
                 TRUSTED BY OUR CLIENTS
               </h2>
-              <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+              <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
             </div>
             <div className="w-full overflow-hidden rounded-sm">
               <iframe
@@ -718,29 +718,29 @@ export default function Home() {
       <section className="border-t border-luxury-border bg-luxury-card">
         <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-8 px-4 py-12 sm:gap-12 sm:py-16 md:gap-16">
           <div className="text-center">
-            <div className="font-serif text-4xl font-bold text-gold sm:text-5xl">50+</div>
+            <div className="font-serif text-4xl font-bold text-white sm:text-5xl">50+</div>
             <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
               Luxury Cars
             </div>
           </div>
           <div className="h-12 w-px bg-luxury-border" />
           <div className="text-center">
-            <div className="font-serif text-4xl font-bold text-gold sm:text-5xl">24/7</div>
+            <div className="font-serif text-4xl font-bold text-white sm:text-5xl">24/7</div>
             <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
               Support
             </div>
           </div>
           <div className="h-12 w-px bg-luxury-border" />
           <div className="text-center">
-            <div className="font-serif text-4xl font-bold text-gold sm:text-5xl">VIP</div>
+            <div className="font-serif text-4xl font-bold text-white sm:text-5xl">VIP</div>
             <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
               Service
             </div>
           </div>
           <div className="h-12 w-px bg-luxury-border" />
           <a href="https://lebanon-rental.com" target="_blank" rel="noopener noreferrer" className="text-center group">
-            <div className="font-serif text-4xl font-bold text-gold transition-colors group-hover:text-gold-light sm:text-5xl">1000+</div>
-            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40 transition-colors group-hover:text-gold/50">
+            <div className="font-serif text-4xl font-bold text-terra transition-colors group-hover:text-terra-light sm:text-5xl">1000+</div>
+            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40 transition-colors group-hover:text-navy">
               Partner Properties
             </div>
           </a>

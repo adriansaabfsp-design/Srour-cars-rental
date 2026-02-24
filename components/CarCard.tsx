@@ -72,7 +72,7 @@ export default function CarCard({ car }: { car: Car }) {
           <>
             <button
               onClick={goPrev}
-              className="absolute left-2 top-1/2 z-20 -translate-y-1/2 border border-white/10 bg-black/70 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 hover:border-gold/30 hover:bg-black/90"
+              className="absolute left-2 top-1/2 z-20 -translate-y-1/2 border border-white/10 bg-black/70 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 hover:border-terra/30 hover:bg-black/90"
             >
               <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -80,7 +80,7 @@ export default function CarCard({ car }: { car: Car }) {
             </button>
             <button
               onClick={goNext}
-              className="absolute right-2 top-1/2 z-20 -translate-y-1/2 border border-white/10 bg-black/70 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 hover:border-gold/30 hover:bg-black/90"
+              className="absolute right-2 top-1/2 z-20 -translate-y-1/2 border border-white/10 bg-black/70 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 hover:border-terra/30 hover:bg-black/90"
             >
               <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -98,7 +98,7 @@ export default function CarCard({ car }: { car: Car }) {
                     setCurrentIndex(i);
                   }}
                   className={`h-1.5 transition-all duration-300 ${
-                    i === currentIndex ? "w-4 bg-gold" : "w-1.5 bg-white/40 hover:bg-white/60"
+                    i === currentIndex ? "w-4 bg-terra" : "w-1.5 bg-white/40 hover:bg-white/60"
                   }`}
                 />
               ))}
@@ -109,11 +109,11 @@ export default function CarCard({ car }: { car: Car }) {
         {/* Top-left badges */}
         <div className="absolute top-0 left-0 flex flex-col gap-1 z-10">
           {car.featured && (
-            <div className="flex items-center gap-1 sm:gap-1.5 bg-gold px-2 py-1 sm:px-3 sm:py-1.5">
-              <svg className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-black" fill="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-1 sm:gap-1.5 bg-navy px-2 py-1 sm:px-3 sm:py-1.5">
+              <svg className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-white" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
-              <span className="text-[7px] sm:text-[9px] font-extrabold uppercase tracking-[0.2em] text-black">Featured</span>
+              <span className="text-[7px] sm:text-[9px] font-extrabold uppercase tracking-[0.2em] text-white">Featured</span>
             </div>
           )}
           {isUnavailable && (
@@ -128,9 +128,9 @@ export default function CarCard({ car }: { car: Car }) {
         </div>
 
         {/* Gold price badge — sharp, bold */}
-        <div className="absolute top-0 right-0 bg-gold px-2.5 py-1.5 sm:px-4 sm:py-2 z-10">
-          <span className="text-xs sm:text-sm font-extrabold text-black">${car.price}</span>
-          <span className="text-[8px] sm:text-[10px] font-bold text-black/60">/day</span>
+        <div className="absolute top-0 right-0 bg-terra px-2.5 py-1.5 sm:px-4 sm:py-2 z-10">
+          <span className="text-xs sm:text-sm font-extrabold text-white">${car.price}</span>
+          <span className="text-[8px] sm:text-[10px] font-bold text-white/60">/day</span>
         </div>
 
         {/* Video indicator */}
@@ -144,7 +144,7 @@ export default function CarCard({ car }: { car: Car }) {
 
         {/* Bottom info overlay on image */}
         <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-5 z-10 pointer-events-none">
-          <div className="mb-1 sm:mb-1.5 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-gold">
+          <div className="mb-1 sm:mb-1.5 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-terra">
             {car.brand}
           </div>
           <h3 className="font-serif text-base sm:text-2xl font-bold text-white">{car.name}</h3>
@@ -155,7 +155,7 @@ export default function CarCard({ car }: { car: Car }) {
       <div className="flex items-center justify-between border-t border-luxury-border bg-luxury-card px-3 py-2.5 sm:px-5 sm:py-4">
         <div className="flex items-center gap-2 sm:gap-6 text-[9px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40">
           <span className="flex items-center gap-1">
-            <span className="text-gold">{car.year}</span>
+            <span className="text-terra">{car.year}</span>
           </span>
           <span className="hidden min-[400px]:flex items-center gap-1">
             {car.mileage.toLocaleString()} km
@@ -164,7 +164,7 @@ export default function CarCard({ car }: { car: Car }) {
             {car.transmission === "Automatic" ? "Auto" : car.transmission}
           </span>
         </div>
-        <svg className="h-3 w-3 sm:h-4 sm:w-4 text-gold/30 transition-all duration-300 group-hover:translate-x-2 group-hover:text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="h-3 w-3 sm:h-4 sm:w-4 text-terra/30 transition-all duration-300 group-hover:translate-x-2 group-hover:text-terra" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </div>

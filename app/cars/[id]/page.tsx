@@ -62,7 +62,7 @@ export default function CarDetailPage() {
         <p className="mt-2 text-white/40">This listing may have been removed.</p>
         <Link
           href="/"
-          className="mt-8 border border-gold bg-transparent px-10 py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] text-gold transition-all duration-300 hover:bg-gold hover:text-black"
+          className="mt-8 border border-terra bg-transparent px-10 py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] text-terra transition-all duration-300 hover:bg-terra hover:text-white"
         >
           Return to Collection
         </Link>
@@ -77,7 +77,7 @@ export default function CarDetailPage() {
         <nav className="mb-8 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em]">
           <Link
             href="/"
-            className="text-white/40 transition-colors hover:text-gold"
+            className="text-white/40 transition-colors hover:text-terra"
           >
             Home
           </Link>
@@ -86,14 +86,14 @@ export default function CarDetailPage() {
           </svg>
           <Link
             href="/#collection"
-            className="text-white/40 transition-colors hover:text-gold"
+            className="text-white/40 transition-colors hover:text-terra"
           >
             Collection
           </Link>
           <svg className="h-3 w-3 text-white/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
-          <span className="text-gold">{car.name}</span>
+          <span className="text-terra">{car.name}</span>
         </nav>
 
         <div className="grid gap-8 lg:grid-cols-5">
@@ -113,7 +113,7 @@ export default function CarDetailPage() {
             <div className="border border-luxury-border bg-luxury-card p-8">
               {/* Badges: brand, available, featured */}
               <div className="mb-2 flex items-center gap-3 flex-wrap">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-gold">
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-terra">
                   {car.brand}
                 </span>
                 {car.available === false && (
@@ -124,7 +124,7 @@ export default function CarDetailPage() {
                   </span>
                 )}
                 {car.featured && (
-                  <span className="flex items-center gap-1 bg-gold/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-gold">
+                  <span className="flex items-center gap-1 bg-navy/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-navy-light">
                     <svg className="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                     </svg>
@@ -137,7 +137,7 @@ export default function CarDetailPage() {
               </h1>
 
               <div className="mt-6 flex items-baseline gap-1">
-                <span className="font-serif text-5xl font-bold text-gold">
+                <span className="font-serif text-5xl font-bold text-terra">
                   ${car.price}
                 </span>
                 <span className="text-sm text-white/30">/day</span>
