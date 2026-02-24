@@ -73,9 +73,6 @@ export default function Home() {
   const [transmission, setTransmission] = useState("All");
   const [heroIndex, setHeroIndex] = useState(0);
   const [heroTransition, setHeroTransition] = useState(false);
-  const carTrainRef = useRef<HTMLDivElement | null>(null);
-  const [isCarTrainDragging, setIsCarTrainDragging] = useState(false);
-  const carTrainPauseUntilRef = useRef(0);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -94,33 +91,6 @@ export default function Home() {
   }, []);
 
   const featuredCars = cars.filter((c) => c.featured);
-
-  useEffect(() => {
-    const element = carTrainRef.current;
-    if (!element || featuredCars.length === 0) return;
-
-    let frameId = 0;
-    const speedPerFrame = 0.55;
-
-    const animate = () => {
-      if (!carTrainRef.current) return;
-      if (!isCarTrainDragging && Date.now() > carTrainPauseUntilRef.current) {
-        element.scrollLeft += speedPerFrame;
-        const firstSetWidth = element.scrollWidth / 2;
-        if (firstSetWidth > 0 && element.scrollLeft >= firstSetWidth) {
-          element.scrollLeft -= firstSetWidth;
-        }
-      }
-      frameId = requestAnimationFrame(animate);
-    };
-
-    frameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameId);
-  }, [featuredCars.length, isCarTrainDragging]);
-
-  const pauseCarTrain = () => {
-    carTrainPauseUntilRef.current = Date.now() + 2500;
-  };
 
   const heroNext = useCallback(() => {
     if (featuredCars.length <= 1) return;
@@ -218,7 +188,7 @@ export default function Home() {
               alt="Lebanon Rental"
               width={400}
               height={400}
-              className="h-40 w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
+              className="h-44 w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
               priority
             />
           </div>
@@ -234,36 +204,25 @@ export default function Home() {
           <div className="hero-tagline-line absolute bottom-5 left-1/2 -translate-x-1/2 h-[1px] w-28 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
         </div>
 
-        {/* Auto-scrolling car train */}
-        <div className="relative w-full overflow-hidden pb-4">
-          <div
-            ref={carTrainRef}
-            className="scrollbar-hide overflow-x-auto"
-            onTouchStart={() => {
-              setIsCarTrainDragging(true);
-              pauseCarTrain();
-            }}
-            onTouchEnd={() => {
-              setIsCarTrainDragging(false);
-              pauseCarTrain();
-            }}
-            onMouseDown={() => {
-              setIsCarTrainDragging(true);
-              pauseCarTrain();
-            }}
-            onMouseUp={() => {
-              setIsCarTrainDragging(false);
-              pauseCarTrain();
-            }}
-            onMouseLeave={() => setIsCarTrainDragging(false)}
+        {/* Auto-scrolling car train + search icon */}
+        <div className="relative w-full overflow-hidden pb-3">
+          {/* Search icon overlay */}
+          <button
+            onClick={() => document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" })}
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 shadow-lg backdrop-blur-sm transition-all hover:bg-white"
+            aria-label="Search cars"
           >
-            <div className="flex w-max gap-3 px-2">
-              {[...featuredCars, ...featuredCars].map((car, i) => (
+            <svg className="h-4 w-4 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </button>
+          <div className="car-train-track flex">
+            {/* Duplicate the list for seamless infinite scroll */}
+            {[...featuredCars, ...featuredCars, ...featuredCars, ...featuredCars].map((car, i) => (
               <Link
                 key={car.id + "-" + i}
                 href={"/cars/" + car.id}
-                className="car-train-card relative w-40 flex-shrink-0 overflow-hidden group"
-                onClick={() => pauseCarTrain()}
+                className="car-train-card relative flex-shrink-0 w-36 mx-1 overflow-hidden group"
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <img
@@ -286,7 +245,6 @@ export default function Home() {
                 </div>
               </Link>
             ))}
-            </div>
           </div>
         </div>
       </section>
@@ -441,6 +399,40 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── BROWSE BY CATEGORY ─── */}
+      <section className="border-b border-luxury-border">
+        <div className="mx-auto max-w-6xl px-3 py-3 sm:px-6 sm:py-16">
+          <div className="mb-2 text-center sm:mb-8">
+            <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[10px] sm:tracking-[0.5em]">Find your perfect match</p>
+            <h2 className="mt-1 font-serif text-lg font-bold text-gray-900 sm:mt-3 sm:text-4xl">BROWSE BY CATEGORY</h2>
+          </div>
+          <div className="flex gap-1.5 overflow-x-auto pb-1 sm:gap-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
+            {([
+              { name: "Sedan", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h13L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "SUV", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l1.5-4h15L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="9" width="18" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "Luxury", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4.5L6 21l1.5-7.5L2 9h7l3-7z" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "Economy", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 0V4m0 16v-4m8-4h-4M8 12H4" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "4x4", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M2 13l2-5h16l2 5M7 17a2.5 2.5 0 11-5 0M22 17a2.5 2.5 0 11-5 0M10 8V5M14 8V5" strokeLinecap="round" strokeLinejoin="round" /><rect x="2" y="13" width="20" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "Convertible", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h8l4.5 1L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+            ] as const).map((cat) => (
+              <button
+                key={cat.name}
+                onClick={() => {
+                  setActiveCategory(cat.name);
+                  document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="group flex-shrink-0 flex min-w-[72px] flex-col items-center gap-1.5 border border-luxury-border bg-luxury-card px-3 py-2 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:min-w-0 sm:gap-2 sm:px-10 sm:py-6"
+              >
+                <div className="text-gray-900/20 transition-colors group-hover:text-gray-900/60">{cat.icon}</div>
+                <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-900/40 transition-colors group-hover:text-gray-900/70 sm:text-[11px] sm:tracking-[0.2em]">
+                  {cat.name}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ─── COMPLETE YOUR STAY ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border">
         <div className="relative mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-10">
@@ -482,47 +474,11 @@ export default function Home() {
               <div className="relative h-full min-h-[140px] sm:min-h-[200px]">
                 <PropertySlideshow />
               </div>
-              {/* White fade edges */}
               <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-white to-transparent" />
               <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white to-transparent" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-white to-transparent" />
               <div className="pointer-events-none absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-white to-transparent" />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── BROWSE BY CATEGORY ─── */}
-      <section className="border-b border-luxury-border">
-        <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 sm:py-16">
-          <div className="mb-2 text-center sm:mb-8">
-            <p className="hidden text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:block">Find your perfect match</p>
-            <h2 className="mt-1 font-serif text-lg font-bold text-gray-900 sm:mt-3 sm:text-4xl">BROWSE BY CATEGORY</h2>
-            <div className="mx-auto mt-2 h-[2px] w-14 bg-gradient-to-r from-transparent via-navy to-transparent sm:mt-3 sm:w-16" />
-          </div>
-          <div className="flex gap-1.5 overflow-x-auto pb-1 sm:gap-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
-            {([
-              { name: "Sedan", icon: <svg className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h13L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "SUV", icon: <svg className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l1.5-4h15L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="9" width="18" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "Luxury", icon: <svg className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4.5L6 21l1.5-7.5L2 9h7l3-7z" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "Economy", icon: <svg className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 0V4m0 16v-4m8-4h-4M8 12H4" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "4x4", icon: <svg className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M2 13l2-5h16l2 5M7 17a2.5 2.5 0 11-5 0M22 17a2.5 2.5 0 11-5 0M10 8V5M14 8V5" strokeLinecap="round" strokeLinejoin="round" /><rect x="2" y="13" width="20" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "Convertible", icon: <svg className="h-8 w-8 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h8l4.5 1L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-            ] as const).map((cat) => (
-              <button
-                key={cat.name}
-                onClick={() => {
-                  setActiveCategory(cat.name);
-                  document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
-                }}
-                className="group flex-shrink-0 flex min-w-[86px] flex-col items-center gap-1.5 border border-luxury-border bg-luxury-card px-3 py-2.5 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:min-w-0 sm:gap-2 sm:px-10 sm:py-6"
-              >
-                <div className="text-gray-900/20 transition-colors group-hover:text-gray-900/60">{cat.icon}</div>
-                <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-gray-900/40 transition-colors group-hover:text-gray-900/70 sm:text-[11px] sm:tracking-[0.2em]">
-                  {cat.name}
-                </span>
-              </button>
-            ))}
           </div>
         </div>
       </section>
