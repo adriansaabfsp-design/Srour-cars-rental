@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import TopBanner from "@/components/TopBanner";
 
@@ -36,20 +37,13 @@ export default function RootLayout({
             <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
               {/* Brand */}
               <div className="flex flex-col items-center sm:items-start">
-                <div className="flex items-center gap-1.5">
-                  <div className="flex items-baseline">
-                    <span className="font-serif text-2xl font-bold tracking-wider text-white">Leb</span>
-                    <span className="cedar-sun-glow relative inline-flex items-center justify-center mx-[-1px]">
-                      <svg className="h-7 w-7 text-navy" viewBox="0 0 64 64" fill="currentColor">
-                        <path d="M32 4c-1.2 3.2-4 6.4-4 9.6 0 2.4 1.6 4 2.8 5.6-2-.8-4.8-1.6-6.8-.8-2.4 1-3.2 3.2-2.4 5.2.8 1.6 2.8 2.8 4.4 3.2-2.4.4-5.6 1.2-7.2 3.2-1.4 2-.8 4.4.8 6 1.6 1.4 4 2 6 2-1.6 1.2-3.6 2.8-4 4.8-.4 2.4 1.2 4 3.2 4.8H32V4z" />
-                        <path d="M32 4c1.2 3.2 4 6.4 4 9.6 0 2.4-1.6 4-2.8 5.6 2-.8 4.8-1.6 6.8-.8 2.4 1 3.2 3.2 2.4 5.2-.8 1.6-2.8 2.8-4.4 3.2 2.4.4 5.6 1.2 7.2 3.2 1.4 2 .8 4.4-.8 6-1.6 1.4-4 2-6 2 1.6 1.2 3.6 2.8 4 4.8.4 2.4-1.2 4-3.2 4.8H32V4z" />
-                        <rect x="30" y="48" width="4" height="14" rx="1" />
-                      </svg>
-                    </span>
-                    <span className="font-serif text-2xl font-bold tracking-wider text-white">non</span>
-                  </div>
-                  <span className="text-lg font-bold uppercase tracking-[0.3em] text-white/50">Rental</span>
-                </div>
+                <Image
+                  src="/logo.png"
+                  alt="Lebanon Rental"
+                  width={200}
+                  height={200}
+                  className="h-20 w-auto"
+                />
                 <p className="mt-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white/20">
                   A Lebanon Rental Company
                 </p>
