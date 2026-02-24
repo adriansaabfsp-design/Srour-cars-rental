@@ -5,6 +5,7 @@ import { useState } from "react";
 /* ── categories ── */
 const CATEGORIES = [
   "All",
+  "How to Rent a Car in Lebanon",
   "Rental Requirements",
   "Pricing & Payment",
   "Pickup & Delivery",
@@ -22,6 +23,68 @@ interface FaqItem {
 }
 
 const FAQS: FaqItem[] = [
+  // ─── How to Rent a Car in Lebanon ───
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "How does the car rental process work step by step?",
+    answer:
+      "Renting a car with us is simple and hassle-free! Here's how it works: (1) Browse our online collection and pick the car you love. (2) Send us a message on WhatsApp or fill out a booking request with your dates and preferred vehicle. (3) We'll confirm availability and send you a quote. (4) On pickup day, bring your documents (ID, license, credit card) and sign the rental agreement. (5) We do a quick walk-around inspection together, hand you the keys, and you're off exploring Lebanon! The whole process takes about 15 minutes at pickup.",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "How far in advance should I book?",
+    answer:
+      "We recommend booking at least 3–5 days in advance to guarantee your preferred vehicle, especially during peak season (June–August) and holidays. For luxury or specialty vehicles, booking 1–2 weeks ahead is ideal. That said, we always do our best to accommodate last-minute requests — just reach out and we'll check what's available for you.",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "Can I book same day?",
+    answer:
+      "Yes, same-day bookings are possible depending on availability! Send us a WhatsApp message and we'll let you know within minutes what vehicles are ready for immediate pickup or delivery. During busy summer months, same-day availability may be limited — so the earlier you reach out, the better your options.",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "What happens when I pick up the car?",
+    answer:
+      "When you arrive for pickup (or when we deliver to you), our team will greet you warmly, verify your documents, and walk you through the rental agreement. We'll then do a thorough walk-around inspection of the vehicle together, noting any existing marks or scratches on a condition report that both parties sign. We'll show you all the car's features — from the infotainment system to the fuel cap — and answer any questions. Then you'll get the keys and you're good to go!",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "What is inspected before I drive off?",
+    answer:
+      "Before every rental, we conduct a detailed inspection together. This includes: exterior condition (scratches, dents, paint), all four tires and spare, headlights and taillights, windshield condition, interior cleanliness, fuel level (delivered full), mileage reading, air conditioning, brakes, and all fluid levels. Everything is documented with photos and a signed condition report — this protects both you and us, so there are never any surprises at return.",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "How do I return the car?",
+    answer:
+      "Returning is just as easy as picking up! You can return the car to our Beirut office, or we can arrange a pickup from your hotel, the airport, or any agreed location. We'll do another walk-around inspection together, check the fuel level, and sign off on the return. If everything is in order, your security deposit is released immediately (card refunds take 5–7 business days to process). That's it — quick and painless!",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "What is the fuel policy — do I return it full or empty?",
+    answer:
+      "We operate a full-to-full fuel policy. This means we deliver the car to you with a full tank, and we ask that you return it with a full tank. If the tank isn't full at return, we'll charge for the missing fuel at market rate plus a small refueling service fee. Our tip: fill up at any gas station on your way back — fuel is widely available across Lebanon and stations accept both USD and LBP.",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "Can I extend my rental while already renting?",
+    answer:
+      "Absolutely! Life in Lebanon has a way of making you want to stay longer. Simply contact us via WhatsApp or phone at least 24 hours before your scheduled return, and we'll extend your rental at the same daily rate (subject to availability). If another customer has reserved the same vehicle after you, we'll do our best to offer you a comparable alternative so your trip isn't interrupted.",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "How do I contact you if I have a problem during my rental?",
+    answer:
+      "We're available 24/7 for any issue, big or small. Your fastest option is WhatsApp — message us anytime and you'll get a response within minutes, even at 3 AM. You can also call our hotline directly. Whether it's a flat tire, a question about directions, or anything else, our team is here to help. You'll receive all our contact details in your rental agreement and via a welcome message when you pick up the car.",
+  },
+  {
+    category: "How to Rent a Car in Lebanon",
+    question: "Is there a checklist I should follow before driving off?",
+    answer:
+      "Great question! Here's a quick checklist we recommend: ✓ Walk around the car and verify the condition report matches ✓ Check all mirrors, seat, and steering wheel are adjusted to you ✓ Test the air conditioning ✓ Locate the spare tire and jack ✓ Confirm the fuel is full ✓ Test headlights, turn signals, and wipers ✓ Save our 24/7 contact number in your phone ✓ Download Waze or Google Maps for navigation ✓ Ask us about any road tips for your planned route. Don't worry — our team walks you through all of this at pickup!",
+  },
+
   // ─── Rental Requirements ───
   {
     category: "Rental Requirements",
