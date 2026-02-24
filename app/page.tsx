@@ -258,6 +258,45 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── COMPLETE YOUR STAY ─── */}
+      <section className="relative overflow-hidden border-b border-luxury-border">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(201,168,76,0.06),_transparent)]" />
+        <div className="absolute inset-0 opacity-[0.015]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'40\' height=\'40\' viewBox=\'0 0 40 40\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M20 0L40 20L20 40L0 20Z\' fill=\'none\' stroke=\'%23C9A84C\' stroke-width=\'0.5\'/%3E%3C/svg%3E")', backgroundSize: '40px 40px' }} />
+        <div className="relative mx-auto max-w-4xl px-4 py-14 text-center sm:px-6 sm:py-20">
+          <div className="mx-auto mb-6 h-[1px] w-24 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50 sm:text-xs">
+            Cross Promotion
+          </p>
+          <h2 className="mt-4 font-serif text-2xl font-bold text-white sm:text-4xl">
+            STAYING IN LEBANON?
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-sm font-medium text-gold/60 sm:text-base">
+            Complete your experience with a premium car delivered to your villa or chalet
+          </p>
+          <p className="mx-auto mt-4 max-w-xl text-[13px] leading-relaxed text-white/30">
+            Lebanon Rental guests enjoy priority delivery to over 1,000+ properties across Lebanon
+            — from Batroun to Beirut, Jbeil to the Chouf.
+          </p>
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+            <a
+              href="/#collection"
+              className="inline-block border border-gold bg-gold px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-black transition-all hover:bg-gold-light"
+            >
+              Browse Our Fleet
+            </a>
+            <a
+              href="https://lebanon-rental.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block border border-gold/40 bg-transparent px-7 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-gold transition-all hover:bg-gold hover:text-black"
+            >
+              Browse Lebanon Rental Properties &rarr;
+            </a>
+          </div>
+          <div className="mx-auto mt-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+        </div>
+      </section>
+
       {/* ─── COLLECTION ─── */}
       <div id="collection" className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {/* heading */}
@@ -456,7 +495,7 @@ export default function Home() {
 
       {/* ─── STATS (bottom) ─── */}
       <section className="border-t border-luxury-border bg-luxury-card">
-        <div className="mx-auto flex max-w-4xl items-center justify-center gap-12 px-4 py-12 sm:gap-16 sm:py-16">
+        <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-center gap-8 px-4 py-12 sm:gap-12 sm:py-16 md:gap-16">
           <div className="text-center">
             <div className="font-serif text-4xl font-bold text-gold sm:text-5xl">50+</div>
             <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40">
@@ -477,6 +516,13 @@ export default function Home() {
               Service
             </div>
           </div>
+          <div className="h-12 w-px bg-luxury-border" />
+          <a href="https://lebanon-rental.com" target="_blank" rel="noopener noreferrer" className="text-center group">
+            <div className="font-serif text-4xl font-bold text-gold transition-colors group-hover:text-gold-light sm:text-5xl">1000+</div>
+            <div className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/40 transition-colors group-hover:text-gold/50">
+              Partner Properties
+            </div>
+          </a>
         </div>
       </section>
     </div>

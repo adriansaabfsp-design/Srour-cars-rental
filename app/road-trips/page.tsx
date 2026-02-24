@@ -408,7 +408,7 @@ export default function RoadTripsPage() {
             everything for an unforgettable Lebanese road trip.
           </p>
           <a
-            href="https://wa.me/961"
+            href="https://wa.me/96181062329"
             target="_blank"
             rel="noopener noreferrer"
             className="mt-8 inline-flex items-center gap-3 bg-gold px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-black transition-all hover:bg-gold-light"
