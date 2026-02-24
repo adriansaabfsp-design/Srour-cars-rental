@@ -257,11 +257,11 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
             (isEven ? "lg:border-r" : "lg:order-2 lg:border-l")
           }
         >
-          <Icon className="h-10 w-10 text-navy" />
+          <Icon className="h-10 w-10 text-[#C9A84C]" />
           <h3 className="font-serif text-2xl font-bold uppercase tracking-wide text-white sm:text-3xl">
             {season.name}
           </h3>
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-navy">
+          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#C9A84C]">
             {season.months}
           </p>
         </div>
@@ -270,20 +270,20 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
         <div className={"flex-1 px-6 py-8 sm:px-10 sm:py-10 " + (!isEven ? "lg:order-1" : "")}>
           {/* weather */}
           <div className="mb-6">
-            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.3em] text-navy">Weather</p>
+            <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">Weather</p>
             <p className="text-sm leading-relaxed text-white/50">{season.weather}</p>
           </div>
 
           {/* destinations */}
           <div className="mb-6">
-            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-navy">
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">
               Best Destinations
             </p>
             <div className="flex flex-wrap gap-2">
               {season.destinations.map((d) => (
                 <span
                   key={d}
-                  className="border border-navy/15 bg-navy/5 px-3 py-1.5 text-[11px] font-medium text-navy/80"
+                  className="border border-[#C9A84C]/15 bg-[#C9A84C]/5 px-3 py-1.5 text-[11px] font-medium text-[#C9A84C]/80"
                 >
                   {d}
                 </span>
@@ -293,13 +293,13 @@ function SeasonCard({ season, index }: { season: Season; index: number }) {
 
           {/* recommended car */}
           <div className="mb-6 flex flex-wrap items-center gap-3">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-navy">
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">
               Recommended Car:
             </p>
             <span className="text-sm font-semibold text-white/70">{season.recommendedCar}</span>
             <a
               href="/#collection"
-              className="ml-auto border border-navy/30 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-all hover:bg-navy hover:text-white"
+              className="ml-auto border border-[#C9A84C]/30 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#C9A84C] transition-all hover:bg-[#C9A84C] hover:text-white"
             >
               View Fleet →
             </a>
@@ -354,8 +354,8 @@ function QuizBtn({
       className={
         "border px-4 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] transition-all sm:px-5 " +
         (active
-          ? "border-navy bg-navy text-white"
-          : "border-luxury-border bg-luxury-card text-white/50 hover:border-navy/30 hover:text-white")
+          ? "border-[#C9A84C] bg-[#C9A84C] text-white"
+          : "border-luxury-border bg-luxury-card text-white/50 hover:border-[#C9A84C]/30 hover:text-white")
       }
     >
       {label}
@@ -382,7 +382,7 @@ export default function SeasonalGuidePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
 
         <div className="relative mx-auto max-w-5xl px-4 py-20 text-center sm:py-28 lg:py-32">
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C] sm:text-xs">
             Plan your trip
           </p>
           <h1 className="mt-4 font-serif text-3xl font-black tracking-tight text-white sm:text-5xl lg:text-6xl">
@@ -412,7 +412,7 @@ export default function SeasonalGuidePage() {
       <section className="border-t border-luxury-border bg-black/40">
         <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-10 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C]">
               Quick Reference
             </p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
@@ -428,7 +428,7 @@ export default function SeasonalGuidePage() {
                   {["Month", "Weather", "Crowds", "Prices", "Best Activity"].map((h) => (
                     <th
                       key={h}
-                      className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-[0.25em] text-navy"
+                      className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-[0.25em] text-[#C9A84C]"
                     >
                       {h}
                     </th>
@@ -447,7 +447,7 @@ export default function SeasonalGuidePage() {
                         {m.month}
                       </td>
                       <td className="px-4 py-3.5">
-                        <WIcon className="h-5 w-5 text-navy" />
+                        <WIcon className="h-5 w-5 text-[#C9A84C]" />
                       </td>
                       <td className={`px-4 py-3.5 text-xs font-bold uppercase tracking-wider ${levelColor(m.crowd)}`}>
                         {m.crowd}
@@ -475,7 +475,7 @@ export default function SeasonalGuidePage() {
       <section className="border-t border-luxury-border">
         <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mb-10 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C]">
               Interactive
             </p>
             <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
@@ -491,7 +491,7 @@ export default function SeasonalGuidePage() {
           <div className="space-y-8">
             {/* Q1 */}
             <div className="border border-luxury-border bg-luxury-card p-6 sm:p-8">
-              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-navy">
+              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">
                 1 &mdash; When are you visiting?
               </p>
               <div className="flex flex-wrap gap-2">
@@ -503,7 +503,7 @@ export default function SeasonalGuidePage() {
 
             {/* Q2 */}
             <div className="border border-luxury-border bg-luxury-card p-6 sm:p-8">
-              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-navy">
+              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">
                 2 &mdash; Where are you going?
               </p>
               <div className="flex flex-wrap gap-2">
@@ -515,7 +515,7 @@ export default function SeasonalGuidePage() {
 
             {/* Q3 */}
             <div className="border border-luxury-border bg-luxury-card p-6 sm:p-8">
-              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-navy">
+              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">
                 3 &mdash; How many people?
               </p>
               <div className="flex flex-wrap gap-2">
@@ -527,11 +527,11 @@ export default function SeasonalGuidePage() {
 
             {/* result */}
             {recommendation && (
-              <div className="border border-navy/30 bg-navy/5 p-6 text-center sm:p-8">
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-navy">
+              <div className="border border-[#C9A84C]/30 bg-[#C9A84C]/5 p-6 text-center sm:p-8">
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#C9A84C]">
                   We recommend
                 </p>
-                <p className="mt-3 font-serif text-2xl font-bold text-navy sm:text-3xl">
+                <p className="mt-3 font-serif text-2xl font-bold text-[#C9A84C] sm:text-3xl">
                   {recommendation}
                 </p>
                 <p className="mt-2 text-sm text-white/35">
@@ -540,7 +540,7 @@ export default function SeasonalGuidePage() {
                 </p>
                 <a
                   href="/#collection"
-                  className="mt-6 inline-block bg-navy px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
+                  className="mt-6 inline-block bg-[#C9A84C] px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#C9A84C]-light"
                 >
                   View Fleet →
                 </a>
@@ -553,7 +553,7 @@ export default function SeasonalGuidePage() {
       {/* ─── WHATSAPP CTA ─── */}
       <section className="border-t border-luxury-border bg-luxury-card">
         <div className="mx-auto max-w-3xl px-4 py-16 text-center sm:py-20">
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#C9A84C]">
             Need personalized help?
           </p>
           <h2 className="mt-4 font-serif text-3xl font-bold text-white sm:text-4xl">
@@ -567,7 +567,7 @@ export default function SeasonalGuidePage() {
             href="https://wa.me/96181062329"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-3 bg-navy px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
+            className="mt-8 inline-flex items-center gap-3 bg-[#C9A84C] px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-[#C9A84C]-light"
           >
             <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
