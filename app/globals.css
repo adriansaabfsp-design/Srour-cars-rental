@@ -149,6 +149,39 @@ html {
   animation: taglineFadeUp 0.8s ease-out 0.8s both;
 }
 
+/* Mobile hero: crossfade between logo (A) and tagline (B) */
+@keyframes crossfadeA {
+  0%    { opacity: 0; transform: scale(0.85); filter: blur(6px); }
+  8%    { opacity: 1; transform: scale(1); filter: blur(0); }
+  42%   { opacity: 1; transform: scale(1); filter: blur(0); }
+  50%   { opacity: 0; transform: scale(1.05); filter: blur(4px); }
+  100%  { opacity: 0; transform: scale(1.05); filter: blur(4px); }
+}
+@keyframes crossfadeB {
+  0%    { opacity: 0; transform: scale(1.05); filter: blur(4px); }
+  42%   { opacity: 0; transform: scale(1.05); filter: blur(4px); }
+  50%   { opacity: 0; transform: scale(0.85); filter: blur(6px); }
+  58%   { opacity: 1; transform: scale(1); filter: blur(0); }
+  92%   { opacity: 1; transform: scale(1); filter: blur(0); }
+  100%  { opacity: 0; transform: scale(0.85); filter: blur(6px); }
+}
+.hero-crossfade-a {
+  animation: crossfadeA 6s ease-in-out infinite;
+}
+.hero-crossfade-b {
+  animation: crossfadeB 6s ease-in-out infinite;
+}
+
+/* Car train marquee – continuous right-to-left scroll */
+@keyframes trainScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+.car-train-track {
+  animation: trainScroll 20s linear infinite;
+  will-change: transform;
+}
+
 /* Hide scrollbar for thumbnail train */
 .scrollbar-hide {
   -ms-overflow-style: none;

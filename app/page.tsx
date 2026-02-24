@@ -109,139 +109,65 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      {/* MOBILE: separated logo + text above, car train below */}
+      {/* MOBILE: crossfading logo/tagline + car train marquee */}
       <section className="sm:hidden bg-luxury-black">
-        {/* Logo + Tagline */}
-        <div className="flex flex-col items-center pt-10 pb-6 px-4">
-          <div className="hero-logo-pulse">
+        {/* Crossfading Logo ↔ Tagline */}
+        <div className="relative flex items-center justify-center pt-12 pb-8 px-4" style={{ minHeight: "180px" }}>
+          {/* Lebanon Rental logo */}
+          <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
             <Image
               src="/logo.png"
               alt="Lebanon Rental"
               width={400}
               height={400}
-              className="h-32 w-auto drop-shadow-[0_4px_40px_rgba(0,0,0,0.6)]"
+              className="h-28 w-auto drop-shadow-[0_4px_40px_rgba(0,0,0,0.6)]"
               priority
             />
           </div>
-          <div className="hero-tagline-fade mt-4 text-center">
+          {/* Rent Your Dream Ride tagline */}
+          <div className="hero-crossfade-b absolute inset-0 flex flex-col items-center justify-center text-center">
             <p className="font-serif text-lg font-light italic tracking-wide text-white/70">
               Rent Your
             </p>
             <p className="mt-1 font-serif text-3xl font-black uppercase tracking-[0.12em] text-white">
               Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.02em] align-baseline" />m Ride
             </p>
-            <div className="hero-tagline-line mx-auto mt-3 h-[1px] w-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           </div>
+          <div className="hero-tagline-line absolute bottom-4 left-1/2 -translate-x-1/2 h-[1px] w-24 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
         </div>
 
-        {/* Car train carousel */}
-        <div className="relative w-full overflow-hidden">
-          {/* current car image */}
-          <div className="relative aspect-[16/10] w-full">
-            {currentHeroCar && (
-              <div
-                className={
-                  "absolute inset-0 transition-all duration-500 ease-in-out " +
-                  (heroTransition ? "opacity-0 scale-[1.02]" : "opacity-100 scale-100")
-                }
+        {/* Auto-scrolling car train */}
+        <div className="relative w-full overflow-hidden pb-6">
+          <div className="car-train-track flex">
+            {/* Duplicate the list for seamless infinite scroll */}
+            {[...featuredCars, ...featuredCars, ...featuredCars].map((car, i) => (
+              <Link
+                key={car.id + "-" + i}
+                href={"/cars/" + car.id}
+                className="car-train-card relative flex-shrink-0 w-48 mx-1.5 overflow-hidden group"
               >
-                <img
-                  src={currentHeroCar.photos?.main || currentHeroCar.images?.[0] || ""}
-                  alt={currentHeroCar.name}
-                  className="h-full w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-transparent to-transparent" />
-              </div>
-            )}
-
-            {/* arrows */}
-            {featuredCars.length > 1 && (
-              <>
-                <button
-                  onClick={heroPrev}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center bg-black/50 text-white/70 backdrop-blur-sm"
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={heroNext}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center bg-black/50 text-white/70 backdrop-blur-sm"
-                >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* car info below image */}
-          {currentHeroCar && (
-            <div className="bg-luxury-black px-4 py-4">
-              <div className="flex items-end justify-between gap-3">
-                <div>
-                  <div className="text-[9px] font-bold uppercase tracking-[0.35em] text-white/40">
-                    {currentHeroCar.brand} &middot; {currentHeroCar.year}
-                  </div>
-                  <h2 className="font-serif text-xl font-bold text-white">
-                    {currentHeroCar.name}
-                  </h2>
-                  <div className="mt-0.5 flex items-center gap-2 text-[10px] text-white/30">
-                    <span>{currentHeroCar.transmission}</span>
-                    <span>&middot;</span>
-                    <span>{currentHeroCar.fuel}</span>
-                    {currentHeroCar.category && (
-                      <>
-                        <span>&middot;</span>
-                        <span>{currentHeroCar.category}</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <div className="flex-shrink-0 text-right">
-                  <div className="bg-white/90 backdrop-blur-sm px-4 py-2">
-                    <span className="text-lg font-extrabold text-black">${currentHeroCar.price}</span>
-                    <span className="text-[9px] font-bold text-black/50">/day</span>
-                  </div>
-                  <Link
-                    href={"/cars/" + currentHeroCar.id}
-                    className="mt-1 inline-block text-[9px] font-bold uppercase tracking-[0.2em] text-white/50"
-                  >
-                    View Details &rarr;
-                  </Link>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* thumbnail train */}
-          {featuredCars.length > 1 && (
-            <div className="flex gap-2 overflow-x-auto px-4 pb-5 pt-1 scrollbar-hide">
-              {featuredCars.map((car, i) => (
-                <button
-                  key={car.id}
-                  onClick={() => {
-                    setHeroTransition(true);
-                    setTimeout(() => { setHeroIndex(i); setHeroTransition(false); }, 400);
-                  }}
-                  className={
-                    "relative flex-shrink-0 overflow-hidden transition-all duration-300 " +
-                    (i === heroIndex % featuredCars.length
-                      ? "w-24 h-16 border border-white/40 opacity-100"
-                      : "w-20 h-14 border border-white/10 opacity-50")
-                  }
-                >
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <img
                     src={car.photos?.main || car.images?.[0] || ""}
                     alt={car.name}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
-                </button>
-              ))}
-            </div>
-          )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
+                      {car.brand}
+                    </p>
+                    <p className="text-sm font-bold text-white leading-tight truncate">
+                      {car.name}
+                    </p>
+                    <p className="mt-0.5 text-xs font-extrabold text-white/90">
+                      ${car.price}<span className="text-[9px] font-normal text-white/50">/day</span>
+                    </p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
