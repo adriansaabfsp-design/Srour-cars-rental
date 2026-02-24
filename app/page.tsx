@@ -27,8 +27,8 @@ function PropertySlideshow() {
       setTimeout(() => {
         setIdx((p) => (p + 1) % PROPERTY_IMAGES.length);
         setFade(false);
-      }, 400);
-    }, 3000);
+      }, 600);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
 
@@ -36,7 +36,7 @@ function PropertySlideshow() {
     <img
       src={PROPERTY_IMAGES[idx]}
       alt="Lebanon Rental property"
-      className={`h-full w-full object-cover transition-opacity duration-400 ${fade ? "opacity-0" : "opacity-100"}`}
+      className={`h-full w-full object-cover transition-opacity duration-600 ${fade ? "opacity-0" : "opacity-100"}`}
     />
   );
 }
@@ -370,35 +370,34 @@ export default function Home() {
 
       {/* ─── COMPLETE YOUR STAY ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(27,58,92,0.06),_transparent)]" />
-        <div className="relative mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-14">
-          <div className="flex flex-col items-center gap-5 sm:flex-row sm:gap-10">
+        <div className="relative mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-10">
+          <div className="flex items-stretch gap-3 sm:gap-8">
             {/* Left: text */}
-            <div className="flex-1 text-center sm:text-left">
-              <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
+            <div className="flex flex-1 flex-col justify-center">
+              <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[10px] sm:tracking-[0.5em]">
                 Cross Promotion
               </p>
-              <h2 className="mt-2 font-serif text-xl font-bold text-gray-900 sm:mt-3 sm:text-3xl lg:text-4xl">
+              <h2 className="mt-1 font-serif text-base font-bold text-gray-900 leading-tight sm:mt-2 sm:text-2xl lg:text-3xl">
                 STAYING IN LEBANON?
               </h2>
-              <p className="mt-2 text-sm font-medium text-navy sm:text-base">
-                Complete your experience with a premium car delivered to your villa or chalet
+              <p className="mt-1 text-[11px] font-medium leading-snug text-navy sm:mt-2 sm:text-sm">
+                Get a premium car delivered to your villa or chalet
               </p>
-              <p className="mt-2 text-[12px] leading-relaxed text-gray-900/30 sm:text-[13px]">
-                Lebanon Rental guests enjoy priority delivery to over 1,000+ properties across Lebanon.
+              <p className="mt-1 hidden text-[12px] leading-relaxed text-gray-900/30 sm:block">
+                Priority delivery to 1,000+ properties across Lebanon.
               </p>
-              <div className="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:items-start sm:gap-3">
+              <div className="mt-2 flex items-center gap-2 sm:mt-3">
                 <Link
                   href="/#collection"
-                  className="inline-block border border-navy bg-navy px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light"
+                  className="inline-block border border-navy bg-navy px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white transition-all hover:bg-navy-light sm:px-5 sm:py-2.5 sm:text-[11px] sm:tracking-[0.2em]"
                 >
-                  Browse Our Fleet
+                  Our Fleet
                 </Link>
                 <a
                   href="https://lebanon-rental.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block border border-gray-300 bg-transparent px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/60 transition-all hover:bg-gray-100 hover:text-gray-900"
+                  className="inline-block border border-gray-300 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-gray-900/50 transition-all hover:bg-gray-100 sm:px-5 sm:py-2.5 sm:text-[11px] sm:tracking-[0.2em]"
                 >
                   Properties &rarr;
                 </a>
@@ -406,12 +405,15 @@ export default function Home() {
             </div>
 
             {/* Right: looping property photos */}
-            <div className="relative w-full flex-shrink-0 overflow-hidden rounded-sm sm:w-[340px] lg:w-[400px]" style={{ height: "220px" }}>
-              <PropertySlideshow />
+            <div className="relative w-[42%] flex-shrink-0 overflow-hidden rounded-sm sm:w-[340px] lg:w-[400px]">
+              <div className="relative h-full min-h-[140px] sm:min-h-[200px]">
+                <PropertySlideshow />
+              </div>
               {/* White fade edges */}
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-white to-transparent" />
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-white to-transparent" />
             </div>
           </div>
         </div>
