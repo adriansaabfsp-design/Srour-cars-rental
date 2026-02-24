@@ -179,8 +179,16 @@ export default function CarDetailPage() {
               {/* Divider */}
               <div className="my-7 h-px bg-luxury-border" />
 
-              {/* WhatsApp */}
-              <WhatsAppButton phone={car.whatsapp} carName={car.name} />
+              {/* Rent button */}
+              <Link
+                href={`/book?car=${encodeURIComponent(car.name)}&price=${car.price}&phone=${car.whatsapp}`}
+                className="group inline-flex w-full items-center justify-center gap-3 bg-navy px-8 py-4 text-[13px] font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] active:scale-[0.98]"
+              >
+                <svg className="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+                Rent This Car
+              </Link>
             </div>
           </div>
         </div>
