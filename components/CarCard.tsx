@@ -48,13 +48,13 @@ export default function CarCard({ car }: { car: Car }) {
       href={`/cars/${car.id}`}
       className={`group relative block overflow-hidden border border-gray-200 bg-white transition-all duration-500 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
     >
-      {/* Image — clean, no overlay */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-white">
+      {/* Image */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-50">
         {photoList.length > 0 ? (
           <img
             src={photoList[currentIndex]}
             alt={car.name}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+            className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="flex h-full items-center justify-center bg-gray-100 text-gray-300">
@@ -85,7 +85,7 @@ export default function CarCard({ car }: { car: Car }) {
             </button>
 
             {/* Dot indicators */}
-            <div className="absolute bottom-3 left-1/2 z-20 -translate-x-1/2 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute bottom-2 left-1/2 z-20 -translate-x-1/2 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
               {photoList.map((_, i) => (
                 <button
                   key={i}
@@ -103,19 +103,9 @@ export default function CarCard({ car }: { car: Car }) {
           </>
         )}
 
-        {/* Featured badge — clean white with blue star */}
-        {car.featured && (
-          <div className="absolute top-3 left-3 z-10 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm px-2.5 py-1">
-            <svg className="h-3 w-3 text-navy" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-            <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-black/70">Featured</span>
-          </div>
-        )}
-
         {/* Rented badge */}
         {isUnavailable && (
-          <div className="absolute top-3 left-3 z-10 bg-red-600 px-2.5 py-1">
+          <div className="absolute top-2 left-2 z-10 bg-red-600 px-2 py-0.5">
             <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-white">
               {car.availableFrom
                 ? `Back ${new Date(car.availableFrom + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
@@ -124,15 +114,9 @@ export default function CarCard({ car }: { car: Car }) {
           </div>
         )}
 
-        {/* Price pill — white, top right */}
-        <div className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-sm">
-          <span className="text-xs font-bold text-black">${car.price}</span>
-          <span className="text-[9px] font-medium text-black/50">/day</span>
-        </div>
-
         {/* Video indicator */}
         {car.videoUrl && (
-          <div className="absolute bottom-3 right-3 flex h-7 w-7 items-center justify-center bg-black/50 backdrop-blur-sm z-10">
+          <div className="absolute bottom-2 right-2 flex h-7 w-7 items-center justify-center bg-black/50 backdrop-blur-sm z-10">
             <svg className="h-3.5 w-3.5 text-white/70" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -140,13 +124,31 @@ export default function CarCard({ car }: { car: Car }) {
         )}
       </div>
 
-      {/* Info section — clean, minimal */}
-      <div className="px-4 py-4 sm:px-5 sm:py-5">
-        <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-900/30">
-          {car.brand}
-        </p>
-        <h3 className="mt-1 font-serif text-lg font-bold text-gray-900 sm:text-xl">{car.name}</h3>
-        <div className="mt-3 flex items-center gap-4 text-[10px] font-medium uppercase tracking-wider text-gray-900/25">
+      {/* Info section */}
+      <div className="px-4 py-3 sm:px-5 sm:py-4">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-gray-900/30">
+              {car.brand}
+            </p>
+            <h3 className="mt-0.5 font-serif text-base font-bold leading-tight text-gray-900 sm:text-lg">{car.name}</h3>
+          </div>
+          <div className="flex flex-col items-end flex-shrink-0">
+            {car.featured && (
+              <div className="flex items-center gap-1 mb-1">
+                <svg className="h-2.5 w-2.5 text-navy" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+                <span className="text-[8px] font-bold uppercase tracking-[0.1em] text-navy/60">Featured</span>
+              </div>
+            )}
+            <div className="whitespace-nowrap">
+              <span className="text-base font-bold text-navy sm:text-lg">${car.price}</span>
+              <span className="text-[9px] font-medium text-gray-400">/day</span>
+            </div>
+          </div>
+        </div>
+        <div className="mt-2 flex items-center gap-4 text-[10px] font-medium uppercase tracking-wider text-gray-900/25">
           <span>{car.year}</span>
           <span className="hidden min-[400px]:inline">{car.mileage.toLocaleString()} km</span>
           <span>{car.transmission === "Automatic" ? "Auto" : car.transmission}</span>
