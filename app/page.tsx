@@ -302,63 +302,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── GOOGLE REVIEWS ─── */}
-      <section className="border-b border-luxury-border bg-black/40">
-        <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-20">
-          <div className="mb-10 text-center">
-            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Testimonials</p>
-            <h2 className="mt-3 font-serif text-2xl font-bold text-white sm:text-4xl">
-              WHAT OUR CLIENTS SAY
-            </h2>
-            <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
-            {/* star rating */}
-            <div className="mt-6 flex items-center justify-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <svg key={i} className="h-6 w-6 text-gold" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
-            <p className="mt-2 text-sm text-white/40">
-              <span className="font-semibold text-gold/70">Excellent</span> — Based on Google Reviews
-            </p>
-            <a
-              href="https://share.google/ZeLTQsAdf6nb6EQlP"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-block border border-gold/30 bg-gold/5 px-6 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gold transition-all hover:bg-gold hover:text-black"
-            >
-              Read Our Reviews
-            </a>
-          </div>
-
-          {/* review cards */}
-          <div className="grid gap-5 sm:grid-cols-3">
-            {[
-              { name: "Marc D.", quote: "Absolutely incredible service! The car was spotless, delivered right to our Airbnb in Batroun. Made our Lebanon trip unforgettable. Will definitely rent again next summer." },
-              { name: "Sarah K.", quote: "Best rental experience I've ever had — anywhere in the world. The team was responsive on WhatsApp within minutes, and the SUV was perfect for mountain roads. Highly recommend!" },
-              { name: "Omar R.", quote: "Rented a sedan for a week-long road trip from Beirut to Baalbek and back. Smooth process, fair prices, and the car was in perfect condition. Five stars all the way." },
-            ].map((review) => (
-              <div key={review.name} className="border border-luxury-border bg-luxury-card p-6">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="h-4 w-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="mt-4 text-[13px] leading-relaxed text-white/40 italic">
-                  &ldquo;{review.quote}&rdquo;
-                </p>
-                <p className="mt-4 text-xs font-bold uppercase tracking-wider text-gold/60">
-                  {review.name}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ─── BROWSE BY CATEGORY ─── */}
       <section className="border-b border-luxury-border">
         <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
@@ -715,6 +658,44 @@ export default function Home() {
                 </span>
               </a>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ─── TRUSTED BY OUR CLIENTS ─── */}
+      <section className="border-t border-luxury-border">
+        <div className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(201,168,76,0.05),_transparent)]" />
+          <div className="relative mx-auto max-w-3xl px-4 py-16 text-center sm:px-6 sm:py-24">
+            <div className="mx-auto mb-6 h-[1px] w-24 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-gold/50">Reviews</p>
+            <h2 className="mt-4 font-serif text-2xl font-bold text-white sm:text-4xl">
+              TRUSTED BY OUR CLIENTS
+            </h2>
+            <div className="mx-auto mt-5 h-[2px] w-16 bg-gradient-to-r from-transparent via-gold to-transparent" />
+            {/* large 5-star display */}
+            <div className="mt-8 flex items-center justify-center gap-2">
+              {[...Array(5)].map((_, i) => (
+                <svg key={i} className="h-9 w-9 text-gold sm:h-11 sm:w-11" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>
+              ))}
+            </div>
+            <p className="mx-auto mt-6 max-w-lg text-sm leading-relaxed text-white/40 sm:text-base">
+              See what our clients say about Lebanon Rental — our parent company with hundreds of verified reviews
+            </p>
+            <a
+              href="https://share.google/yfAfCWODnT9JNKj8U"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-block border border-gold bg-gold px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-black transition-all hover:bg-gold-light"
+            >
+              Read Our Google Reviews
+            </a>
+            <p className="mx-auto mt-6 max-w-md text-[11px] leading-relaxed text-white/20">
+              Reviews are for Lebanon Rental, our parent property rental company. Srour Cars is our dedicated car rental service.
+            </p>
+            <div className="mx-auto mt-8 h-[1px] w-24 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
           </div>
         </div>
       </section>
