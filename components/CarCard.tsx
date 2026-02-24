@@ -109,16 +109,16 @@ export default function CarCard({ car }: { car: Car }) {
         {/* Top-left badges */}
         <div className="absolute top-0 left-0 flex flex-col gap-1 z-10">
           {car.featured && (
-            <div className="flex items-center gap-1.5 bg-gold px-3 py-1.5">
-              <svg className="h-3 w-3 text-black" fill="currentColor" viewBox="0 0 24 24">
+            <div className="flex items-center gap-1 sm:gap-1.5 bg-gold px-2 py-1 sm:px-3 sm:py-1.5">
+              <svg className="h-2.5 w-2.5 sm:h-3 sm:w-3 text-black" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
-              <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-black">Featured</span>
+              <span className="text-[7px] sm:text-[9px] font-extrabold uppercase tracking-[0.2em] text-black">Featured</span>
             </div>
           )}
           {isUnavailable && (
-            <div className="bg-red-600 px-3 py-1.5">
-              <span className="text-[9px] font-extrabold uppercase tracking-[0.2em] text-white">
+            <div className="bg-red-600 px-2 py-1 sm:px-3 sm:py-1.5">
+              <span className="text-[7px] sm:text-[9px] font-extrabold uppercase tracking-[0.2em] text-white">
                 {car.availableFrom
                   ? `Back ${new Date(car.availableFrom + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
                   : "Rented"}
@@ -128,9 +128,9 @@ export default function CarCard({ car }: { car: Car }) {
         </div>
 
         {/* Gold price badge — sharp, bold */}
-        <div className="absolute top-0 right-0 bg-gold px-4 py-2 z-10">
-          <span className="text-sm font-extrabold text-black">${car.price}</span>
-          <span className="text-[10px] font-bold text-black/60">/day</span>
+        <div className="absolute top-0 right-0 bg-gold px-2.5 py-1.5 sm:px-4 sm:py-2 z-10">
+          <span className="text-xs sm:text-sm font-extrabold text-black">${car.price}</span>
+          <span className="text-[8px] sm:text-[10px] font-bold text-black/60">/day</span>
         </div>
 
         {/* Video indicator */}
@@ -143,28 +143,28 @@ export default function CarCard({ car }: { car: Car }) {
         )}
 
         {/* Bottom info overlay on image */}
-        <div className="absolute bottom-0 left-0 right-0 p-5 z-10 pointer-events-none">
-          <div className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.3em] text-gold">
+        <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-5 z-10 pointer-events-none">
+          <div className="mb-1 sm:mb-1.5 text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.3em] text-gold">
             {car.brand}
           </div>
-          <h3 className="font-serif text-2xl font-bold text-white">{car.name}</h3>
+          <h3 className="font-serif text-base sm:text-2xl font-bold text-white">{car.name}</h3>
         </div>
       </div>
 
       {/* Details bar — sharp, minimal */}
-      <div className="flex items-center justify-between border-t border-luxury-border bg-luxury-card px-5 py-4">
-        <div className="flex items-center gap-6 text-[11px] font-semibold uppercase tracking-wider text-white/40">
-          <span className="flex items-center gap-1.5">
+      <div className="flex items-center justify-between border-t border-luxury-border bg-luxury-card px-3 py-2.5 sm:px-5 sm:py-4">
+        <div className="flex items-center gap-2 sm:gap-6 text-[9px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40">
+          <span className="flex items-center gap-1">
             <span className="text-gold">{car.year}</span>
           </span>
-          <span className="flex items-center gap-1.5">
+          <span className="hidden min-[400px]:flex items-center gap-1">
             {car.mileage.toLocaleString()} km
           </span>
-          <span className="flex items-center gap-1.5">
-            {car.transmission}
+          <span className="flex items-center gap-1">
+            {car.transmission === "Automatic" ? "Auto" : car.transmission}
           </span>
         </div>
-        <svg className="h-4 w-4 text-gold/30 transition-all duration-300 group-hover:translate-x-2 group-hover:text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="h-3 w-3 sm:h-4 sm:w-4 text-gold/30 transition-all duration-300 group-hover:translate-x-2 group-hover:text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </div>

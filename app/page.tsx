@@ -578,11 +578,11 @@ export default function Home() {
 
         {/* car grid */}
         {loading ? (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="overflow-hidden border border-luxury-border bg-luxury-card">
                 <div className="aspect-[16/10] lux-pulse bg-luxury-dark" />
-                <div className="border-t border-luxury-border p-5 space-y-3">
+                <div className="border-t border-luxury-border p-3 sm:p-5 space-y-2 sm:space-y-3">
                   <div className="h-2.5 w-16 bg-luxury-border lux-pulse" />
                   <div className="h-4 w-3/4 bg-luxury-border lux-pulse" />
                   <div className="h-2.5 w-1/2 bg-luxury-border lux-pulse" />
@@ -605,7 +605,7 @@ export default function Home() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 stagger-children">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4 stagger-children">
             {filteredCars.map((car) => (
               <div key={car.id} className="animate-fade-in-up opacity-0">
                 <CarCard car={car} />
