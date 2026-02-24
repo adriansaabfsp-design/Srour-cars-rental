@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, FUEL_TYPES, TRANSMISSIONS } from "@/lib/types";
@@ -20,16 +20,37 @@ const PROPERTY_IMAGES = [
 function PropertySlideshow() {
   const [idx, setIdx] = useState(0);
   const [fade, setFade] = useState(false);
+  const transitionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setFade(true);
-      setTimeout(() => {
-        setIdx((p) => (p + 1) % PROPERTY_IMAGES.length);
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
+      transitionTimeoutRef.current = setTimeout(() => {
+        setIdx((prevIdx) => {
+          if (PROPERTY_IMAGES.length <= 1) return prevIdx;
+          let nextIdx = (prevIdx + 1) % PROPERTY_IMAGES.length;
+          let guard = 0;
+          while (
+            PROPERTY_IMAGES[nextIdx] === PROPERTY_IMAGES[prevIdx] &&
+            guard < PROPERTY_IMAGES.length
+          ) {
+            nextIdx = (nextIdx + 1) % PROPERTY_IMAGES.length;
+            guard += 1;
+          }
+          return nextIdx;
+        });
         setFade(false);
       }, 600);
     }, 5000);
-    return () => clearInterval(timer);
+    return () => {
+      clearInterval(timer);
+      if (transitionTimeoutRef.current) {
+        clearTimeout(transitionTimeoutRef.current);
+      }
+    };
   }, []);
 
   return (
