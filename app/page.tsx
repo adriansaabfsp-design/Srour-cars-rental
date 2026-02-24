@@ -108,9 +108,146 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-luxury-black">
-      {/* ─── HERO CAROUSEL ─── */}
-      <section className="relative w-full overflow-hidden bg-black">
-        <div className="relative h-[65vh] w-full sm:h-[70vh] lg:h-[80vh]">
+      {/* ─── HERO ─── */}
+      {/* MOBILE: separated logo + text above, car train below */}
+      <section className="sm:hidden bg-luxury-black">
+        {/* Logo + Tagline */}
+        <div className="flex flex-col items-center pt-10 pb-6 px-4">
+          <div className="hero-logo-pulse">
+            <Image
+              src="/logo.png"
+              alt="Lebanon Rental"
+              width={400}
+              height={400}
+              className="h-32 w-auto drop-shadow-[0_4px_40px_rgba(0,0,0,0.6)]"
+              priority
+            />
+          </div>
+          <div className="hero-tagline-fade mt-4 text-center">
+            <p className="font-serif text-lg font-light italic tracking-wide text-white/70">
+              Rent Your
+            </p>
+            <p className="mt-1 font-serif text-3xl font-black uppercase tracking-[0.12em] text-white">
+              Dream Ride
+            </p>
+            <div className="hero-tagline-line mx-auto mt-3 h-[1px] w-0 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+          </div>
+        </div>
+
+        {/* Car train carousel */}
+        <div className="relative w-full overflow-hidden">
+          {/* current car image */}
+          <div className="relative aspect-[16/10] w-full">
+            {currentHeroCar && (
+              <div
+                className={
+                  "absolute inset-0 transition-all duration-500 ease-in-out " +
+                  (heroTransition ? "opacity-0 scale-[1.02]" : "opacity-100 scale-100")
+                }
+              >
+                <img
+                  src={currentHeroCar.photos?.main || currentHeroCar.images?.[0] || ""}
+                  alt={currentHeroCar.name}
+                  className="h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-luxury-black via-transparent to-transparent" />
+              </div>
+            )}
+
+            {/* arrows */}
+            {featuredCars.length > 1 && (
+              <>
+                <button
+                  onClick={heroPrev}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center bg-black/50 text-white/70 backdrop-blur-sm"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={heroNext}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center bg-black/50 text-white/70 backdrop-blur-sm"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </>
+            )}
+          </div>
+
+          {/* car info below image */}
+          {currentHeroCar && (
+            <div className="bg-luxury-black px-4 py-4">
+              <div className="flex items-end justify-between gap-3">
+                <div>
+                  <div className="text-[9px] font-bold uppercase tracking-[0.35em] text-white/40">
+                    {currentHeroCar.brand} &middot; {currentHeroCar.year}
+                  </div>
+                  <h2 className="font-serif text-xl font-bold text-white">
+                    {currentHeroCar.name}
+                  </h2>
+                  <div className="mt-0.5 flex items-center gap-2 text-[10px] text-white/30">
+                    <span>{currentHeroCar.transmission}</span>
+                    <span>&middot;</span>
+                    <span>{currentHeroCar.fuel}</span>
+                    {currentHeroCar.category && (
+                      <>
+                        <span>&middot;</span>
+                        <span>{currentHeroCar.category}</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="flex-shrink-0 text-right">
+                  <div className="bg-white/90 backdrop-blur-sm px-4 py-2">
+                    <span className="text-lg font-extrabold text-black">${currentHeroCar.price}</span>
+                    <span className="text-[9px] font-bold text-black/50">/day</span>
+                  </div>
+                  <Link
+                    href={"/cars/" + currentHeroCar.id}
+                    className="mt-1 inline-block text-[9px] font-bold uppercase tracking-[0.2em] text-white/50"
+                  >
+                    View Details &rarr;
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* thumbnail train */}
+          {featuredCars.length > 1 && (
+            <div className="flex gap-2 overflow-x-auto px-4 pb-5 pt-1 scrollbar-hide">
+              {featuredCars.map((car, i) => (
+                <button
+                  key={car.id}
+                  onClick={() => {
+                    setHeroTransition(true);
+                    setTimeout(() => { setHeroIndex(i); setHeroTransition(false); }, 400);
+                  }}
+                  className={
+                    "relative flex-shrink-0 overflow-hidden transition-all duration-300 " +
+                    (i === heroIndex % featuredCars.length
+                      ? "w-24 h-16 border border-white/40 opacity-100"
+                      : "w-20 h-14 border border-white/10 opacity-50")
+                  }
+                >
+                  <img
+                    src={car.photos?.main || car.images?.[0] || ""}
+                    alt={car.name}
+                    className="h-full w-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* DESKTOP: existing immersive hero */}
+      <section className="relative hidden w-full overflow-hidden bg-black sm:block">
+        <div className="relative h-[70vh] lg:h-[80vh]">
           {/* background image */}
           {currentHeroCar ? (
             <div
@@ -134,14 +271,14 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
           {/* corner logo */}
-          <div className="absolute left-3 top-3 z-10 pointer-events-none sm:left-8 sm:top-8 lg:left-12 lg:top-10">
+          <div className="absolute left-8 top-8 z-10 pointer-events-none lg:left-12 lg:top-10">
             <div className="hero-corner-enter">
               <Image
                 src="/logo.png"
                 alt="Lebanon Rental"
                 width={400}
                 height={400}
-                className="h-24 w-auto drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] sm:h-40 lg:h-52"
+                className="h-40 w-auto drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] lg:h-52"
                 priority
               />
             </div>
@@ -151,10 +288,10 @@ export default function Home() {
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className="text-center px-4">
               <div className="hero-tagline-reveal">
-                <p className="font-serif text-lg font-light italic tracking-wide text-white/80 drop-shadow-lg sm:text-4xl lg:text-5xl">
+                <p className="font-serif text-4xl font-light italic tracking-wide text-white/80 drop-shadow-lg lg:text-5xl">
                   Rent Your
                 </p>
-                <p className="hero-tagline-word mt-1 font-serif text-2xl font-black uppercase tracking-[0.15em] sm:text-6xl lg:text-7xl">
+                <p className="hero-tagline-word mt-1 font-serif text-6xl font-black uppercase tracking-[0.15em] lg:text-7xl">
                   <span className="text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">Dream Ride</span>
                 </p>
                 <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-navy to-transparent" />
@@ -164,7 +301,7 @@ export default function Home() {
 
           {/* car info bar */}
           {currentHeroCar && (
-            <div className="absolute bottom-8 left-0 right-0 px-4 sm:bottom-12 sm:px-8 lg:px-12">
+            <div className="absolute bottom-12 left-0 right-0 px-8 lg:px-12">
               <div
                 className={
                   "transition-all duration-400 " +
@@ -173,13 +310,13 @@ export default function Home() {
               >
                 <div className="flex items-end justify-between gap-4">
                   <div>
-                    <div className="text-[9px] font-bold uppercase tracking-[0.35em] text-white/50 sm:text-[11px]">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.35em] text-white/50">
                       {currentHeroCar.brand} &middot; {currentHeroCar.year}
                     </div>
-                    <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
+                    <h2 className="font-serif text-3xl font-bold text-white lg:text-4xl">
                       {currentHeroCar.name}
                     </h2>
-                    <div className="mt-1 flex items-center gap-3 text-[10px] text-white/40 sm:text-xs">
+                    <div className="mt-1 flex items-center gap-3 text-xs text-white/40">
                       <span>{currentHeroCar.transmission}</span>
                       <span>&middot;</span>
                       <span>{currentHeroCar.fuel}</span>
@@ -192,15 +329,15 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex-shrink-0 text-right">
-                    <div className="bg-white/90 backdrop-blur-sm px-5 py-2.5 sm:px-6 sm:py-3">
-                      <span className="text-xl font-extrabold text-black sm:text-2xl">
+                    <div className="bg-white/90 backdrop-blur-sm px-6 py-3">
+                      <span className="text-2xl font-extrabold text-black">
                         ${currentHeroCar.price}
                       </span>
-                      <span className="text-[10px] font-bold text-black/50 sm:text-xs">/day</span>
+                      <span className="text-xs font-bold text-black/50">/day</span>
                     </div>
                     <Link
                       href={"/cars/" + currentHeroCar.id}
-                      className="mt-2 inline-block text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 transition-colors hover:text-white sm:text-[11px]"
+                      className="mt-2 inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 transition-colors hover:text-white"
                     >
                       View Details &rarr;
                     </Link>
@@ -215,7 +352,7 @@ export default function Home() {
             <>
               <button
                 onClick={heroPrev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white sm:left-6 sm:h-12 sm:w-12"
+                className="absolute left-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -223,7 +360,7 @@ export default function Home() {
               </button>
               <button
                 onClick={heroNext}
-                className="absolute right-3 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white sm:right-6 sm:h-12 sm:w-12"
+                className="absolute right-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/10 hover:text-white"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -234,7 +371,7 @@ export default function Home() {
 
           {/* dots */}
           {featuredCars.length > 1 && (
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:bottom-5">
+            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
               {featuredCars.map((_, i) => (
                 <button
                   key={i}
