@@ -33,7 +33,7 @@ export default function RootLayout({
         {children}
         <footer id="contact" className="border-t border-white/5 bg-black">
           <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-            <div className="grid gap-12 sm:grid-cols-3">
+            <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
               {/* Brand */}
               <div className="flex flex-col items-center sm:items-start">
                 <div className="flex items-center gap-1.5">
@@ -88,6 +88,22 @@ export default function RootLayout({
                   <a href="/seasonal-guide" className="text-sm text-white/30 transition-colors hover:text-gold">Seasonal Guide</a>
                   <a href="/faq" className="text-sm text-white/30 transition-colors hover:text-gold">FAQ</a>
                   <a href="/admin" className="text-sm text-white/30 transition-colors hover:text-gold">Admin Panel</a>
+                </div>
+              </div>
+
+              {/* Our Locations */}
+              <div className="flex flex-col items-center sm:items-start">
+                <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/50 mb-4">Our Locations</h4>
+                <div className="flex flex-col gap-2">
+                  <a href="/car-rental-beirut" className="text-sm text-white/30 transition-colors hover:text-gold">Beirut</a>
+                  <a href="/car-rental-tripoli" className="text-sm text-white/30 transition-colors hover:text-gold">Tripoli</a>
+                  <a href="/car-rental-jounieh" className="text-sm text-white/30 transition-colors hover:text-gold">Jounieh</a>
+                  <a href="/car-rental-batroun" className="text-sm text-white/30 transition-colors hover:text-gold">Batroun</a>
+                  <a href="/car-rental-jbeil" className="text-sm text-white/30 transition-colors hover:text-gold">Jbeil (Byblos)</a>
+                  <a href="/car-rental-sidon" className="text-sm text-white/30 transition-colors hover:text-gold">Sidon</a>
+                  <a href="/car-rental-tyre" className="text-sm text-white/30 transition-colors hover:text-gold">Tyre</a>
+                  <a href="/car-rental-faraya" className="text-sm text-white/30 transition-colors hover:text-gold">Faraya</a>
+                  <a href="/car-rental-zahle" className="text-sm text-white/30 transition-colors hover:text-gold">Zahle</a>
                 </div>
               </div>
 
