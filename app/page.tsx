@@ -672,15 +672,17 @@ export default function Home() {
             </h2>
             <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
           </div>
-          <div className="w-full overflow-hidden rounded-sm">
+          <div className="relative w-full overflow-hidden rounded-sm">
             <iframe
               src="https://f2ebe9a82e094dde98dfe2f1d10431fd.elf.site"
               title="Instagram Feed"
               className="w-full border-0"
-              style={{ minHeight: "400px", height: "600px" }}
+              style={{ minHeight: "400px", height: "640px" }}
               loading="lazy"
               allowTransparency
             />
+            {/* Cover Elfsight branding */}
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-luxury-black" />
           </div>
         </div>
       </section>
@@ -697,15 +699,17 @@ export default function Home() {
               </h2>
               <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
             </div>
-            <div className="w-full overflow-hidden rounded-sm">
+            <div className="relative w-full overflow-hidden rounded-sm">
               <iframe
                 src="https://e4d32f7c7ba948688a5a5396616a4f69.elf.site"
                 title="Google Reviews"
                 className="w-full border-0"
-                style={{ minHeight: "400px", height: "500px" }}
+                style={{ minHeight: "400px", height: "540px" }}
                 loading="lazy"
                 allowTransparency
               />
+              {/* Cover Elfsight branding */}
+              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-luxury-black" />
             </div>
             <p className="mx-auto mt-6 max-w-md text-center text-[11px] leading-relaxed text-white/20">
               Reviews are for Lebanon Rental, our parent property rental company. Srour Cars is our dedicated car rental service.
