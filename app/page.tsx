@@ -362,7 +362,7 @@ export default function Home() {
         </div>
 
         {/* Crossfading Logo ↔ Tagline */}
-        <div className="relative flex items-center justify-center px-4 pt-6 pb-4" style={{ height: "280px" }}>
+        <div className="relative flex items-center justify-center px-4 pt-6 pb-4" style={{ height: "360px" }}>
           {/* Lebanon Rental logo */}
           <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
             <Image
@@ -370,7 +370,7 @@ export default function Home() {
               alt="Lebanon Rental"
               width={600}
               height={600}
-              className="h-[11rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
+              className="h-[22rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
               priority
             />
           </div>
