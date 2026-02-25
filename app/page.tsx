@@ -381,18 +381,8 @@ export default function Home() {
           <div className="hero-tagline-line absolute bottom-5 left-1/2 -translate-x-1/2 h-[1px] w-28 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
         </div>
 
-        {/* Auto-scrolling car train + search icon */}
+        {/* Auto-scrolling car train */}
         <div className="relative w-full overflow-hidden pb-3">
-          {/* Search icon overlay */}
-          <button
-            onClick={() => document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" })}
-            className="absolute right-3 top-1/2 -translate-y-1/2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-navy shadow-lg transition-all hover:bg-navy-light"
-            aria-label="Search cars"
-          >
-            <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </button>
           <div className="car-train-track flex">
             {/* Duplicate the list for seamless infinite scroll */}
             {[...featuredCars, ...featuredCars, ...featuredCars, ...featuredCars].map((car, i) => (
@@ -674,7 +664,7 @@ export default function Home() {
         <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
           <div className="relative">
             <svg
-              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900/30 sm:left-4 sm:h-5 sm:w-5"
+              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white sm:left-4 sm:h-5 sm:w-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -686,12 +676,12 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, brand, year..."
-              className="w-full border border-luxury-border bg-luxury-card py-2.5 pl-10 pr-4 text-[13px] text-gray-900 placeholder-white/30 outline-none transition-all focus:border-navy/50 sm:py-3.5 sm:pl-12 sm:text-sm"
+              className="w-full border border-navy/30 bg-navy py-2.5 pl-10 pr-4 text-[13px] text-white placeholder-white/50 outline-none transition-all focus:border-navy-light focus:ring-1 focus:ring-navy-light sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-900/30 hover:text-gray-900"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

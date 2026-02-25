@@ -178,7 +178,7 @@ html {
   100% { transform: translateX(-25%); }
 }
 .car-train-track {
-  animation: trainScroll 12s linear infinite;
+  animation: trainScroll 6s linear infinite;
   will-change: transform;
 }
 .car-train-track a {
