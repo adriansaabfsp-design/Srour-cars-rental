@@ -23,18 +23,23 @@ function PropertySlideshow() {
   const [transitioning, setTransitioning] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  /* Preload every property image so transitions are seamless on mobile */
+  useEffect(() => {
+    PROPERTY_IMAGES.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
+  }, []);
+
+  /* Kick off fade every 5 s — only set the flag, don't touch indices */
   useEffect(() => {
     timerRef.current = setInterval(() => {
       setTransitioning(true);
-      setNextIdx((prev) => {
-        const next = (prev + 1) % PROPERTY_IMAGES.length;
-        return next;
-      });
     }, 5000);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, []);
 
-  // After transition completes, swap current to next
+  /* After the 700 ms fade completes, promote next → current */
   useEffect(() => {
     if (!transitioning) return;
     const t = setTimeout(() => {
@@ -46,7 +51,7 @@ function PropertySlideshow() {
   }, [transitioning, nextIdx]);
 
   return (
-    <div className="relative h-full w-full">
+    <div className="relative h-full w-full overflow-hidden">
       {/* Current image (always visible underneath) */}
       <img
         src={PROPERTY_IMAGES[currentIdx]}
