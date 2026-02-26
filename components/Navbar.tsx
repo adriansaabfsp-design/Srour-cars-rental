@@ -27,14 +27,14 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 border-b border-navy-light bg-navy backdrop-blur-md">
-      <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-24 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center">
           <Image
             src="/logo.png"
             alt="Lebanon Rental"
             width={200}
             height={200}
-            className="h-12 w-auto sm:h-20"
+            className="h-16 w-auto sm:h-24"
             priority
           />
         </Link>
