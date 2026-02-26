@@ -331,29 +331,16 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/70" />
         </div>
 
-        {/* Crossfading Logo ↔ Tagline */}
+        {/* Static Logo */}
         <div className="relative flex items-center justify-center px-4 pt-6 pb-4" style={{ height: "360px" }}>
-          {/* Lebanon Rental logo */}
-          <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
-            <Image
-              src="/logo.png"
-              alt="Lebanon Rental"
-              width={600}
-              height={600}
-              className="h-[22rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
-              priority
-            />
-          </div>
-          {/* Rent Your Dream Ride tagline */}
-          <div className="hero-crossfade-b absolute inset-0 flex flex-col items-center justify-center text-center">
-            <p className="font-serif text-[2.1rem] font-bold uppercase tracking-[0.16em] text-white leading-tight drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
-              Rent Your
-            </p>
-            <p className="mt-1 font-serif text-[2.1rem] font-bold uppercase tracking-[0.16em] text-white leading-tight drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
-              <span style={{ letterSpacing: 0 }}>Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.04em] align-baseline" />m</span>{" "}Ride
-            </p>
-          </div>
-          <div className="hero-tagline-line absolute bottom-5 left-1/2 -translate-x-1/2 h-[1px] w-28 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+          <Image
+            src="/logo.png"
+            alt="Lebanon Rental"
+            width={600}
+            height={600}
+            className="h-[22rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
+            priority
+          />
         </div>
 
         {/* Auto-scrolling car train */}
@@ -411,29 +398,16 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
-          {/* Crossfading Logo ↔ Tagline (desktop) */}
+          {/* Static Logo (desktop) */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            {/* Lebanon Rental logo */}
-            <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
-              <Image
-                src="/logo.png"
-                alt="Lebanon Rental"
-                width={600}
-                height={600}
-                className="h-[26rem] lg:h-[30rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
-                priority
-              />
-            </div>
-            {/* Rent Your Dream Ride tagline */}
-            <div className="hero-crossfade-b absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-              <p className="font-serif text-5xl font-bold uppercase tracking-[0.15em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] lg:text-6xl">
-                Rent Your
-              </p>
-              <p className="mt-1 font-serif text-5xl font-bold uppercase tracking-[0.15em] text-white leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] lg:text-6xl">
-                <span style={{ letterSpacing: 0 }}>Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.04em] align-baseline" />m</span>{" "}Ride
-              </p>
-              <div className="mx-auto mt-4 h-[2px] w-28 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
-            </div>
+            <Image
+              src="/logo.png"
+              alt="Lebanon Rental"
+              width={600}
+              height={600}
+              className="h-[26rem] lg:h-[30rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
+              priority
+            />
           </div>
         </div>
       </section>
@@ -444,7 +418,7 @@ export default function Home() {
         <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
           <div className="relative">
             <svg
-              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white sm:left-4 sm:h-5 sm:w-5"
+              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 sm:left-4 sm:h-5 sm:w-5"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -456,12 +430,12 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, brand, year..."
-              className="w-full border border-navy/30 bg-navy py-2.5 pl-10 pr-4 text-[13px] text-white placeholder-white/50 outline-none transition-all focus:border-navy-light focus:ring-1 focus:ring-navy-light sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
+              className="w-full border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -640,6 +614,16 @@ export default function Home() {
                 </Link>
               </div>
             )}
+            {filteredCars.length <= 8 && filteredCars.length > 0 && (
+              <div className="mt-6 text-center sm:mt-8">
+                <Link
+                  href="/cars"
+                  className="inline-block border border-navy bg-transparent px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-all hover:bg-navy hover:text-white sm:px-12 sm:py-3.5 sm:text-[12px]"
+                >
+                  View All Cars &rarr;
+                </Link>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -651,14 +635,14 @@ export default function Home() {
             <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[10px] sm:tracking-[0.5em]">Find your perfect match</p>
             <h2 className="mt-1 font-serif text-lg font-bold text-gray-900 sm:mt-3 sm:text-4xl">BROWSE BY CATEGORY</h2>
           </div>
-          <div className="flex gap-1.5 overflow-x-auto pb-1 sm:gap-4 sm:justify-center sm:flex-wrap sm:overflow-visible sm:pb-0">
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-4 lg:grid-cols-6">
             {([
-              { name: "Sedan", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h13L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "SUV", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l1.5-4h15L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="9" width="18" height="8" rx="2" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "Luxury", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4.5L6 21l1.5-7.5L2 9h7l3-7z" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "Economy", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 0V4m0 16v-4m8-4h-4M8 12H4" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "4x4", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M2 13l2-5h16l2 5M7 17a2.5 2.5 0 11-5 0M22 17a2.5 2.5 0 11-5 0M10 8V5M14 8V5" strokeLinecap="round" strokeLinejoin="round" /><rect x="2" y="13" width="20" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
-              { name: "Convertible", icon: <svg className="h-6 w-6 sm:h-10 sm:w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path d="M5 17h14M3 13l2.5-5h8l4.5 1L21 13M7 17a2 2 0 11-4 0M21 17a2 2 0 11-4 0" strokeLinecap="round" strokeLinejoin="round" /><rect x="3" y="13" width="18" height="4" rx="1" strokeLinecap="round" strokeLinejoin="round" /></svg> },
+              { name: "Sedan", img: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=300&fit=crop&q=80" },
+              { name: "SUV", img: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=400&h=300&fit=crop&q=80" },
+              { name: "Luxury", img: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&h=300&fit=crop&q=80" },
+              { name: "Economy", img: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?w=400&h=300&fit=crop&q=80" },
+              { name: "4x4", img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop&q=80" },
+              { name: "Convertible", img: "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=400&h=300&fit=crop&q=80" },
             ] as const).map((cat) => (
               <button
                 key={cat.name}
@@ -666,12 +650,21 @@ export default function Home() {
                   setActiveCategory(cat.name);
                   document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="group flex-shrink-0 flex min-w-[72px] flex-col items-center gap-1.5 border border-luxury-border bg-luxury-card px-3 py-2 transition-all hover:border-navy/40 hover:bg-white/[0.02] sm:min-w-0 sm:gap-2 sm:px-10 sm:py-6"
+                className="group relative flex-shrink-0 overflow-hidden border border-luxury-border transition-all hover:border-navy/40"
               >
-                <div className="text-gray-900/20 transition-colors group-hover:text-gray-900/60">{cat.icon}</div>
-                <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-gray-900/40 transition-colors group-hover:text-gray-900/70 sm:text-[11px] sm:tracking-[0.2em]">
-                  {cat.name}
-                </span>
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <img
+                    src={cat.img}
+                    alt={cat.name}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2 sm:p-3">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white sm:text-[12px] sm:tracking-[0.2em]">
+                      {cat.name}
+                    </span>
+                  </div>
+                </div>
               </button>
             ))}
           </div>
