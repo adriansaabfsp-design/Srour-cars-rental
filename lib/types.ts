@@ -155,7 +155,6 @@ export const CAR_CATEGORIES = [
 export const ROAD_TYPES = [
   "All Terrain",
   "City",
-  "Highway",
   "Mountain",
   "Coastal",
   "Off-Road",
