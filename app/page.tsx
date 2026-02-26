@@ -326,10 +326,10 @@ export default function Home() {
             muted
             loop
             playsInline
+            preload="auto"
             className="h-full w-full object-cover"
-          >
-            <source src="/1772145435363637.MP4" type="video/mp4" />
-          </video>
+            src="/updated.mp4"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/70" />
         </div>
 
@@ -403,10 +403,10 @@ export default function Home() {
               muted
               loop
               playsInline
+              preload="auto"
               className="h-full w-full object-cover"
-            >
-              <source src="/1772145435363637.MP4" type="video/mp4" />
-            </video>
+              src="/updated.mp4"
+            />
           </div>
 
           {/* overlays */}
