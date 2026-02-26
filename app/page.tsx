@@ -256,8 +256,7 @@ export default function Home() {
   const [brand, setBrand] = useState("All");
   const [fuel, setFuel] = useState("All");
   const [transmission, setTransmission] = useState("All");
-  const [heroIndex, setHeroIndex] = useState(0);
-  const [heroTransition, setHeroTransition] = useState(false);
+
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -276,33 +275,6 @@ export default function Home() {
   }, []);
 
   const featuredCars = cars.filter((c) => c.featured);
-
-  const heroNext = useCallback(() => {
-    if (featuredCars.length <= 1) return;
-    setHeroTransition(true);
-    setTimeout(() => {
-      setHeroIndex((p) => (p + 1) % featuredCars.length);
-      setHeroTransition(false);
-    }, 400);
-  }, [featuredCars.length]);
-
-  const heroPrev = useCallback(() => {
-    if (featuredCars.length <= 1) return;
-    setHeroTransition(true);
-    setTimeout(() => {
-      setHeroIndex((p) => (p - 1 + featuredCars.length) % featuredCars.length);
-      setHeroTransition(false);
-    }, 400);
-  }, [featuredCars.length]);
-
-  useEffect(() => {
-    if (featuredCars.length <= 1) return;
-    const timer = setInterval(heroNext, 5000);
-    return () => clearInterval(timer);
-  }, [heroNext, featuredCars.length]);
-
-  const currentHeroCar =
-    featuredCars.length > 0 ? featuredCars[heroIndex % featuredCars.length] : null;
 
   const filteredCars = cars
     .filter((car) => {
@@ -345,19 +317,19 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      {/* MOBILE: crossfading logo/tagline + car train marquee */}
+      {/* MOBILE: video hero + logo/tagline + car train marquee */}
       <section className="relative overflow-hidden sm:hidden bg-luxury-black">
-        {/* Hero background with subtle overlay to fill the top bar on mobile */}
+        {/* Video background */}
         <div className="absolute inset-0">
-          {currentHeroCar ? (
-            <img
-              src={currentHeroCar.photos?.main || currentHeroCar.images?.[0] || ""}
-              alt={currentHeroCar.name}
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <div className="h-full w-full bg-[radial-gradient(ellipse_90%_55%_at_50%_-10%,_rgba(27,58,92,0.18),_transparent)]" />
-          )}
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="h-full w-full object-cover"
+          >
+            <source src="/1772145435363637.MP4" type="video/mp4" />
+          </video>
           <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/70" />
         </div>
 
@@ -421,26 +393,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DESKTOP: existing immersive hero */}
-      <section className="relative hidden w-full overflow-hidden bg-white sm:block">
+      {/* DESKTOP: video hero */}
+      <section className="relative hidden w-full overflow-hidden bg-black sm:block">
         <div className="relative h-[70vh] lg:h-[80vh]">
-          {/* background image */}
-          {currentHeroCar ? (
-            <div
-              className={
-                "absolute inset-0 transition-all duration-500 ease-in-out " +
-                (heroTransition ? "opacity-0 scale-[1.03]" : "opacity-100 scale-100")
-              }
+          {/* Video background */}
+          <div className="absolute inset-0">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="h-full w-full object-cover"
             >
-              <img
-                src={currentHeroCar.photos?.main || currentHeroCar.images?.[0] || ""}
-                alt={currentHeroCar.name}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.15),_transparent)]" />
-          )}
+              <source src="/1772145435363637.MP4" type="video/mp4" />
+            </video>
+          </div>
 
           {/* overlays */}
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
@@ -474,100 +441,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* car info bar */}
-          {currentHeroCar && (
-            <div className="absolute bottom-12 left-0 right-0 px-8 lg:px-12">
-              <div
-                className={
-                  "transition-all duration-400 " +
-                  (heroTransition ? "opacity-0 translate-y-3" : "opacity-100 translate-y-0")
-                }
-              >
-                <div className="flex items-end justify-between gap-4">
-                  <div>
-                    <div className="text-[11px] font-bold uppercase tracking-[0.35em] text-white/50">
-                      {currentHeroCar.brand} &middot; {currentHeroCar.year}
-                    </div>
-                    <h2 className="font-serif text-3xl font-bold text-white lg:text-4xl">
-                      {currentHeroCar.name}
-                    </h2>
-                    <div className="mt-1 flex items-center gap-3 text-xs text-white/40">
-                      <span>{currentHeroCar.transmission}</span>
-                      <span>&middot;</span>
-                      <span>{currentHeroCar.fuel}</span>
-                      {currentHeroCar.category && (
-                        <>
-                          <span>&middot;</span>
-                          <span>{currentHeroCar.category}</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex-shrink-0 text-right">
-                    <div className="bg-white/90 backdrop-blur-sm px-6 py-3">
-                      <span className="text-2xl font-extrabold text-black">
-                        ${currentHeroCar.price}
-                      </span>
-                      <span className="text-xs font-bold text-black/50">/day</span>
-                    </div>
-                    <Link
-                      href={"/cars/" + currentHeroCar.id}
-                      className="mt-2 inline-block text-[11px] font-bold uppercase tracking-[0.2em] text-white/60 transition-colors hover:text-white"
-                    >
-                      View Details &rarr;
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* arrows */}
-          {featuredCars.length > 1 && (
-            <>
-              <button
-                onClick={heroPrev}
-                className="absolute left-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/20 hover:text-white"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                onClick={heroNext}
-                className="absolute right-6 top-1/2 -translate-y-1/2 flex h-12 w-12 items-center justify-center bg-black/40 text-white/70 backdrop-blur-sm transition-all hover:bg-white/20 hover:text-white"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </>
-          )}
-
-          {/* dots */}
-          {featuredCars.length > 1 && (
-            <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
-              {featuredCars.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setHeroTransition(true);
-                    setTimeout(() => {
-                      setHeroIndex(i);
-                      setHeroTransition(false);
-                    }, 400);
-                  }}
-                  className={
-                    "transition-all duration-300 " +
-                    (i === heroIndex % featuredCars.length
-                      ? "h-2 w-7 bg-white"
-                      : "h-2 w-2 bg-white/30 hover:bg-white/50")
-                  }
-                />
-              ))}
-            </div>
-          )}
         </div>
       </section>
 
