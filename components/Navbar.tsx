@@ -26,11 +26,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-blue-700 bg-blue-600 backdrop-blur-md">
+    <nav className="sticky top-0 z-50 border-b border-navy-light bg-navy backdrop-blur-md">
       <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center">
           <Image
-            src="/logo-hd.png"
+            src="/logo.png"
             alt="Lebanon Rental"
             width={200}
             height={200}
@@ -45,7 +45,7 @@ export default function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`text-[9px] font-bold uppercase tracking-[0.12em] ${isActive(link.href) ? "text-gray-900" : "text-gray-900/50"}`}
+              className={`text-[9px] font-bold uppercase tracking-[0.12em] ${isActive(link.href) ? "text-white" : "text-white/60"}`}
             >
               {link.label}
             </Link>
@@ -60,25 +60,25 @@ export default function Navbar() {
               href={link.href}
               className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
                 isActive(link.href)
-                  ? "text-gray-900"
-                  : "text-gray-900/60 hover:text-gray-900"
+                  ? "text-white"
+                  : "text-white/60 hover:text-white"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="h-5 w-px bg-gray-300" />
+          <div className="h-5 w-px bg-white/20" />
           <Link
             href="/admin"
             className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
               pathname === "/admin"
-                ? "text-gray-900"
-                : "text-gray-900/60 hover:text-gray-900"
+                ? "text-white"
+                : "text-white/60 hover:text-white"
             }`}
           >
             Admin
             {pathname === "/admin" && (
-              <span className="absolute -bottom-1 left-0 h-px w-full bg-gray-900" />
+              <span className="absolute -bottom-1 left-0 h-px w-full bg-white" />
             )}
           </Link>
         </div>
@@ -86,7 +86,7 @@ export default function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-10 w-10 items-center justify-center text-gray-900/60 sm:hidden"
+          className="flex h-10 w-10 items-center justify-center text-white/60 sm:hidden"
         >
           {menuOpen ? (
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
