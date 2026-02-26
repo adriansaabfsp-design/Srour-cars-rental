@@ -352,7 +352,7 @@ export default function Home() {
               Rent Your
             </p>
             <p className="mt-1 font-serif text-[2.1rem] font-black uppercase tracking-[0.16em] text-white leading-tight drop-shadow-[0_3px_24px_rgba(0,0,0,0.6)]">
-              Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.02em] align-baseline" />m Ride
+              Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.06em] align-baseline" style={{ letterSpacing: 0 }} />m Ride
             </p>
           </div>
           <div className="hero-tagline-line absolute bottom-5 left-1/2 -translate-x-1/2 h-[1px] w-28 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
@@ -413,32 +413,28 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
 
-          {/* corner logo */}
-          <div className="absolute left-8 top-8 z-10 pointer-events-none lg:left-12 lg:top-10">
-            <div className="hero-corner-enter">
+          {/* Crossfading Logo ↔ Tagline (desktop) */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            {/* Lebanon Rental logo */}
+            <div className="hero-crossfade-a absolute inset-0 flex items-center justify-center">
               <Image
                 src="/logo.png"
                 alt="Lebanon Rental"
-                width={400}
-                height={400}
-                className="h-40 w-auto drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] lg:h-52"
+                width={600}
+                height={600}
+                className="h-[26rem] lg:h-[30rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
                 priority
               />
             </div>
-          </div>
-
-          {/* center tagline */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="text-center px-4">
-              <div className="hero-tagline-reveal">
-                <p className="font-serif text-4xl font-light italic tracking-wide text-white/80 drop-shadow-lg lg:text-5xl">
-                  Rent Your
-                </p>
-                <p className="hero-tagline-word mt-1 font-serif text-6xl font-black uppercase tracking-[0.15em] lg:text-7xl">
-                  <span className="text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)]">Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.01em] align-baseline drop-shadow-[0_2px_12px_rgba(27,58,92,0.5)]" />m Ride</span>
-                </p>
-                <div className="hero-tagline-line mx-auto mt-4 h-[2px] w-0 bg-gradient-to-r from-transparent via-navy to-transparent" />
-              </div>
+            {/* Rent Your Dream Ride tagline */}
+            <div className="hero-crossfade-b absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+              <p className="font-serif text-4xl font-light italic tracking-wide text-white/80 drop-shadow-lg lg:text-5xl">
+                Rent Your
+              </p>
+              <p className="mt-1 font-serif text-6xl font-black uppercase tracking-[0.15em] text-white leading-tight drop-shadow-[0_4px_30px_rgba(0,0,0,0.8)] lg:text-7xl">
+                Dre<img src="/cedar.png" alt="a" className="inline-block h-[0.85em] w-auto mx-[-0.06em] align-baseline" style={{ letterSpacing: 0 }} />m Ride
+              </p>
+              <div className="mx-auto mt-4 h-[2px] w-28 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
             </div>
           </div>
         </div>
