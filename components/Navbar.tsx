@@ -35,7 +35,7 @@ export default function Navbar() {
 
   return (
     <nav className={`${nunito.className} sticky top-0 z-50 border-b border-gray-200 bg-white`}>
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:h-28 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:h-32 sm:px-6 lg:px-8 relative">
         <div className="hidden flex-1 items-center gap-7 sm:flex">
           {leftLinks.map((link) => (
             <Link
@@ -52,13 +52,13 @@ export default function Navbar() {
           ))}
         </div>
 
-        <Link href="/" className="flex items-center justify-center sm:px-6">
+        <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
           <Image
             src="/logo-hd.png"
             alt="Lebanon Rental"
-            width={260}
-            height={260}
-            className="h-20 w-auto sm:h-28"
+            width={300}
+            height={300}
+            className="h-16 w-auto sm:h-24 lg:h-28"
             priority
           />
         </Link>
