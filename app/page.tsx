@@ -183,25 +183,28 @@ function InsightsSection() {
 
   return (
     <section className="bg-[#D6EEFB]">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-20">
-        <div className="mb-5 text-center sm:mb-10">
-          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
-            From our blog
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-24">
+        <div className="mb-6 text-center sm:mb-14">
+          <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-[12px]">
+            Your Lebanon Travel Magazine
           </p>
-          <h2 className="mt-2 font-serif text-2xl font-bold text-gray-900 sm:mt-3 sm:text-4xl">
+          <h2 className="mt-2 font-serif text-3xl font-bold text-gray-900 sm:mt-4 sm:text-5xl lg:text-6xl">
             TRAVEL INSIGHTS
           </h2>
+          <p className="mx-auto mt-3 max-w-lg text-sm text-[#1a4b6e]/50 sm:mt-4 sm:text-base">
+            Tips, routes, and local knowledge to help you make the most of every drive.
+          </p>
         </div>
 
         {/* Tab pills */}
-        <div className="mb-5 flex justify-center gap-1.5 overflow-x-auto sm:gap-2 sm:mb-8">
+        <div className="mb-6 flex justify-center gap-1.5 overflow-x-auto sm:gap-3 sm:mb-10">
           {INSIGHT_TABS.map((tab, i) => (
             <button
               key={tab.tab}
               onClick={() => handleTabClick(i)}
-              className={`flex items-center gap-1.5 whitespace-nowrap px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all duration-300 sm:px-5 sm:py-2.5 sm:text-[11px] sm:tracking-[0.15em] ${
+              className={`flex items-center gap-1.5 whitespace-nowrap rounded-sm px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.12em] transition-all duration-300 sm:px-6 sm:py-3 sm:text-[12px] sm:tracking-[0.15em] ${
                 i === active
-                  ? "bg-navy text-white"
+                  ? "bg-navy text-white shadow-lg shadow-navy/20"
                   : "border border-gray-200 bg-white text-gray-400 hover:border-navy/30 hover:text-navy"
               }`}
             >
@@ -211,11 +214,11 @@ function InsightsSection() {
           ))}
         </div>
 
-        {/* Animated card with image */}
-        <div className="relative overflow-hidden">
+        {/* Animated magazine card */}
+        <div className="relative overflow-hidden rounded-sm shadow-xl shadow-black/5">
           <a
             href={current.href}
-            className={`group block border border-luxury-border bg-luxury-card transition-all duration-300 hover:border-navy/30 ${
+            className={`group block bg-white transition-all duration-300 ${
               animating
                 ? direction === "right"
                   ? "translate-x-8 opacity-0"
@@ -224,33 +227,33 @@ function InsightsSection() {
             }`}
           >
             <div className="flex flex-col sm:flex-row">
-              {/* Image */}
-              <div className="relative h-48 w-full flex-shrink-0 overflow-hidden sm:h-auto sm:w-[45%]">
+              {/* Image — bigger */}
+              <div className="relative h-56 w-full flex-shrink-0 overflow-hidden sm:h-[420px] sm:w-[50%]">
                 <Image
                   key={current.image}
                   src={current.image}
                   alt={current.title}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, 45vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent sm:bg-gradient-to-r" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent sm:bg-gradient-to-r sm:from-transparent sm:to-black/5" />
               </div>
-              {/* Content */}
-              <div className="flex flex-1 flex-col justify-center p-6 sm:p-10">
-                <div className="mb-3 flex items-center gap-2 text-navy/40">
+              {/* Content — more spacious */}
+              <div className="flex flex-1 flex-col justify-center p-6 sm:p-12 lg:p-16">
+                <div className="mb-3 flex items-center gap-2 text-navy/40 sm:mb-4">
                   {current.icon}
-                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] sm:text-[11px]">{current.tab}</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.2em] sm:text-[12px]">{current.tab}</span>
                 </div>
-                <h3 className="font-serif text-xl font-bold text-gray-900 sm:text-3xl">
+                <h3 className="font-serif text-2xl font-bold text-gray-900 leading-tight sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
                   {current.title}
                 </h3>
-                <p className="mt-3 text-[13px] leading-relaxed text-gray-900/50 sm:mt-4 sm:text-base sm:leading-relaxed">
+                <p className="mt-3 text-[13px] leading-relaxed text-gray-900/50 sm:mt-5 sm:text-lg sm:leading-relaxed">
                   {current.desc}
                 </p>
-                <span className="mt-5 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-gray-900/60 sm:mt-6 sm:text-[12px]">
+                <span className="mt-6 inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-navy transition-colors group-hover:text-navy/60 sm:mt-8 sm:text-[13px]">
                   Read Full Guide
-                  <svg className="h-3 w-3 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <svg className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
                 </span>
@@ -260,13 +263,13 @@ function InsightsSection() {
         </div>
 
         {/* Progress dots */}
-        <div className="mt-4 flex justify-center gap-2">
+        <div className="mt-6 flex justify-center gap-2.5 sm:mt-8">
           {INSIGHT_TABS.map((_, i) => (
             <button
               key={i}
               onClick={() => handleTabClick(i)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                i === active ? "w-6 bg-navy" : "w-1.5 bg-gray-200 hover:bg-gray-300"
+              className={`h-2 rounded-full transition-all duration-500 ${
+                i === active ? "w-8 bg-navy" : "w-2 bg-gray-300 hover:bg-gray-400"
               }`}
             />
           ))}
