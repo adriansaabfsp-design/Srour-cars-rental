@@ -56,6 +56,7 @@ html {
   background: transparent;
   outline: none;
   z-index: 2;
+  pointer-events: none;
 }
 
 .price-slider::-webkit-slider-thumb {
@@ -68,6 +69,7 @@ html {
   border: 2px solid #fff;
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  pointer-events: auto;
 }
 
 .price-slider::-moz-range-thumb {
@@ -78,6 +80,33 @@ html {
   border: 2px solid #fff;
   cursor: pointer;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  pointer-events: auto;
+}
+
+.price-slider::-moz-range-track {
+  background: transparent;
+}
+
+@keyframes priceFireBurst {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.75);
+    filter: blur(2px);
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.08);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px) scale(1.15);
+    filter: blur(1px);
+  }
+}
+
+.price-fire-burst {
+  animation: priceFireBurst 0.65s ease-out both;
 }
 
 /* Gold shimmer animation */

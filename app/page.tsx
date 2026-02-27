@@ -293,6 +293,11 @@ export default function Home() {
   const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 9999]);
   const [priceInited, setPriceInited] = useState(false);
+  const [activePriceThumb, setActivePriceThumb] = useState<"min" | "max" | null>(null);
+  const [priceFireBurst, setPriceFireBurst] = useState(false);
+  const fireTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastJoyRef = useRef(0);
+  const audioCtxRef = useRef<AudioContext | null>(null);
 
 
   useEffect(() => {
@@ -394,10 +399,56 @@ export default function Home() {
     };
   }, [previewCars.length]);
 
+  useEffect(() => {
+    return () => {
+      if (fireTimeoutRef.current) clearTimeout(fireTimeoutRef.current);
+      if (audioCtxRef.current) audioCtxRef.current.close();
+    };
+  }, []);
+
+  const triggerPriceJoy = () => {
+    const now = Date.now();
+    if (now - lastJoyRef.current < 180) return;
+    lastJoyRef.current = now;
+
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(20);
+    }
+
+    if (typeof window !== "undefined") {
+      const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (AudioContextClass) {
+        if (!audioCtxRef.current) {
+          audioCtxRef.current = new AudioContextClass();
+        }
+        const ctx = audioCtxRef.current;
+        if (ctx.state === "suspended") {
+          void ctx.resume();
+        }
+        const oscillator = ctx.createOscillator();
+        const gain = ctx.createGain();
+        oscillator.type = "triangle";
+        oscillator.frequency.setValueAtTime(420, ctx.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.03, ctx.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.16);
+        oscillator.connect(gain);
+        gain.connect(ctx.destination);
+        oscillator.start();
+        oscillator.stop(ctx.currentTime + 0.16);
+      }
+    }
+
+    setPriceFireBurst(true);
+    if (fireTimeoutRef.current) clearTimeout(fireTimeoutRef.current);
+    fireTimeoutRef.current = setTimeout(() => setPriceFireBurst(false), 650);
+  };
+
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      {/* MOBILE: video hero + logo/tagline + car train marquee */}
+      {/* MOBILE: video hero + car train marquee */}
       <section className="relative overflow-hidden sm:hidden bg-luxury-black">
         {/* Video background */}
         <div className="absolute inset-0">
@@ -407,23 +458,13 @@ export default function Home() {
             loop
             playsInline
             preload="auto"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
             src="/updated.mp4"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/35" />
         </div>
 
-        {/* Static Logo */}
-        <div className="relative flex items-center justify-center px-4 pt-6 pb-4" style={{ height: "360px" }}>
-          <Image
-            src="/logo.png"
-            alt="Lebanon Rental"
-            width={600}
-            height={600}
-            className="h-[22rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
-            priority
-          />
-        </div>
+        <div className="relative" style={{ height: "360px" }} />
 
         {/* Auto-scrolling car train */}
         <div className="relative w-full overflow-hidden pb-3">
@@ -471,26 +512,14 @@ export default function Home() {
               loop
               playsInline
               preload="auto"
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
               src="/updated.mp4"
             />
           </div>
 
           {/* overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30" />
-
-          {/* Static Logo (desktop) */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <Image
-              src="/logo.png"
-              alt="Lebanon Rental"
-              width={600}
-              height={600}
-              className="h-[26rem] lg:h-[30rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)]"
-              priority
-            />
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/15 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/15" />
         </div>
       </section>
 
@@ -508,35 +537,46 @@ export default function Home() {
           </div>
           <div className="flex flex-col sm:flex-row sm:items-start sm:gap-8">
             <div className="flex-1 min-w-0">
-              {/* search */}
+              {/* search + filter trigger */}
               <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
-          <div className="relative">
-            <svg
-              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 sm:left-4 sm:h-5 sm:w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name, brand, year..."
-              className="w-full border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
-              >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
-          </div>
+                <div className="flex items-stretch gap-2">
+                  <div className="relative flex-1">
+                    <svg
+                      className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 sm:left-4 sm:h-5 sm:w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search by name, brand, year..."
+                      className="w-full border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
+                    />
+                    {searchQuery && (
+                      <button
+                        onClick={() => setSearchQuery("")}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+                      >
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setShowMoreFilters(!showMoreFilters)}
+                    className="flex items-center gap-1.5 border border-navy bg-white px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-navy transition-colors hover:bg-navy hover:text-white sm:px-4 sm:text-[11px]"
+                  >
+                    <svg className={`h-3.5 w-3.5 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                    {showMoreFilters ? "Hide" : "Filters"}
+                  </button>
+                </div>
               </div>
 
               {/* category tabs */}
@@ -571,15 +611,6 @@ export default function Home() {
 
               {/* collapsible extra filters */}
               <div className="mb-2 sm:mb-0">
-          <button
-            onClick={() => setShowMoreFilters(!showMoreFilters)}
-            className="mx-auto flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-gray-900/40 transition-colors hover:text-gray-900/70 sm:text-[10px]"
-          >
-            <svg className={`h-3 w-3 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-            {showMoreFilters ? "Hide Filters" : "More Filters"}
-          </button>
           {showMoreFilters && (
             <div className="mt-3 space-y-3 animate-fade-in-up">
               {/* road type pills */}
@@ -643,9 +674,20 @@ export default function Home() {
               {/* Price range slider */}
               {priceInited && maxPrice > minPrice && (
                 <div className="mx-auto max-w-2xl mt-3 sm:mt-4">
-                  <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">
-                    Price Range: ${priceRange[0]}/day &ndash; ${priceRange[1]}/day
-                  </p>
+                  <div className="mb-2 flex items-center justify-between">
+                    <p className="text-[11px] font-bold text-[#1a4b6e] sm:text-[12px]">
+                      Price Range: ${priceRange[0]}/day &ndash; ${priceRange[1]}/day
+                    </p>
+                    <span
+                      className={
+                        "pointer-events-none inline-flex items-center gap-1 text-xs font-bold text-[#f97316] " +
+                        (priceFireBurst ? "price-fire-burst" : "opacity-0")
+                      }
+                      aria-hidden="true"
+                    >
+                      🔥🔥
+                    </span>
+                  </div>
                   <div className="flex items-center gap-3">
                     <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${minPrice}</span>
                     <div className="relative flex-1">
@@ -654,22 +696,50 @@ export default function Home() {
                         min={minPrice}
                         max={maxPrice}
                         value={priceRange[0]}
+                        onPointerDown={() => setActivePriceThumb("min")}
                         onChange={(e) => {
                           const v = Number(e.target.value);
                           setPriceRange([Math.min(v, priceRange[1]), priceRange[1]]);
                         }}
-                        className="price-slider absolute inset-0 w-full pointer-events-auto"
+                        onPointerUp={() => {
+                          setActivePriceThumb(null);
+                          triggerPriceJoy();
+                        }}
+                        onTouchEnd={() => {
+                          setActivePriceThumb(null);
+                          triggerPriceJoy();
+                        }}
+                        onMouseUp={() => {
+                          setActivePriceThumb(null);
+                          triggerPriceJoy();
+                        }}
+                        className={"price-slider absolute inset-0 w-full " + (activePriceThumb === "min" ? "z-30" : "z-20")}
+                        aria-label="Minimum daily price"
                       />
                       <input
                         type="range"
                         min={minPrice}
                         max={maxPrice}
                         value={priceRange[1]}
+                        onPointerDown={() => setActivePriceThumb("max")}
                         onChange={(e) => {
                           const v = Number(e.target.value);
                           setPriceRange([priceRange[0], Math.max(v, priceRange[0])]);
                         }}
-                        className="price-slider absolute inset-0 w-full pointer-events-auto"
+                        onPointerUp={() => {
+                          setActivePriceThumb(null);
+                          triggerPriceJoy();
+                        }}
+                        onTouchEnd={() => {
+                          setActivePriceThumb(null);
+                          triggerPriceJoy();
+                        }}
+                        onMouseUp={() => {
+                          setActivePriceThumb(null);
+                          triggerPriceJoy();
+                        }}
+                        className={"price-slider absolute inset-0 w-full " + (activePriceThumb === "max" ? "z-30" : "z-20")}
+                        aria-label="Maximum daily price"
                       />
                       {/* Track visualization */}
                       <div className="h-1.5 rounded-full bg-gray-200 relative">
