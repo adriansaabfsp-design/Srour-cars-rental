@@ -294,10 +294,8 @@ export default function Home() {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 9999]);
   const [priceInited, setPriceInited] = useState(false);
   const [activePriceThumb, setActivePriceThumb] = useState<"min" | "max" | null>(null);
-  const [priceFireBurst, setPriceFireBurst] = useState(false);
-  const fireTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastJoyRef = useRef(0);
-  const audioCtxRef = useRef<AudioContext | null>(null);
+  const [priceBounce, setPriceBounce] = useState(false);
+  const bounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 
   useEffect(() => {
@@ -401,48 +399,15 @@ export default function Home() {
 
   useEffect(() => {
     return () => {
-      if (fireTimeoutRef.current) clearTimeout(fireTimeoutRef.current);
-      if (audioCtxRef.current) audioCtxRef.current.close();
+      if (bounceRef.current) clearTimeout(bounceRef.current);
     };
   }, []);
 
-  const triggerPriceJoy = () => {
-    const now = Date.now();
-    if (now - lastJoyRef.current < 180) return;
-    lastJoyRef.current = now;
-
-    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-      navigator.vibrate(20);
-    }
-
-    if (typeof window !== "undefined") {
-      const AudioContextClass = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (AudioContextClass) {
-        if (!audioCtxRef.current) {
-          audioCtxRef.current = new AudioContextClass();
-        }
-        const ctx = audioCtxRef.current;
-        if (ctx.state === "suspended") {
-          void ctx.resume();
-        }
-        const oscillator = ctx.createOscillator();
-        const gain = ctx.createGain();
-        oscillator.type = "triangle";
-        oscillator.frequency.setValueAtTime(420, ctx.currentTime);
-        oscillator.frequency.exponentialRampToValueAtTime(260, ctx.currentTime + 0.12);
-        gain.gain.setValueAtTime(0.0001, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.03, ctx.currentTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.16);
-        oscillator.connect(gain);
-        gain.connect(ctx.destination);
-        oscillator.start();
-        oscillator.stop(ctx.currentTime + 0.16);
-      }
-    }
-
-    setPriceFireBurst(true);
-    if (fireTimeoutRef.current) clearTimeout(fireTimeoutRef.current);
-    fireTimeoutRef.current = setTimeout(() => setPriceFireBurst(false), 650);
+  const handlePriceRelease = () => {
+    setActivePriceThumb(null);
+    setPriceBounce(true);
+    if (bounceRef.current) clearTimeout(bounceRef.current);
+    bounceRef.current = setTimeout(() => setPriceBounce(false), 400);
   };
 
   return (
@@ -674,23 +639,45 @@ export default function Home() {
               {/* Price range slider */}
               {priceInited && maxPrice > minPrice && (
                 <div className="mx-auto max-w-2xl mt-3 sm:mt-4">
-                  <div className="mb-2 flex items-center justify-between">
-                    <p className="text-[11px] font-bold text-[#1a4b6e] sm:text-[12px]">
-                      Price Range: ${priceRange[0]}/day &ndash; ${priceRange[1]}/day
-                    </p>
-                    <span
-                      className={
-                        "pointer-events-none inline-flex items-center gap-1 text-xs font-bold text-[#f97316] " +
-                        (priceFireBurst ? "price-fire-burst" : "opacity-0")
-                      }
-                      aria-hidden="true"
-                    >
-                      🔥🔥
-                    </span>
-                  </div>
+                  <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">
+                    Price Range
+                  </p>
                   <div className="flex items-center gap-3">
                     <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${minPrice}</span>
-                    <div className="relative flex-1">
+                    <div className="relative flex-1 h-6 flex items-center">
+                      {/* Track background */}
+                      <div className="absolute left-0 right-0 h-[5px] rounded-full bg-gray-200/80" />
+                      {/* Active track with glow */}
+                      <div
+                        className={`absolute h-[5px] rounded-full transition-shadow duration-300 ${
+                          activePriceThumb
+                            ? "bg-[#1B4F72] shadow-[0_0_12px_3px_rgba(27,79,114,0.45)]"
+                            : "bg-[#1B4F72]/70 shadow-none"
+                        }`}
+                        style={{
+                          left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%`,
+                          right: `${100 - ((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%`,
+                        }}
+                      />
+                      {/* Min handle visual */}
+                      <div
+                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full pointer-events-none transition-all duration-200 ${
+                          activePriceThumb === "min"
+                            ? "w-6 h-6 bg-[#1B4F72] shadow-[0_0_0_6px_rgba(27,79,114,0.18),0_2px_8px_rgba(0,0,0,0.2)]"
+                            : "w-[18px] h-[18px] bg-[#1B4F72] border-2 border-white shadow-[0_1px_4px_rgba(0,0,0,0.2)]"
+                        }`}
+                        style={{ left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
+                      />
+                      {/* Max handle visual */}
+                      <div
+                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full pointer-events-none transition-all duration-200 ${
+                          activePriceThumb === "max"
+                            ? "w-6 h-6 bg-[#1B4F72] shadow-[0_0_0_6px_rgba(27,79,114,0.18),0_2px_8px_rgba(0,0,0,0.2)]"
+                            : "w-[18px] h-[18px] bg-[#1B4F72] border-2 border-white shadow-[0_1px_4px_rgba(0,0,0,0.2)]"
+                        }`}
+                        style={{ left: `${((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
+                      />
+                      {/* Invisible range inputs on top */}
                       <input
                         type="range"
                         min={minPrice}
@@ -701,18 +688,8 @@ export default function Home() {
                           const v = Number(e.target.value);
                           setPriceRange([Math.min(v, priceRange[1]), priceRange[1]]);
                         }}
-                        onPointerUp={() => {
-                          setActivePriceThumb(null);
-                          triggerPriceJoy();
-                        }}
-                        onTouchEnd={() => {
-                          setActivePriceThumb(null);
-                          triggerPriceJoy();
-                        }}
-                        onMouseUp={() => {
-                          setActivePriceThumb(null);
-                          triggerPriceJoy();
-                        }}
+                        onPointerUp={handlePriceRelease}
+                        onTouchEnd={handlePriceRelease}
                         className={"price-slider absolute inset-0 w-full " + (activePriceThumb === "min" ? "z-30" : "z-20")}
                         aria-label="Minimum daily price"
                       />
@@ -726,37 +703,22 @@ export default function Home() {
                           const v = Number(e.target.value);
                           setPriceRange([priceRange[0], Math.max(v, priceRange[0])]);
                         }}
-                        onPointerUp={() => {
-                          setActivePriceThumb(null);
-                          triggerPriceJoy();
-                        }}
-                        onTouchEnd={() => {
-                          setActivePriceThumb(null);
-                          triggerPriceJoy();
-                        }}
-                        onMouseUp={() => {
-                          setActivePriceThumb(null);
-                          triggerPriceJoy();
-                        }}
+                        onPointerUp={handlePriceRelease}
+                        onTouchEnd={handlePriceRelease}
                         className={"price-slider absolute inset-0 w-full " + (activePriceThumb === "max" ? "z-30" : "z-20")}
                         aria-label="Maximum daily price"
                       />
-                      {/* Track visualization */}
-                      <div className="h-1.5 rounded-full bg-gray-200 relative">
-                        <div
-                          className="absolute h-full rounded-full bg-[#1a6fa0]"
-                          style={{
-                            left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%`,
-                            right: `${100 - ((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%`,
-                          }}
-                        />
-                      </div>
                     </div>
                     <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${maxPrice}</span>
                   </div>
-                  <div className="flex justify-between mt-1">
-                    <span className="inline-block bg-[#1a6fa0] text-white text-[10px] font-bold px-2 py-0.5 rounded">${priceRange[0]}</span>
-                    <span className="inline-block bg-[#1a6fa0] text-white text-[10px] font-bold px-2 py-0.5 rounded">${priceRange[1]}</span>
+                  {/* Price badges */}
+                  <div className="flex justify-between mt-2">
+                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-300 ${priceBounce ? "price-badge-bounce" : ""}`}>
+                      ${priceRange[0]}<span className="text-white/50 font-normal">/day</span>
+                    </span>
+                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-300 ${priceBounce ? "price-badge-bounce" : ""}`}>
+                      ${priceRange[1]}<span className="text-white/50 font-normal">/day</span>
+                    </span>
                   </div>
                 </div>
               )}
@@ -847,9 +809,9 @@ export default function Home() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4 stagger-children">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
               {filteredCars.slice(0, 8).map((car) => (
-                <div key={car.id} className="animate-fade-in-up opacity-0">
+                <div key={car.id} className="car-grid-card">
                   <CarCard car={car} />
                 </div>
               ))}

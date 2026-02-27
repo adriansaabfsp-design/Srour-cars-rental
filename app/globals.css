@@ -87,26 +87,40 @@ html {
   background: transparent;
 }
 
-@keyframes priceFireBurst {
-  0% {
-    opacity: 0;
-    transform: translateY(8px) scale(0.75);
-    filter: blur(2px);
-  }
-  35% {
-    opacity: 1;
-    transform: translateY(-2px) scale(1.08);
-    filter: blur(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-12px) scale(1.15);
-    filter: blur(1px);
-  }
+/* Premium price badge bounce on release */
+@keyframes priceBadgeBounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.12); }
+  60%  { transform: scale(0.95); }
+  100% { transform: scale(1); }
 }
 
-.price-fire-burst {
-  animation: priceFireBurst 0.65s ease-out both;
+.price-badge-bounce {
+  animation: priceBadgeBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Car grid smooth fade transition */
+.car-grid-card {
+  animation: cardFadeIn 0.5s ease-out both;
+}
+.car-grid-card:nth-child(1) { animation-delay: 0.02s; }
+.car-grid-card:nth-child(2) { animation-delay: 0.06s; }
+.car-grid-card:nth-child(3) { animation-delay: 0.1s; }
+.car-grid-card:nth-child(4) { animation-delay: 0.14s; }
+.car-grid-card:nth-child(5) { animation-delay: 0.18s; }
+.car-grid-card:nth-child(6) { animation-delay: 0.22s; }
+.car-grid-card:nth-child(7) { animation-delay: 0.26s; }
+.car-grid-card:nth-child(8) { animation-delay: 0.3s; }
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Gold shimmer animation */

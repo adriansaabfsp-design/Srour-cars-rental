@@ -35,7 +35,31 @@ export default function Navbar() {
 
   return (
     <nav className={`${nunito.className} sticky top-0 z-50 border-b border-gray-200 bg-white`}>
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8 relative">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8 relative">
+        {/* Mobile: logo left + quick links */}
+        <div className="flex items-center gap-3 sm:hidden">
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo-hd.png"
+              alt="Lebanon Rental"
+              width={200}
+              height={200}
+              className="h-10 w-auto"
+              priority
+            />
+          </Link>
+          <div className="flex items-center gap-2.5 overflow-x-auto whitespace-nowrap">
+            {["Collection", "Extras", "FAQ"].map((label) => {
+              const href = label === "Collection" ? "/#collection" : label === "Extras" ? "/extras" : "/faq";
+              return (
+                <Link key={label} href={href} className="text-[9px] font-extrabold uppercase tracking-[0.1em] text-[#1a6fa0]/60">
+                  {label}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="hidden flex-1 items-center justify-start gap-4 lg:gap-5 sm:flex">
           {leftLinks.map((link) => (
             <Link
@@ -52,7 +76,7 @@ export default function Navbar() {
           ))}
         </div>
 
-        <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+        <Link href="/" className="hidden sm:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center">
           <Image
             src="/logo-hd.png"
             alt="Lebanon Rental"
