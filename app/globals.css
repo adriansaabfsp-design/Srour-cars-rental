@@ -367,30 +367,22 @@ select option {
   background: #1B3A5C;
 }
 
-/* Navbar driving car animation — loops around logo */
+/* Navbar driving car animation — horizontal pass */
 .nav-driving-car {
   position: absolute;
   top: 50%;
   left: 50%;
   pointer-events: none;
   animation: navCarDrive 8s ease-in-out infinite;
-  animation-delay: 1s;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
   opacity: 0;
 }
 
 @keyframes navCarDrive {
-  0%   { transform: translate(300%, -50%) scaleX(-1); opacity: 0; }
-  6%   { transform: translate(200%, -50%) scaleX(-1); opacity: 1; }
-  18%  { transform: translate(60%, -160%) scaleX(-1); opacity: 1; }
-  30%  { transform: translate(-60%, -180%) scaleX(-1); opacity: 1; }
-  40%  { transform: translate(-140%, -50%) scaleX(-1); opacity: 1; }
-  50%  { transform: translate(-60%, 80%) scaleX(-1); opacity: 0.4; z-index: 0; }
-  58%  { transform: translate(40%, 40%) scaleX(-1); opacity: 0; z-index: 0; }
-  64%  { transform: translate(100%, -50%) scaleX(1); opacity: 0; z-index: 20; }
-  70%  { transform: translate(60%, -50%) scaleX(1); opacity: 1; }
-  80%  { transform: translate(-40%, -50%) scaleX(1); opacity: 1; }
-  88%  { transform: translate(-200%, -50%) scaleX(1); opacity: 1; }
-  94%  { transform: translate(-350%, -50%) scaleX(1); opacity: 0; }
-  100% { transform: translate(-350%, -50%) scaleX(1); opacity: 0; }
+  0%   { transform: translate(350%, -50%); opacity: 0; }
+  8%   { transform: translate(250%, -50%); opacity: 1; }
+  45%  { transform: translate(-50%, -50%); opacity: 1; }
+  85%  { transform: translate(-350%, -50%); opacity: 1; }
+  95%  { transform: translate(-450%, -50%); opacity: 0; }
+  100% { transform: translate(-450%, -50%); opacity: 0; }
 }
