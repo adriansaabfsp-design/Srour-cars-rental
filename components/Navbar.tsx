@@ -64,15 +64,6 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden flex-1 items-center justify-end gap-4 lg:gap-5 sm:flex">
-          <a
-            href="tel:+96181062329"
-            className="flex items-center gap-1.5 text-[14px] font-extrabold text-[#1a6fa0]/80 transition-colors hover:text-[#1a6fa0]"
-          >
-            <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 7.318 5.932 13.25 13.25 13.25h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.965-.852-1.089l-4.423-1.106a1.125 1.125 0 00-1.173.417l-.97 1.293a1.125 1.125 0 01-1.21.379 10.503 10.503 0 01-6.119-6.119 1.125 1.125 0 01.379-1.21l1.293-.97a1.125 1.125 0 00.417-1.173L6.961 2.852A1.125 1.125 0 005.872 2.25H4.5a2.25 2.25 0 00-2.25 2.25v2.25z" />
-            </svg>
-            +96181062329
-          </a>
           {rightLinks.map((link) => (
             <Link
               key={link.href}
