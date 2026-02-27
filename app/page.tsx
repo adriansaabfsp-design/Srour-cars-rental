@@ -75,7 +75,7 @@ const INSIGHT_TABS = [
     title: "Iconic Road Trips in Lebanon",
     desc: "Explore 17 curated driving routes through the Qadisha Valley, Batroun coast, and Lebanon's mountain passes — with distance, drive time, and recommended car for each.",
     href: "/road-trips",
-    image: "https://images.unsplash.com/photo-1579606032821-4e6161c81571?w=800&q=80",
+    image: "/IMG_1657.jpg",
     icon: (
       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
@@ -87,7 +87,7 @@ const INSIGHT_TABS = [
     title: "Best Time to Visit Lebanon",
     desc: "Ski Faraya in winter, cruise the Jounieh coast in summer, or enjoy autumn in the Shouf. Our month-by-month guide covers weather, prices, and the best car for each season.",
     href: "/seasonal-guide",
-    image: "https://images.unsplash.com/photo-1549880338-65ddcdfd017b?w=800&q=80",
+    image: "/IMG_1658.jpg",
     icon: (
       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
@@ -99,7 +99,7 @@ const INSIGHT_TABS = [
     title: "Everything You Need to Know About Renting",
     desc: "Documents, insurance, fuel policy, age requirements — our FAQ answers every question so you can book with confidence.",
     href: "/faq",
-    image: "https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=800&q=80",
+    image: "/IMG_1660.jpg",
     icon: (
       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
@@ -111,7 +111,7 @@ const INSIGHT_TABS = [
     title: "Rental Extras & Add-ons",
     desc: "GPS, child seats, extra drivers, insurance upgrades, and 24/7 roadside assistance — add what you need at checkout.",
     href: "/extras",
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=80",
+    image: "/IMG_1663.jpg",
     icon: (
       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
