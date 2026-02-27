@@ -127,6 +127,13 @@ function InsightsSection() {
   const [direction, setDirection] = useState<"left" | "right">("right");
   const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+  useEffect(() => {
+    INSIGHT_TABS.forEach((tab) => {
+      const img = new window.Image();
+      img.src = tab.image;
+    });
+  }, []);
+
   const goTo = useCallback(
     (idx: number) => {
       if (idx === active || animating) return;
@@ -220,6 +227,7 @@ function InsightsSection() {
               {/* Image */}
               <div className="relative h-48 w-full flex-shrink-0 overflow-hidden sm:h-auto sm:w-[45%]">
                 <Image
+                  key={current.image}
                   src={current.image}
                   alt={current.title}
                   fill

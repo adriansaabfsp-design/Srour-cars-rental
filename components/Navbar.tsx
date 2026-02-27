@@ -18,6 +18,8 @@ const NAV_LINKS = [
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const leftLinks = NAV_LINKS.slice(0, 4);
+  const rightLinks = NAV_LINKS.slice(4);
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -26,67 +28,64 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-navy-light bg-navy backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-24 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center">
-          <Image
-            src="/logo.png"
-            alt="Lebanon Rental"
-            width={200}
-            height={200}
-            className="h-16 w-auto sm:h-24"
-            priority
-          />
-        </Link>
-
-        {/* Mobile inline quick-links */}
-        <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap sm:hidden">
-          {NAV_LINKS.slice(0, 5).map((link) => (
+    <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white">
+      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:h-28 sm:px-6 lg:px-8">
+        <div className="hidden flex-1 items-center gap-7 sm:flex">
+          {leftLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`text-[9px] font-bold uppercase tracking-[0.12em] ${isActive(link.href) ? "text-white" : "text-white/60"}`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-
-        {/* Desktop nav */}
-        <div className="hidden items-center gap-8 sm:flex">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
+              className={`relative text-[14px] font-semibold transition-colors ${
                 isActive(link.href)
-                  ? "text-white"
-                  : "text-white/60 hover:text-white"
+                  ? "text-navy"
+                  : "text-navy/70 hover:text-navy"
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="h-5 w-px bg-white/20" />
+        </div>
+
+        <Link href="/" className="flex items-center justify-center sm:px-6">
+          <Image
+            src="/logo.png"
+            alt="Lebanon Rental"
+            width={260}
+            height={260}
+            className="h-20 w-auto sm:h-28"
+            priority
+          />
+        </Link>
+
+        <div className="hidden flex-1 items-center justify-end gap-7 sm:flex">
+          {rightLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`relative text-[14px] font-semibold transition-colors ${
+                isActive(link.href)
+                  ? "text-navy"
+                  : "text-navy/70 hover:text-navy"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link
             href="/admin"
-            className={`relative text-[13px] font-medium uppercase tracking-[0.2em] transition-colors ${
+            className={`relative text-[14px] font-semibold transition-colors ${
               pathname === "/admin"
-                ? "text-white"
-                : "text-white/60 hover:text-white"
+                ? "text-navy"
+                : "text-navy/70 hover:text-navy"
             }`}
           >
             Admin
-            {pathname === "/admin" && (
-              <span className="absolute -bottom-1 left-0 h-px w-full bg-white" />
-            )}
           </Link>
         </div>
 
-        {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-10 w-10 items-center justify-center text-white/60 sm:hidden"
+          className="absolute right-4 flex h-10 w-10 items-center justify-center text-navy sm:hidden"
         >
           {menuOpen ? (
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
