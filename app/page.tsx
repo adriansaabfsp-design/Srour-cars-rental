@@ -429,27 +429,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/35" />
         </div>
 
-        <div className="relative flex items-center justify-center" style={{ height: "360px" }}>
-          <Image
-            src="/logo.png"
-            alt="Lebanon Rental"
-            width={600}
-            height={600}
-            className="h-[18rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)] relative z-10"
-            priority
-          />
-          {/* Animated driving car */}
-          <svg className="hero-driving-car absolute z-20" width="48" height="20" viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 14h32v2H8z" fill="#1B4F72"/>
-            <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="#1B4F72"/>
-            <path d="M14 8h4l-2-3h-4l2 3z" fill="#2A7AB5" opacity="0.6"/>
-            <path d="M20 8h6l-1-3h-4l-1 3z" fill="#2A7AB5" opacity="0.6"/>
-            <circle cx="14" cy="16" r="3" fill="#0f2f47"/>
-            <circle cx="14" cy="16" r="1.5" fill="#4a4a4a"/>
-            <circle cx="34" cy="16" r="3" fill="#0f2f47"/>
-            <circle cx="34" cy="16" r="1.5" fill="#4a4a4a"/>
-          </svg>
-        </div>
+        <div className="relative" style={{ height: "360px" }} />
 
         {/* Auto-scrolling car train */}
         <div className="relative w-full overflow-hidden pb-3">
@@ -505,31 +485,6 @@ export default function Home() {
           {/* overlays */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/15 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/15" />
-
-          {/* Centered logo + animated car */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="relative">
-              <Image
-                src="/logo.png"
-                alt="Lebanon Rental"
-                width={600}
-                height={600}
-                className="h-[26rem] lg:h-[30rem] w-auto drop-shadow-[0_6px_42px_rgba(0,0,0,0.65)] relative z-10"
-                priority
-              />
-              {/* Animated driving car */}
-              <svg className="hero-driving-car absolute z-20" width="64" height="26" viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 14h32v2H8z" fill="#1B4F72"/>
-                <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="#1B4F72"/>
-                <path d="M14 8h4l-2-3h-4l2 3z" fill="#2A7AB5" opacity="0.6"/>
-                <path d="M20 8h6l-1-3h-4l-1 3z" fill="#2A7AB5" opacity="0.6"/>
-                <circle cx="14" cy="16" r="3" fill="#0f2f47"/>
-                <circle cx="14" cy="16" r="1.5" fill="#4a4a4a"/>
-                <circle cx="34" cy="16" r="3" fill="#0f2f47"/>
-                <circle cx="34" cy="16" r="1.5" fill="#4a4a4a"/>
-              </svg>
-            </div>
-          </div>
         </div>
       </section>
 
