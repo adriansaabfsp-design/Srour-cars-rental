@@ -52,37 +52,51 @@ html {
 .price-slider {
   -webkit-appearance: none;
   appearance: none;
-  height: 6px;
+  height: 24px;
   background: transparent;
   outline: none;
   z-index: 2;
   pointer-events: none;
+  opacity: 0;
 }
 
 .price-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: transparent;
   border: none;
+  box-shadow: none;
   cursor: pointer;
   pointer-events: auto;
+  opacity: 0;
+}
+
+.price-slider::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  height: 24px;
 }
 
 .price-slider::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   background: transparent;
   border: none;
+  box-shadow: none;
   cursor: pointer;
   pointer-events: auto;
+  opacity: 0;
 }
 
 .price-slider::-moz-range-track {
   background: transparent;
+  border: none;
 }
 
 /* Premium price badge bounce on release */

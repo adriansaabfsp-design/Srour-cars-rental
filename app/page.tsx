@@ -19,11 +19,7 @@ const PROPERTY_IMAGES = [
 
 function PropertySlideshow() {
   const [currentIdx, setCurrentIdx] = useState(0);
-  const [nextIdx, setNextIdx] = useState(1);
-  const [transitioning, setTransitioning] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  /* Preload every property image so transitions are seamless on mobile */
   useEffect(() => {
     PROPERTY_IMAGES.forEach((src) => {
       const img = new window.Image();
@@ -31,38 +27,19 @@ function PropertySlideshow() {
     });
   }, []);
 
-  /* Kick off fade every 5 s — only set the flag, don't touch indices */
   useEffect(() => {
-    timerRef.current = setInterval(() => {
-      setTransitioning(true);
-    }, 5000);
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    const timer = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % PROPERTY_IMAGES.length);
+    }, 4000);
+    return () => clearInterval(timer);
   }, []);
-
-  /* After the 700 ms fade completes, promote next → current */
-  useEffect(() => {
-    if (!transitioning) return;
-    const t = setTimeout(() => {
-      setCurrentIdx(nextIdx);
-      setNextIdx((nextIdx + 1) % PROPERTY_IMAGES.length);
-      setTransitioning(false);
-    }, 700);
-    return () => clearTimeout(t);
-  }, [transitioning, nextIdx]);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {/* Current image (always visible underneath) */}
       <img
         src={PROPERTY_IMAGES[currentIdx]}
         alt="Lebanon Rental property"
         className="absolute inset-0 h-full w-full object-cover"
-      />
-      {/* Next image (fades in on top) */}
-      <img
-        src={PROPERTY_IMAGES[nextIdx]}
-        alt="Lebanon Rental property"
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${transitioning ? "opacity-100" : "opacity-0"}`}
       />
     </div>
   );
@@ -661,22 +638,52 @@ export default function Home() {
                       />
                       {/* Min handle visual */}
                       <div
-                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full pointer-events-none transition-all duration-200 ${
-                          activePriceThumb === "min"
-                            ? "w-6 h-6 bg-[#1B4F72] shadow-[0_0_0_6px_rgba(27,79,114,0.18),0_2px_8px_rgba(0,0,0,0.2)]"
-                            : "w-[18px] h-[18px] bg-[#1B4F72] border-2 border-white shadow-[0_1px_4px_rgba(0,0,0,0.2)]"
-                        }`}
+                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none transition-all duration-200"
                         style={{ left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
-                      />
+                      >
+                        <svg
+                          className={`text-[#1B4F72] transition-all duration-200 ${
+                            activePriceThumb === "min"
+                              ? "h-8 w-8 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
+                              : "h-6 w-6"
+                          }`}
+                          viewBox="0 0 48 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path d="M8 14h32v2H8z" fill="currentColor" />
+                          <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
+                          <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
+                          <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
+                          <circle cx="14" cy="16" r="3" fill="#0f2f47" />
+                          <circle cx="34" cy="16" r="3" fill="#0f2f47" />
+                        </svg>
+                      </div>
                       {/* Max handle visual */}
                       <div
-                        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full pointer-events-none transition-all duration-200 ${
-                          activePriceThumb === "max"
-                            ? "w-6 h-6 bg-[#1B4F72] shadow-[0_0_0_6px_rgba(27,79,114,0.18),0_2px_8px_rgba(0,0,0,0.2)]"
-                            : "w-[18px] h-[18px] bg-[#1B4F72] border-2 border-white shadow-[0_1px_4px_rgba(0,0,0,0.2)]"
-                        }`}
+                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none transition-all duration-200"
                         style={{ left: `${((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
-                      />
+                      >
+                        <svg
+                          className={`text-[#1B4F72] [transform:scaleX(-1)] transition-all duration-200 ${
+                            activePriceThumb === "max"
+                              ? "h-8 w-8 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
+                              : "h-6 w-6"
+                          }`}
+                          viewBox="0 0 48 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path d="M8 14h32v2H8z" fill="currentColor" />
+                          <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
+                          <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
+                          <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
+                          <circle cx="14" cy="16" r="3" fill="#0f2f47" />
+                          <circle cx="34" cy="16" r="3" fill="#0f2f47" />
+                        </svg>
+                      </div>
                       {/* Invisible range inputs on top */}
                       <input
                         type="range"
@@ -690,7 +697,7 @@ export default function Home() {
                         }}
                         onPointerUp={handlePriceRelease}
                         onTouchEnd={handlePriceRelease}
-                        className={"price-slider absolute inset-0 w-full " + (activePriceThumb === "min" ? "z-30" : "z-20")}
+                        className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "min" ? "z-30" : "z-20")}
                         aria-label="Minimum daily price"
                       />
                       <input
@@ -705,7 +712,7 @@ export default function Home() {
                         }}
                         onPointerUp={handlePriceRelease}
                         onTouchEnd={handlePriceRelease}
-                        className={"price-slider absolute inset-0 w-full " + (activePriceThumb === "max" ? "z-30" : "z-20")}
+                        className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "max" ? "z-30" : "z-20")}
                         aria-label="Maximum daily price"
                       />
                     </div>
@@ -924,10 +931,6 @@ export default function Home() {
               <div className="relative h-full min-h-[140px] sm:min-h-[200px]">
                 <PropertySlideshow />
               </div>
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-white to-transparent" />
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-4 bg-gradient-to-b from-white to-transparent" />
             </div>
           </div>
         </div>
@@ -936,35 +939,7 @@ export default function Home() {
       {/* ─── TRAVEL INSIGHTS (animated tabs) ─── */}
       <InsightsSection />
 
-      {/* ─── GOOGLE REVIEWS WIDGET ─── */}
-      <section className="border-t border-luxury-border">
-        <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,_rgba(27,58,92,0.05),_transparent)]" />
-          <div className="relative mx-auto max-w-5xl px-4 py-10 sm:px-6 sm:py-20">
-            <div className="mb-6 text-center sm:mb-10">
-              <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">Reviews</p>
-              <h2 className="mt-3 font-serif text-2xl font-bold text-gray-900 sm:text-4xl">
-                TRUSTED BY OUR CLIENTS
-              </h2>
-              <div className="mx-auto mt-4 h-[2px] w-16 bg-gradient-to-r from-transparent via-navy to-transparent" />
-            </div>
-            <div className="relative w-full overflow-hidden rounded-sm">
-              <iframe
-                src="https://e4d32f7c7ba948688a5a5396616a4f69.elf.site"
-                title="Google Reviews"
-                className="h-[420px] w-full border-0 sm:h-[540px]"
-                loading="lazy"
-                allowTransparency
-              />
-              {/* Cover Elfsight branding */}
-              <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-14 bg-white" />
-            </div>
-            <p className="mx-auto mt-6 max-w-md text-center text-[11px] leading-relaxed text-gray-900/20">
-              Reviews are for Lebanon Rental, our parent property rental company. Srour Cars is our dedicated car rental service.
-            </p>
-          </div>
-        </div>
-      </section>
+
 
       {/* ─── STATS (bottom) ─── */}
       <section className="border-t border-luxury-border bg-luxury-card">

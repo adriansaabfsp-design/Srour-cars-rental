@@ -39,6 +39,11 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const leftLinks = NAV_LINKS.slice(0, 4);
   const rightLinks = NAV_LINKS.slice(4);
+  const mobileLeftLinks = NAV_LINKS.filter((link) => link.href === "/" || link.href === "/#collection");
+  const mobileRightLinks = NAV_LINKS.filter((link) => link.href === "/faq" || link.href === "/#contact");
+  const mobileMenuLinks = NAV_LINKS.filter(
+    (link) => !["/", "/#collection", "/faq", "/#contact"].includes(link.href)
+  );
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -83,14 +88,14 @@ export default function Navbar() {
         </div>
 
         {/* Center logo — both mobile & desktop */}
-        <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+        <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex items-center justify-center">
           <div className="relative">
             <Image
               src="/logo-hd.png"
               alt="Lebanon Rental"
-              width={500}
-              height={500}
-              className="h-14 w-auto sm:h-44 lg:h-52"
+              width={1162}
+              height={394}
+              className="h-28 w-auto sm:h-16 lg:h-20"
               priority
             />
             {/* Animated driving car */}
@@ -136,11 +141,43 @@ export default function Navbar() {
         </a>
       </div>
 
+      {/* Mobile quick links */}
+      <div className="border-t border-gray-100 bg-white px-4 py-2 sm:hidden">
+        <div className="mx-auto flex max-w-6xl items-center justify-between">
+          <div className="flex items-center gap-4">
+            {mobileLeftLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-[11px] font-extrabold uppercase tracking-[0.08em] ${
+                  isActive(link.href) ? "text-[#1a6fa0]" : "text-[#1a6fa0]/70"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          <div className="flex items-center gap-4">
+            {mobileRightLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-[11px] font-extrabold uppercase tracking-[0.08em] ${
+                  isActive(link.href) ? "text-[#1a6fa0]" : "text-[#1a6fa0]/70"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Mobile menu */}
       {menuOpen && (
         <div className="border-t border-gray-200 bg-white px-6 py-5 sm:hidden">
           <div className="flex flex-col gap-4">
-            {NAV_LINKS.map((link) => (
+            {mobileMenuLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
