@@ -182,7 +182,7 @@ function InsightsSection() {
   const current = INSIGHT_TABS[active];
 
   return (
-    <section className="bg-[#E8F1FA]">
+    <section className="bg-[#D6EEFB]">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-20">
         <div className="mb-5 text-center sm:mb-10">
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
@@ -288,6 +288,8 @@ export default function Home() {
   const [previewIndex, setPreviewIndex] = useState(0);
   const [previewFading, setPreviewFading] = useState(false);
   const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 9999]);
+  const [priceInited, setPriceInited] = useState(false);
 
 
   useEffect(() => {
@@ -305,6 +307,19 @@ export default function Home() {
     };
     fetchCars();
   }, []);
+
+  // Compute min/max prices from all available cars
+  const availableCars = cars.filter((c) => c.available !== false);
+  const minPrice = availableCars.length > 0 ? Math.min(...availableCars.map((c) => c.price)) : 0;
+  const maxPrice = availableCars.length > 0 ? Math.max(...availableCars.map((c) => c.price)) : 9999;
+
+  // Initialize price range once cars load
+  useEffect(() => {
+    if (availableCars.length > 0 && !priceInited) {
+      setPriceRange([minPrice, maxPrice]);
+      setPriceInited(true);
+    }
+  }, [availableCars.length, minPrice, maxPrice, priceInited]);
 
   const featuredCars = cars.filter((c) => c.featured);
   const previewCars = featuredCars.length > 0 ? featuredCars : cars.filter((c) => c.available !== false);
@@ -325,6 +340,7 @@ export default function Home() {
         return false;
       if (brand !== "All" && car.brand !== brand) return false;
       if (transmission !== "All" && car.transmission !== transmission) return false;
+      if (priceInited && (car.price < priceRange[0] || car.price > priceRange[1])) return false;
       return true;
     })
     .sort((a, b) => {
@@ -339,11 +355,12 @@ export default function Home() {
     setActiveRoad("All Terrain");
     setBrand("All");
     setTransmission("All");
+    if (priceInited) setPriceRange([minPrice, maxPrice]);
   };
 
 
   const hasFilters =
-    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || transmission !== "All";
+    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || transmission !== "All" || (priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice));
 
   const previewCar = previewCars.length > 0 ? previewCars[previewIndex % previewCars.length] : null;
 
@@ -475,8 +492,17 @@ export default function Home() {
       </section>
 
       {/* ─── SEARCH & FILTERS (under hero) ─── */}
-      <div className="bg-[#E8F1FA]">
-        <div id="collection" className="mx-auto max-w-7xl px-4 pt-6 pb-6 sm:px-6 sm:pt-10 sm:pb-8 lg:px-8">
+      <div className="bg-[#D6EEFB]">
+        <div id="collection" className="mx-auto max-w-7xl px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8 lg:px-8">
+          {/* Intro headline */}
+          <div className="mb-5 text-center sm:mb-8">
+            <h1 className="text-2xl font-extrabold text-[#1a4b6e] sm:text-4xl lg:text-5xl leading-tight">
+              Discover Lebanon&apos;s Premium Car Rentals
+            </h1>
+            <p className="mx-auto mt-2 max-w-xl text-sm text-[#1a4b6e]/60 sm:mt-3 sm:text-base">
+              50+ handpicked cars for every road, season, and adventure across Lebanon.
+            </p>
+          </div>
           <div className="flex flex-col sm:flex-row sm:items-start sm:gap-8">
             <div className="flex-1 min-w-0">
               {/* search */}
@@ -611,6 +637,56 @@ export default function Home() {
               </div>
             </div>
           )}
+              {/* Price range slider */}
+              {priceInited && maxPrice > minPrice && (
+                <div className="mx-auto max-w-2xl mt-3 sm:mt-4">
+                  <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">
+                    Price Range: ${priceRange[0]}/day &ndash; ${priceRange[1]}/day
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${minPrice}</span>
+                    <div className="relative flex-1">
+                      <input
+                        type="range"
+                        min={minPrice}
+                        max={maxPrice}
+                        value={priceRange[0]}
+                        onChange={(e) => {
+                          const v = Number(e.target.value);
+                          setPriceRange([Math.min(v, priceRange[1]), priceRange[1]]);
+                        }}
+                        className="price-slider absolute inset-0 w-full pointer-events-auto"
+                      />
+                      <input
+                        type="range"
+                        min={minPrice}
+                        max={maxPrice}
+                        value={priceRange[1]}
+                        onChange={(e) => {
+                          const v = Number(e.target.value);
+                          setPriceRange([priceRange[0], Math.max(v, priceRange[0])]);
+                        }}
+                        className="price-slider absolute inset-0 w-full pointer-events-auto"
+                      />
+                      {/* Track visualization */}
+                      <div className="h-1.5 rounded-full bg-gray-200 relative">
+                        <div
+                          className="absolute h-full rounded-full bg-[#1a6fa0]"
+                          style={{
+                            left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%`,
+                            right: `${100 - ((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${maxPrice}</span>
+                  </div>
+                  <div className="flex justify-between mt-1">
+                    <span className="inline-block bg-[#1a6fa0] text-white text-[10px] font-bold px-2 py-0.5 rounded">${priceRange[0]}</span>
+                    <span className="inline-block bg-[#1a6fa0] text-white text-[10px] font-bold px-2 py-0.5 rounded">${priceRange[1]}</span>
+                  </div>
+                </div>
+              )}
               </div>
             </div>
 
@@ -731,7 +807,7 @@ export default function Home() {
       </div>
 
       {/* ─── BROWSE BY CATEGORY ─── */}
-      <section className="bg-[#E8F1FA]">
+      <section className="bg-[#D6EEFB]">
         <div className="mx-auto max-w-6xl px-3 py-3 sm:px-6 sm:py-16">
           <div className="mb-2 text-center sm:mb-8">
             <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[10px] sm:tracking-[0.5em]">Find your perfect match</p>
