@@ -285,6 +285,9 @@ export default function Home() {
   const [brand, setBrand] = useState("All");
   const [transmission, setTransmission] = useState("All");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [previewIndex, setPreviewIndex] = useState(0);
+  const [previewFading, setPreviewFading] = useState(false);
+  const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 
   useEffect(() => {
@@ -304,6 +307,7 @@ export default function Home() {
   }, []);
 
   const featuredCars = cars.filter((c) => c.featured);
+  const previewCars = featuredCars.length > 0 ? featuredCars : cars.filter((c) => c.available !== false);
 
   const filteredCars = cars
     .filter((car) => {
@@ -340,6 +344,35 @@ export default function Home() {
 
   const hasFilters =
     searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || transmission !== "All";
+
+  const previewCar = previewCars.length > 0 ? previewCars[previewIndex % previewCars.length] : null;
+
+  useEffect(() => {
+    setPreviewIndex(0);
+    setPreviewFading(false);
+    if (previewTimeoutRef.current) {
+      clearTimeout(previewTimeoutRef.current);
+      previewTimeoutRef.current = null;
+    }
+  }, [previewCars.length]);
+
+  useEffect(() => {
+    if (previewCars.length < 2) return;
+    const interval = setInterval(() => {
+      setPreviewFading(true);
+      previewTimeoutRef.current = setTimeout(() => {
+        setPreviewIndex((prev) => (prev + 1) % previewCars.length);
+        setPreviewFading(false);
+      }, 280);
+    }, 5000);
+
+    return () => {
+      clearInterval(interval);
+      if (previewTimeoutRef.current) {
+        clearTimeout(previewTimeoutRef.current);
+      }
+    };
+  }, [previewCars.length]);
 
   return (
     <div className="min-h-screen bg-luxury-black">
@@ -444,12 +477,10 @@ export default function Home() {
       {/* ─── SEARCH & FILTERS (under hero) ─── */}
       <div className="bg-[#E8F1FA]">
         <div id="collection" className="mx-auto max-w-7xl px-4 pt-6 pb-6 sm:px-6 sm:pt-10 sm:pb-8 lg:px-8">
-          {/* Desktop: split layout with search left, car preview right */}
-          <div className="flex flex-col sm:flex-row sm:gap-8 sm:items-start">
-            {/* Left: search & filters */}
+          <div className="flex flex-col sm:flex-row sm:items-start sm:gap-8">
             <div className="flex-1 min-w-0">
-        {/* search */}
-        <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
+              {/* search */}
+              <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
           <div className="relative">
             <svg
               className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 sm:left-4 sm:h-5 sm:w-5"
@@ -477,10 +508,10 @@ export default function Home() {
               </button>
             )}
           </div>
-        </div>
+              </div>
 
-        {/* category tabs */}
-        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:mb-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
+              {/* category tabs */}
+              <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:mb-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
           {CAR_CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             const count =
@@ -507,10 +538,10 @@ export default function Home() {
               </button>
             );
           })}
-        </div>
+              </div>
 
-        {/* collapsible extra filters */}
-        <div className="mb-3 sm:mb-4">
+              {/* collapsible extra filters */}
+              <div className="mb-2 sm:mb-0">
           <button
             onClick={() => setShowMoreFilters(!showMoreFilters)}
             className="mx-auto flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-gray-900/40 transition-colors hover:text-gray-900/70 sm:text-[10px]"
@@ -580,8 +611,45 @@ export default function Home() {
               </div>
             </div>
           )}
-        </div>
+              </div>
+            </div>
 
+            {/* Right: single featured car with fade */}
+            <div className="hidden sm:block w-[340px] lg:w-[400px] flex-shrink-0">
+              <div className="sticky top-24">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-navy/50">Featured Cars</p>
+                {previewCar && (
+                  <Link
+                    href={"/cars/" + previewCar.id}
+                    className={`group block bg-white border border-navy/10 p-2 transition-all duration-300 hover:border-navy/30 hover:shadow-sm ${
+                      previewFading ? "opacity-0" : "opacity-100"
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="relative h-20 w-28 flex-shrink-0 overflow-hidden">
+                        <img
+                          src={previewCar.photos?.main || previewCar.images?.[0] || ""}
+                          alt={previewCar.name}
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-navy/40">{previewCar.brand}</p>
+                        <p className="text-lg font-bold leading-tight text-gray-900 truncate">{previewCar.name}</p>
+                        <p className="text-base font-extrabold text-navy">
+                          ${previewCar.price}<span className="text-xs font-normal text-gray-400">/day</span>
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-7xl px-4 pt-4 pb-6 sm:px-6 sm:pt-8 sm:pb-8 lg:px-8">
         {/* result count */}
         <div className="mb-3 sm:mb-4">
           <p className="text-xs text-navy/50 sm:text-sm">
@@ -659,58 +727,8 @@ export default function Home() {
               </div>
             )}
           </>
-        )}            </div>
-
-            {/* Right: car preview (desktop only) */}
-            <div className="hidden sm:block w-[340px] lg:w-[400px] flex-shrink-0">
-              <div className="sticky top-24">
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-navy/50">Featured Cars</p>
-                <div className="flex flex-col gap-3">
-                  {featuredCars.slice(0, 3).map((car) => (
-                    <Link
-                      key={car.id}
-                      href={"/cars/" + car.id}
-                      className="group flex items-center gap-3 bg-white border border-navy/10 p-2 transition-all hover:border-navy/30 hover:shadow-sm"
-                    >
-                      <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden">
-                        <img
-                          src={car.photos?.main || car.images?.[0] || ""}
-                          alt={car.name}
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-navy/40">{car.brand}</p>
-                        <p className="text-sm font-bold text-gray-900 truncate">{car.name}</p>
-                        <p className="text-xs font-extrabold text-navy">${car.price}<span className="text-[10px] font-normal text-gray-400">/day</span></p>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-                {featuredCars.length === 0 && cars.slice(0, 3).map((car) => (
-                  <Link
-                    key={car.id}
-                    href={"/cars/" + car.id}
-                    className="group flex items-center gap-3 bg-white border border-navy/10 p-2 mb-3 transition-all hover:border-navy/30 hover:shadow-sm"
-                  >
-                    <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden">
-                      <img
-                        src={car.photos?.main || car.images?.[0] || ""}
-                        alt={car.name}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-navy/40">{car.brand}</p>
-                      <p className="text-sm font-bold text-gray-900 truncate">{car.name}</p>
-                      <p className="text-xs font-extrabold text-navy">${car.price}<span className="text-[10px] font-normal text-gray-400">/day</span></p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>      </div>
+        )}
+      </div>
 
       {/* ─── BROWSE BY CATEGORY ─── */}
       <section className="bg-[#E8F1FA]">
