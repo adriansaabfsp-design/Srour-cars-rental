@@ -37,6 +37,7 @@ export interface Car {
   description: string;
   images: string[];
   photos?: CarPhotos;
+  gallery?: string[];
   whatsapp: string;
   createdAt: number;
   available?: boolean;

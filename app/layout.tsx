@@ -67,7 +67,6 @@ export default function RootLayout({
                     <a href="/road-trips" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Road Trips</a>
                     <a href="/seasonal-guide" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Seasonal</a>
                     <a href="/faq" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">FAQ</a>
-                    <a href="/admin" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Admin</a>
                   </div>
                 </div>
 

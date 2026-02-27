@@ -95,7 +95,7 @@ export default function Navbar() {
               alt="Lebanon Rental"
               width={1162}
               height={394}
-              className="h-28 w-auto sm:h-16 lg:h-20"
+              className="h-16 w-auto sm:h-16 lg:h-20"
               priority
             />
             {/* Animated driving car */}
@@ -118,16 +118,6 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/admin"
-            className={`relative text-[15px] font-extrabold transition-colors ${
-              pathname === "/admin"
-                ? "text-[#1a6fa0]"
-                : "text-[#1a6fa0]/70 hover:text-[#1a6fa0]"
-            }`}
-          >
-            Admin
-          </Link>
         </div>
 
         {/* Mobile: phone icon right */}
@@ -189,16 +179,6 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <div className="h-px w-full bg-gray-200" />
-            <Link
-              href="/admin"
-              onClick={() => setMenuOpen(false)}
-              className={`text-[15px] font-bold uppercase tracking-[0.12em] ${
-                pathname === "/admin" ? "text-[#1a6fa0]" : "text-[#1a4b6e]/70"
-              }`}
-            >
-              Admin
-            </Link>
           </div>
         </div>
       )}

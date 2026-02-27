@@ -66,7 +66,8 @@ export default function AdminPage() {
   const [togglingId, setTogglingId] = useState<string | null>(null);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [photoFiles, setPhotoFiles] = useState<Partial<Record<PhotoSlotKey, File>>>({});
-  const [featuredBarCount, setFeaturedBarCount] = useState(1);
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [existingGallery, setExistingGallery] = useState<string[]>([]);
   const [savingSettings, setSavingSettings] = useState(false);
   const [adminSearch, setAdminSearch] = useState("");
   const [adminFilter, setAdminFilter] = useState<"all" | "available" | "rented" | "featured" | string>("all");
@@ -96,11 +97,9 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetchCars();
-    // Load homepage settings
     getDoc(doc(db, "settings", "homepage")).then((snap) => {
       if (snap.exists()) {
-        const data = snap.data();
-        if (data.featuredBarCount) setFeaturedBarCount(data.featuredBarCount);
+        // settings loaded
       }
     });
   }, []);
@@ -160,6 +159,13 @@ export default function AdminPage() {
       // Build images array from photos for backward compatibility
       const imageUrls = [photos.main, photos.front, photos.back, photos.left, photos.right].filter(Boolean) as string[];
 
+      // Upload gallery files
+      const galleryUrls = [...existingGallery];
+      for (const file of galleryFiles) {
+        const url = await uploadPhoto(file, "gallery");
+        galleryUrls.push(url);
+      }
+
       let videoUrl = form.videoUrl;
       if (videoFile) {
         videoUrl = await uploadVideo(videoFile);
@@ -189,6 +195,7 @@ export default function AdminPage() {
         rentals: form.rentals,
         category: form.category,
         roadTypes: form.roadTypes,
+        gallery: galleryUrls,
         createdAt: editingId ? undefined : Date.now(),
       };
 
@@ -243,6 +250,8 @@ export default function AdminPage() {
     });
     setEditingId(car.id);
     setPhotoFiles({});
+    setGalleryFiles([]);
+    setExistingGallery(car.gallery || []);
     setVideoFile(null);
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -279,6 +288,16 @@ export default function AdminPage() {
           await deleteObject(videoRef);
         } catch {
           // Video may already be deleted
+        }
+      }
+      if (car.gallery) {
+        for (const url of car.gallery) {
+          try {
+            const storageRef = ref(storage, url);
+            await deleteObject(storageRef);
+          } catch {
+            // Gallery image may already be deleted
+          }
         }
       }
       await deleteDoc(doc(db, "cars", car.id));
@@ -918,6 +937,54 @@ export default function AdminPage() {
                   })}
                 </div>
               </div>
+
+              {/* Gallery Photos */}
+              <div className="sm:col-span-2">
+                <label className={labelCls}>Gallery Photos <span className="text-gray-900/20 normal-case tracking-normal">(additional images shown on the car detail page)</span></label>
+                <div className="flex flex-wrap gap-3">
+                  {existingGallery.map((url, i) => (
+                    <div key={url} className="relative h-20 w-28 overflow-hidden border border-luxury-border bg-white">
+                      <img src={url} alt={`Gallery ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setExistingGallery((prev) => prev.filter((_, idx) => idx !== i))}
+                        className="absolute top-0.5 right-0.5 flex h-5 w-5 items-center justify-center bg-red-500/80 text-white text-[10px] hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                  {galleryFiles.map((file, i) => (
+                    <div key={i} className="relative h-20 w-28 overflow-hidden border border-navy/30 bg-white">
+                      <img src={URL.createObjectURL(file)} alt={`New ${i + 1}`} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setGalleryFiles((prev) => prev.filter((_, idx) => idx !== i))}
+                        className="absolute top-0.5 right-0.5 flex h-5 w-5 items-center justify-center bg-red-500/80 text-white text-[10px] hover:bg-red-600"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                  <label className="flex h-20 w-28 cursor-pointer flex-col items-center justify-center gap-1 border border-dashed border-luxury-border bg-white transition-colors hover:border-navy/30 hover:bg-luxury-dark">
+                    <svg className="h-5 w-5 text-gray-900/15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span className="text-[7px] font-bold uppercase tracking-wider text-gray-900/20">Add Photos</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="hidden"
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        if (files.length) setGalleryFiles((prev) => [...prev, ...files]);
+                        e.target.value = "";
+                      }}
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
 
             {/* Submit */}
@@ -940,6 +1007,8 @@ export default function AdminPage() {
                   setForm(EMPTY_FORM);
                   setEditingId(null);
                   setPhotoFiles({});
+                  setGalleryFiles([]);
+                  setExistingGallery([]);
                   setVideoFile(null);
                 }}
                 className="border border-luxury-border bg-white px-6 py-3 text-[12px] font-bold text-gray-900/40 transition-colors hover:border-navy/30 hover:text-gray-900"
@@ -949,52 +1018,6 @@ export default function AdminPage() {
             </div>
           </form>
         )}
-
-        {/* Featured Bar Settings */}
-        <div className="mb-8 border border-luxury-border bg-luxury-card p-6">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-gray-900">Featured Bar</h3>
-              <p className="mt-1 text-[11px] text-gray-900/30">
-                Shows featured cars in a rotating banner at the top of the homepage.
-                {(() => {
-                  const count = cars.filter((c) => c.featured).length;
-                  return count > 0 ? ` (${count} car${count !== 1 ? "s" : ""} marked featured)` : " No cars marked featured yet.";
-                })()}
-              </p>
-            </div>
-            <div className="flex items-center gap-3">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-gray-900/40">Show at once</label>
-              <div className="flex gap-1">
-                {[1, 2, 3, 4].map((n) => (
-                  <button
-                    key={n}
-                    onClick={async () => {
-                      setFeaturedBarCount(n);
-                      setSavingSettings(true);
-                      try {
-                        await setDoc(doc(db, "settings", "homepage"), { featuredBarCount: n }, { merge: true });
-                      } catch (e) {
-                        console.error("Error saving settings:", e);
-                      } finally {
-                        setSavingSettings(false);
-                      }
-                    }}
-                    disabled={savingSettings}
-                    className={`h-9 w-9 text-xs font-bold transition-all disabled:opacity-50 ${
-                      featuredBarCount === n
-                        ? "border border-navy bg-navy/20 text-navy"
-                        : "border border-luxury-border bg-white text-gray-900/40 hover:border-navy/30 hover:text-gray-900/60"
-                    }`}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-              {savingSettings && <span className="text-[10px] text-navy">Saving...</span>}
-            </div>
-          </div>
-        </div>
 
         {/* Admin Search & Filters */}
         <div className="mb-5 space-y-3">

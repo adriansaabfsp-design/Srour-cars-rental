@@ -626,7 +626,7 @@ export default function Home() {
                       <div className="absolute left-0 right-0 h-[5px] rounded-full bg-gray-200/80" />
                       {/* Active track with glow */}
                       <div
-                        className={`absolute h-[5px] rounded-full transition-shadow duration-300 ${
+                        className={`absolute h-[5px] rounded-full ${
                           activePriceThumb
                             ? "bg-[#1B4F72] shadow-[0_0_12px_3px_rgba(27,79,114,0.45)]"
                             : "bg-[#1B4F72]/70 shadow-none"
@@ -638,14 +638,14 @@ export default function Home() {
                       />
                       {/* Min handle visual */}
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none transition-all duration-200"
+                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
                         style={{ left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
                       >
                         <svg
                           className={`text-[#1B4F72] transition-all duration-200 ${
                             activePriceThumb === "min"
-                              ? "h-8 w-8 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
-                              : "h-6 w-6"
+                              ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
+                              : "h-10 w-10"
                           }`}
                           viewBox="0 0 48 20"
                           fill="none"
@@ -662,14 +662,14 @@ export default function Home() {
                       </div>
                       {/* Max handle visual */}
                       <div
-                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none transition-all duration-200"
+                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
                         style={{ left: `${((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
                       >
                         <svg
                           className={`text-[#1B4F72] [transform:scaleX(-1)] transition-all duration-200 ${
                             activePriceThumb === "max"
-                              ? "h-8 w-8 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
-                              : "h-6 w-6"
+                              ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
+                              : "h-10 w-10"
                           }`}
                           viewBox="0 0 48 20"
                           fill="none"
@@ -720,10 +720,10 @@ export default function Home() {
                   </div>
                   {/* Price badges */}
                   <div className="flex justify-between mt-2">
-                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-300 ${priceBounce ? "price-badge-bounce" : ""}`}>
+                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "min" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>
                       ${priceRange[0]}<span className="text-white/50 font-normal">/day</span>
                     </span>
-                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-300 ${priceBounce ? "price-badge-bounce" : ""}`}>
+                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "max" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>
                       ${priceRange[1]}<span className="text-white/50 font-normal">/day</span>
                     </span>
                   </div>
