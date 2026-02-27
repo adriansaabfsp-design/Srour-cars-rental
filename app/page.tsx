@@ -175,7 +175,7 @@ function InsightsSection() {
   const current = INSIGHT_TABS[active];
 
   return (
-    <section className="border-t border-luxury-border">
+    <section className="bg-[#E8F1FA]">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-20">
         <div className="mb-5 text-center sm:mb-10">
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy">
@@ -434,7 +434,12 @@ export default function Home() {
       </section>
 
       {/* ─── SEARCH & FILTERS (under hero) ─── */}
-      <div id="collection" className="mx-auto max-w-7xl px-4 pt-4 pb-2 sm:px-6 sm:pt-8 sm:pb-4 lg:px-8">
+      <div className="bg-[#E8F1FA]">
+        <div id="collection" className="mx-auto max-w-7xl px-4 pt-6 pb-6 sm:px-6 sm:pt-10 sm:pb-8 lg:px-8">
+          {/* Desktop: split layout with search left, car preview right */}
+          <div className="flex flex-col sm:flex-row sm:gap-8 sm:items-start">
+            {/* Left: search & filters */}
+            <div className="flex-1 min-w-0">
         {/* search */}
         <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
           <div className="relative">
@@ -571,7 +576,7 @@ export default function Home() {
 
         {/* result count */}
         <div className="mb-3 sm:mb-4">
-          <p className="text-xs text-luxury-muted sm:text-sm">
+          <p className="text-xs text-navy/50 sm:text-sm">
             {loading ? (
               <span className="lux-pulse">Loading fleet...</span>
             ) : (
@@ -646,11 +651,61 @@ export default function Home() {
               </div>
             )}
           </>
-        )}
-      </div>
+        )}            </div>
+
+            {/* Right: car preview (desktop only) */}
+            <div className="hidden sm:block w-[340px] lg:w-[400px] flex-shrink-0">
+              <div className="sticky top-24">
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-navy/50">Featured Cars</p>
+                <div className="flex flex-col gap-3">
+                  {featuredCars.slice(0, 3).map((car) => (
+                    <Link
+                      key={car.id}
+                      href={"/cars/" + car.id}
+                      className="group flex items-center gap-3 bg-white border border-navy/10 p-2 transition-all hover:border-navy/30 hover:shadow-sm"
+                    >
+                      <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden">
+                        <img
+                          src={car.photos?.main || car.images?.[0] || ""}
+                          alt={car.name}
+                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-navy/40">{car.brand}</p>
+                        <p className="text-sm font-bold text-gray-900 truncate">{car.name}</p>
+                        <p className="text-xs font-extrabold text-navy">${car.price}<span className="text-[10px] font-normal text-gray-400">/day</span></p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                {featuredCars.length === 0 && cars.slice(0, 3).map((car) => (
+                  <Link
+                    key={car.id}
+                    href={"/cars/" + car.id}
+                    className="group flex items-center gap-3 bg-white border border-navy/10 p-2 mb-3 transition-all hover:border-navy/30 hover:shadow-sm"
+                  >
+                    <div className="relative h-16 w-24 flex-shrink-0 overflow-hidden">
+                      <img
+                        src={car.photos?.main || car.images?.[0] || ""}
+                        alt={car.name}
+                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-navy/40">{car.brand}</p>
+                      <p className="text-sm font-bold text-gray-900 truncate">{car.name}</p>
+                      <p className="text-xs font-extrabold text-navy">${car.price}<span className="text-[10px] font-normal text-gray-400">/day</span></p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>      </div>
 
       {/* ─── BROWSE BY CATEGORY ─── */}
-      <section className="border-y border-luxury-border">
+      <section className="bg-[#E8F1FA]">
         <div className="mx-auto max-w-6xl px-3 py-3 sm:px-6 sm:py-16">
           <div className="mb-2 text-center sm:mb-8">
             <p className="text-[9px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[10px] sm:tracking-[0.5em]">Find your perfect match</p>
