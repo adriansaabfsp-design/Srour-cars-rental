@@ -107,32 +107,26 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="border-t border-gray-200 bg-white/98 px-4 py-4 backdrop-blur-md sm:hidden">
+        <div className="border-t border-gray-200 bg-white px-4 py-4 sm:hidden">
           <div className="flex flex-col gap-3">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
-                className={`text-[13px] font-medium uppercase tracking-[0.2em] ${
-                  isActive(link.href) ? "text-gray-900" : "text-gray-900/60"
+                className={`text-[14px] font-bold uppercase tracking-[0.15em] ${
+                  isActive(link.href) ? "text-[#1a6fa0]" : "text-[#1a6fa0]/70"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
-            <a
-              href="tel:+96181062329"
-              className="text-[13px] font-semibold text-navy/80"
-            >
-              +96181062329
-            </a>
-            <div className="h-px w-full bg-white/5" />
+            <div className="h-px w-full bg-gray-200" />
             <Link
               href="/admin"
               onClick={() => setMenuOpen(false)}
-              className={`text-[13px] font-medium uppercase tracking-[0.2em] ${
-                pathname === "/admin" ? "text-gray-900" : "text-gray-900/60"
+              className={`text-[14px] font-bold uppercase tracking-[0.15em] ${
+                pathname === "/admin" ? "text-[#1a6fa0]" : "text-[#1a6fa0]/70"
               }`}
             >
               Admin
