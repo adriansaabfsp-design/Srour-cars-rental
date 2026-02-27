@@ -36,7 +36,7 @@ export default function Navbar() {
   return (
     <nav className={`${nunito.className} sticky top-0 z-50 border-b border-gray-200 bg-white`}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8 relative">
-        <div className="hidden flex-1 items-center justify-end gap-5 sm:flex pr-4">
+        <div className="hidden flex-1 items-center justify-start gap-4 lg:gap-5 sm:flex">
           {leftLinks.map((link) => (
             <Link
               key={link.href}
@@ -63,7 +63,7 @@ export default function Navbar() {
           />
         </Link>
 
-        <div className="hidden flex-1 items-center justify-start gap-5 pl-4 sm:flex">
+        <div className="hidden flex-1 items-center justify-end gap-4 lg:gap-5 sm:flex">
           <a
             href="tel:+96181062329"
             className="flex items-center gap-1.5 text-[14px] font-extrabold text-[#1a6fa0]/80 transition-colors hover:text-[#1a6fa0]"

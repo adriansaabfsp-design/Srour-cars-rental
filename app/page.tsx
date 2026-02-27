@@ -381,7 +381,7 @@ export default function Home() {
         setPreviewIndex((prev) => (prev + 1) % previewCars.length);
         setPreviewFading(false);
       }, 280);
-    }, 5000);
+    }, 7000);
 
     return () => {
       clearInterval(interval);
@@ -690,30 +690,29 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: single featured car with fade */}
-            <div className="hidden sm:block w-[340px] lg:w-[400px] flex-shrink-0">
-              <div className="sticky top-24">
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.3em] text-navy/50">Featured Cars</p>
+            {/* Right: large featured car with fade */}
+            <div className="hidden sm:block w-[340px] lg:w-[420px] flex-shrink-0 self-stretch">
+              <div className="sticky top-24 h-full">
+                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-navy/50">Featured Cars</p>
                 {previewCar && (
                   <Link
                     href={"/cars/" + previewCar.id}
-                    className={`group block bg-white border border-navy/10 p-2 transition-all duration-300 hover:border-navy/30 hover:shadow-sm ${
+                    className={`group block bg-white border border-navy/10 overflow-hidden transition-all duration-500 hover:border-navy/30 hover:shadow-lg ${
                       previewFading ? "opacity-0" : "opacity-100"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div className="relative h-20 w-28 flex-shrink-0 overflow-hidden">
-                        <img
-                          src={previewCar.photos?.main || previewCar.images?.[0] || ""}
-                          alt={previewCar.name}
-                          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-navy/40">{previewCar.brand}</p>
-                        <p className="text-lg font-bold leading-tight text-gray-900 truncate">{previewCar.name}</p>
-                        <p className="text-base font-extrabold text-navy">
-                          ${previewCar.price}<span className="text-xs font-normal text-gray-400">/day</span>
+                    <div className="relative aspect-[4/3] w-full overflow-hidden">
+                      <img
+                        src={previewCar.photos?.main || previewCar.images?.[0] || ""}
+                        alt={previewCar.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-5">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">{previewCar.brand} &middot; {previewCar.year}</p>
+                        <p className="text-xl lg:text-2xl font-bold leading-tight text-white truncate">{previewCar.name}</p>
+                        <p className="mt-1 text-lg font-extrabold text-white">
+                          ${previewCar.price}<span className="text-sm font-normal text-white/60">/day</span>
                         </p>
                       </div>
                     </div>
