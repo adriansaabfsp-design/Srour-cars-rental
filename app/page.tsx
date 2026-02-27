@@ -424,7 +424,7 @@ export default function Home() {
             playsInline
             preload="auto"
             className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
-            src="/updated.mp4"
+            src="/hero.mp4"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/35" />
         </div>
@@ -478,7 +478,7 @@ export default function Home() {
               playsInline
               preload="auto"
               className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
-              src="/updated.mp4"
+              src="/hero.mp4"
             />
           </div>
 
