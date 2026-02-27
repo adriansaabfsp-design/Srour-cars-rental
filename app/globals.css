@@ -62,24 +62,22 @@ html {
 .price-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #1a6fa0;
-  border: 2px solid #fff;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   pointer-events: auto;
 }
 
 .price-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
-  background: #1a6fa0;
-  border: 2px solid #fff;
+  background: transparent;
+  border: none;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
   pointer-events: auto;
 }
 
@@ -367,4 +365,30 @@ select option {
   width: 60px;
   height: 2px;
   background: #1B3A5C;
+}
+
+/* Hero driving car animation — loops around logo */
+.hero-driving-car {
+  top: 50%;
+  left: 50%;
+  transform: translate(200%, -50%);
+  animation: driveAroundLogo 8s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+@keyframes driveAroundLogo {
+  0%   { transform: translate(350%, -50%) scaleX(-1); opacity: 0; }
+  5%   { opacity: 1; }
+  20%  { transform: translate(80%, -120%) scaleX(-1); opacity: 1; }
+  35%  { transform: translate(-80%, -140%) scaleX(-1); opacity: 1; }
+  42%  { transform: translate(-120%, -50%) scaleX(-1); opacity: 1; }
+  48%  { transform: translate(-80%, 40%) scaleX(-1); opacity: 1; z-index: 0; }
+  55%  { transform: translate(20%, 60%) scaleX(-1); opacity: 0.3; z-index: 0; }
+  60%  { transform: translate(80%, 20%) scaleX(-1); opacity: 0; z-index: 0; }
+  65%  { transform: translate(120%, -50%) scaleX(1); opacity: 0; }
+  70%  { transform: translate(80%, -50%) scaleX(1); opacity: 1; z-index: 20; }
+  80%  { transform: translate(-50%, -50%) scaleX(1); opacity: 1; }
+  88%  { transform: translate(-250%, -50%) scaleX(1); opacity: 1; }
+  93%  { transform: translate(-400%, -50%) scaleX(1); opacity: 0; }
+  100% { transform: translate(-400%, -50%) scaleX(1); opacity: 0; }
 }
