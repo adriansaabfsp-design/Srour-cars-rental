@@ -73,7 +73,7 @@ const INSIGHT_TABS = [
   {
     tab: "Road Trips",
     title: "Iconic Road Trips in Lebanon",
-    desc: "Explore 17 curated driving routes through the Qadisha Valley, Batroun coast, and Lebanon's mountain passes — with distance, drive time, and recommended car for each.",
+    desc: "Explore 17 curated driving routes through the Qadisha Valley, Batroun coast, and Lebanon's mountain passes, with distance, drive time, and recommended car for each.",
     href: "/road-trips",
     image: "/IMG_1657.jpg",
     icon: (
@@ -85,7 +85,7 @@ const INSIGHT_TABS = [
   {
     tab: "Seasonal Guide",
     title: "Best Time to Visit Lebanon",
-    desc: "Ski Faraya in winter, cruise the Jounieh coast in summer, or enjoy autumn in the Shouf. Our month-by-month guide covers weather, prices, and the best car for each season.",
+    desc: "Ski Faraya in winter, cruise the Jounieh coast in summer, or enjoy autumn in the Shouf. Our guide covers weather, prices, and the best car for each season.",
     href: "/seasonal-guide",
     image: "/IMG_1658.jpg",
     icon: (
@@ -97,7 +97,7 @@ const INSIGHT_TABS = [
   {
     tab: "FAQ",
     title: "Everything You Need to Know About Renting",
-    desc: "Documents, insurance, fuel policy, age requirements — our FAQ answers every question so you can book with confidence.",
+    desc: "Documents, insurance, fuel policy, age requirements. Our FAQ answers every question so you can book with confidence.",
     href: "/faq",
     image: "/IMG_1660.jpg",
     icon: (
@@ -109,7 +109,7 @@ const INSIGHT_TABS = [
   {
     tab: "Extras",
     title: "Rental Extras & Add-ons",
-    desc: "GPS, child seats, extra drivers, insurance upgrades, and 24/7 roadside assistance — add what you need at checkout.",
+    desc: "GPS, child seats, extra drivers, insurance upgrades, and 24/7 roadside assistance. Add what you need at checkout.",
     href: "/extras",
     image: "/IMG_1663.jpg",
     icon: (
@@ -140,7 +140,7 @@ function InsightsSection() {
     [active, animating]
   );
 
-  // Auto-advance every 5s
+  // Auto-advance every 12s
   useEffect(() => {
     autoRef.current = setInterval(() => {
       setDirection("right");
@@ -149,7 +149,7 @@ function InsightsSection() {
         setActive((prev) => (prev + 1) % INSIGHT_TABS.length);
         setTimeout(() => setAnimating(false), 50);
       }, 250);
-    }, 5000);
+    }, 12000);
     return () => {
       if (autoRef.current) clearInterval(autoRef.current);
     };
@@ -167,7 +167,7 @@ function InsightsSection() {
           setActive((prev) => (prev + 1) % INSIGHT_TABS.length);
           setTimeout(() => setAnimating(false), 50);
         }, 250);
-      }, 5000);
+      }, 12000);
     },
     [goTo]
   );
