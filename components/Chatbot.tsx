@@ -200,6 +200,7 @@ export default function Chatbot() {
   const [showBubble, setShowBubble] = useState(false);
   const [hasOpened, setHasOpened] = useState(false);
   const [bubbleDismissed, setBubbleDismissed] = useState(false);
+  const chatHistoryRef = useRef<{ role: string; content: string }[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -268,11 +269,37 @@ export default function Chatbot() {
     const quickAnswer = getQuickAnswer(text);
 
     if (quickAnswer) {
+      chatHistoryRef.current.push({ role: "user", content: text });
+      chatHistoryRef.current.push({ role: "assistant", content: quickAnswer });
       addBotMessage(quickAnswer);
     } else {
-      addBotMessage(
-        "Great question! For the most accurate answer, I'd recommend reaching out to our team directly at +961 81 062 329 (WhatsApp) or support@lebanon-rental.com. We respond within minutes!"
-      );
+      setIsTyping(true);
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            message: text,
+            history: chatHistoryRef.current.slice(-10),
+          }),
+        });
+        const data = await res.json();
+        const reply = data.reply || data.error || "Sorry, something went wrong. Please try again.";
+        chatHistoryRef.current.push({ role: "user", content: text });
+        chatHistoryRef.current.push({ role: "assistant", content: reply });
+        setIsTyping(false);
+        setMessages((prev) => [...prev, { type: "bot", text: reply, step: null }]);
+      } catch {
+        setIsTyping(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            type: "bot",
+            text: "I'm having trouble connecting right now. You can reach us at +961 81 062 329 (WhatsApp) or support@lebanon-rental.com!",
+            step: null,
+          },
+        ]);
+      }
     }
   }
 
