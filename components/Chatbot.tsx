@@ -184,6 +184,31 @@ function TypingDots() {
   );
 }
 
+function renderTextWithLinks(text: string, color: string) {
+  const urlRegex = /(https?:\/\/[^\s)]+)/g;
+  const parts = text.split(urlRegex);
+  return parts.map((part, i) =>
+    urlRegex.test(part) ? (
+      <a
+        key={i}
+        href={part}
+        target={part.includes("lebanese-cars.vercel.app") ? "_self" : "_blank"}
+        rel="noopener noreferrer"
+        style={{
+          color: color === BRAND.white ? BRAND.gold : BRAND.accent,
+          textDecoration: "underline",
+          textUnderlineOffset: 2,
+          wordBreak: "break-all",
+        }}
+      >
+        {part.replace("https://lebanese-cars.vercel.app", "").replace(/^\//, "") || "View"}
+      </a>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
 interface Message {
   type: "bot" | "user";
   text: string;
@@ -512,7 +537,7 @@ export default function Chatbot() {
                         boxShadow: msg.type === "bot" ? "0 1px 3px rgba(0,0,0,0.04)" : "none",
                       }}
                     >
-                      {msg.text}
+                      {msg.type === "bot" ? renderTextWithLinks(msg.text, BRAND.text) : msg.text}
                       {msg.step?.link && (
                         <div style={{ marginTop: 8 }}>
                           <a

@@ -25,6 +25,9 @@ function AllCarsInner() {
   const [transmission, setTransmission] = useState("All");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
 
+  // Compute available brands from actual car data
+  const availableBrands = ["All", ...Array.from(new Set(cars.filter(c => c.available !== false).map(c => c.brand).filter(Boolean))).sort()];
+
   // Sync category from URL param on mount / param change
   useEffect(() => {
     if (categoryParam) setActiveCategory(categoryParam);
@@ -215,7 +218,7 @@ function AllCarsInner() {
                   onChange={(e) => setBrand(e.target.value)}
                   className="w-full border border-luxury-border bg-luxury-card px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px]"
                 >
-                  {BRANDS.map((b) => (
+                  {availableBrands.map((b) => (
                     <option key={b} value={b}>
                       {b === "All" ? "All Brands" : b}
                     </option>

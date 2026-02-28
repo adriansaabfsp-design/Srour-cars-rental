@@ -265,6 +265,9 @@ export default function Home() {
   const [brand, setBrand] = useState("All");
   const [transmission, setTransmission] = useState("All");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+
+  // Compute available brands from actual car data
+  const availableBrands = ["All", ...Array.from(new Set(cars.filter(c => c.available !== false).map(c => c.brand).filter(Boolean))).sort()];
   const [previewIndex, setPreviewIndex] = useState(0);
   const [previewFading, setPreviewFading] = useState(false);
   const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -586,7 +589,7 @@ export default function Home() {
                   onChange={(e) => setBrand(e.target.value)}
                   className="w-full border border-luxury-border bg-luxury-card px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px]"
                 >
-                  {BRANDS.map((b) => (
+                  {availableBrands.map((b) => (
                     <option key={b} value={b}>
                       {b === "All" ? "All Brands" : b}
                     </option>
