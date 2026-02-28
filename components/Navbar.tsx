@@ -95,7 +95,7 @@ export default function Navbar() {
               alt="Lebanon Rental"
               width={1162}
               height={394}
-              className="h-16 w-auto sm:h-16 lg:h-20"
+              className="h-8 w-auto sm:h-8 lg:h-10"
               priority
             />
             {/* Animated driving car */}

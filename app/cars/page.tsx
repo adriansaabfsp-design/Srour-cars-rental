@@ -1,24 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
+import Breadcrumb from "@/components/Breadcrumb";
 import Link from "next/link";
+import { Suspense } from "react";
 
 const CARS_PER_PAGE = 12;
 
-export default function AllCarsPage() {
+function AllCarsInner() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams.get("category");
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState(categoryParam || "All");
   const [activeRoad, setActiveRoad] = useState("All Terrain");
   const [brand, setBrand] = useState("All");
   const [transmission, setTransmission] = useState("All");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
+
+  // Sync category from URL param on mount / param change
+  useEffect(() => {
+    if (categoryParam) setActiveCategory(categoryParam);
+  }, [categoryParam]);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -85,13 +95,16 @@ export default function AllCarsPage() {
       {/* Header */}
       <div className="border-b border-luxury-border bg-luxury-card">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-8">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-navy hover:text-navy-light transition-colors sm:text-[11px] mb-4">
-            <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to Home
-          </Link>
-          <h1 className="font-serif text-3xl font-bold text-gray-900 sm:text-5xl">ALL CARS</h1>
+          <Breadcrumb items={[
+            { label: "Home", href: "/" },
+            ...(activeCategory !== "All"
+              ? [{ label: "Cars", href: "/cars" }, { label: activeCategory }]
+              : [{ label: "All Cars" }]
+            ),
+          ]} />
+          <h1 className="mt-3 font-serif text-3xl font-bold text-gray-900 sm:mt-4 sm:text-5xl">
+            {activeCategory !== "All" ? activeCategory.toUpperCase() : "ALL CARS"}
+          </h1>
           <div className="mt-2 h-[2px] w-16 bg-navy/30 sm:mt-3 sm:w-20" />
         </div>
       </div>
@@ -325,5 +338,13 @@ export default function AllCarsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function AllCarsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-luxury-black" />}>
+      <AllCarsInner />
+    </Suspense>
   );
 }

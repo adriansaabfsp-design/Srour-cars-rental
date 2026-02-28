@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Breadcrumb from "@/components/Breadcrumb";
 
 /* ── colours ── */
 const DIFF_STYLE: Record<string, string> = {
@@ -237,6 +238,9 @@ export default function RoadTripsPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-luxury-black" />
         <div className="relative mx-auto max-w-5xl px-4 py-20 text-center sm:py-28 lg:py-36">
+          <div className="mb-6 flex justify-center">
+            <Breadcrumb items={[{ label: "Home", href: "/" }, { label: "Road Trips" }]} />
+          </div>
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Explore the country
           </p>

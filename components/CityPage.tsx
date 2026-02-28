@@ -2,6 +2,7 @@
 
 import { CityData } from "@/lib/cities";
 import Link from "next/link";
+import Breadcrumb from "@/components/Breadcrumb";
 
 export default function CityPage({ city }: { city: CityData }) {
   const whatsappMsg = encodeURIComponent(
@@ -15,6 +16,9 @@ export default function CityPage({ city }: { city: CityData }) {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,_rgba(27,58,92,0.12),_transparent)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-white" />
         <div className="relative mx-auto max-w-4xl px-4 pb-16 pt-32 text-center sm:px-6 sm:pb-24 sm:pt-40">
+          <div className="mb-6 flex justify-center">
+            <Breadcrumb items={[{ label: "Home", href: "/" }, { label: `Car Rental ${city.name}` }]} />
+          </div>
           <p className="text-[10px] font-bold uppercase tracking-[0.5em] text-navy sm:text-xs">
             Leb🌲non Rental
           </p>

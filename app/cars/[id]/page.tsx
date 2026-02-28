@@ -8,6 +8,7 @@ import { Car } from "@/lib/types";
 import ImageGallery from "@/components/ImageGallery";
 import VideoModal from "@/components/VideoModal";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import Breadcrumb from "@/components/Breadcrumb";
 import Link from "next/link";
 
 export default function CarDetailPage() {
@@ -74,27 +75,14 @@ export default function CarDetailPage() {
     <div className="min-h-screen bg-luxury-black">
       <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
-        <nav className="mb-8 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em]">
-          <Link
-            href="/"
-            className="text-gray-900/40 transition-colors hover:text-gray-900"
-          >
-            Home
-          </Link>
-          <svg className="h-3 w-3 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-          <Link
-            href="/#collection"
-            className="text-gray-900/40 transition-colors hover:text-gray-900"
-          >
-            Collection
-          </Link>
-          <svg className="h-3 w-3 text-gray-900/20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-          <span className="text-navy">{car.name}</span>
-        </nav>
+        <div className="mb-8">
+          <Breadcrumb items={[
+            { label: "Home", href: "/" },
+            { label: "Cars", href: "/cars" },
+            ...(car.category ? [{ label: car.category, href: `/cars?category=${encodeURIComponent(car.category)}` }] : []),
+            { label: car.name },
+          ]} />
+        </div>
 
         <div className="grid gap-8 lg:grid-cols-5">
           {/* Gallery - takes 3 columns */}

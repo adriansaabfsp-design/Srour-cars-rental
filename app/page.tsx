@@ -401,7 +401,7 @@ export default function Home() {
             playsInline
             preload="auto"
             className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
-            src="/hero.mp4"
+            src="/new-hero.mp4"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/35" />
         </div>
@@ -455,7 +455,7 @@ export default function Home() {
               playsInline
               preload="auto"
               className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
-              src="/hero.mp4"
+              src="/new-hero.mp4"
             />
           </div>
 
@@ -863,12 +863,9 @@ export default function Home() {
               { name: "4x4", img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=400&h=300&fit=crop&q=80" },
               { name: "Convertible", img: "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=400&h=300&fit=crop&q=80" },
             ] as const).map((cat) => (
-              <button
+              <Link
                 key={cat.name}
-                onClick={() => {
-                  setActiveCategory(cat.name);
-                  document.getElementById("collection")?.scrollIntoView({ behavior: "smooth" });
-                }}
+                href={`/cars?category=${encodeURIComponent(cat.name)}`}
                 className="group relative flex-shrink-0 overflow-hidden border border-luxury-border transition-all hover:border-navy/40"
               >
                 <div className="relative aspect-[4/3] w-full overflow-hidden">
@@ -884,7 +881,7 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
-              </button>
+              </Link>
             ))}
           </div>
         </div>
