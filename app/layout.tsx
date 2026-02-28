@@ -4,6 +4,7 @@ import "./globals.css";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import TopBanner from "@/components/TopBanner";
+import Chatbot from "@/components/Chatbot";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -28,6 +29,7 @@ export default function RootLayout({
         <TopBanner />
         <Navbar />
         {children}
+        <Chatbot />
         <footer id="contact" className="border-t border-gray-200 bg-white">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-12 lg:px-8">
             {/* Top row: Brand + columns side by side */}
