@@ -25,10 +25,10 @@ const QUESTIONS: Question[] = [
     title: "WHAT'S THE VIBE?",
     subtitle: "Choose the mood for your trip",
     options: [
-      { value: "adventure", label: "Adventure", desc: "Mountains, off-road, nature", image: "/quiz/adventure.jpg" },
-      { value: "coastal", label: "Coastal Chill", desc: "Beach towns, seaside drives", image: "/quiz/coastal.jpg" },
-      { value: "luxury", label: "Luxury Escape", desc: "Premium experience", image: "/quiz/luxury.jpg" },
-      { value: "family", label: "Family Trip", desc: "Comfortable & spacious", image: "/quiz/family.jpg?v=2" },
+      { value: "adventure", label: "Adventure", desc: "Mountains, off-road, nature", image: "/Quiz/adventure.jpg" },
+      { value: "coastal", label: "Coastal Chill", desc: "Beach towns, seaside drives", image: "/Quiz/coastal.jpg" },
+      { value: "luxury", label: "Luxury Escape", desc: "Premium experience", image: "/Quiz/luxury.jpg" },
+      { value: "family", label: "Family Trip", desc: "Comfortable & spacious", image: "/Quiz/family.jpg" },
     ],
   },
   {
@@ -529,10 +529,10 @@ export default function MatchMyTrip() {
           {/* Modal container */}
           <div
             ref={containerRef}
-            className="relative z-10 mx-3 flex max-h-[88vh] w-full flex-col overflow-hidden rounded-2xl bg-[#F0F4F8]/95 shadow-2xl backdrop-blur-md sm:mx-0 sm:max-h-[94vh] sm:max-w-2xl sm:rounded-xl"
+            className="relative z-10 mx-3 flex max-h-[80vh] w-full flex-col overflow-hidden rounded-2xl bg-white/80 shadow-2xl backdrop-blur-xl sm:mx-0 sm:max-h-[94vh] sm:max-w-2xl sm:rounded-xl"
           >
             {/* ── Top bar ── */}
-            <div className="relative flex items-center justify-between border-b border-gray-200/80 bg-white/95 px-4 py-3 backdrop-blur-sm sm:rounded-t-xl sm:px-6">
+            <div className="relative flex items-center justify-between border-b border-gray-200/60 bg-white/70 px-4 py-2.5 backdrop-blur-sm sm:rounded-t-xl sm:py-3 sm:px-6">
               <div className="flex items-center gap-3">
                 {(step > 0 || showingResult) && (
                   <button
@@ -633,22 +633,22 @@ function QuestionScreen({
   return (
     <div className="flex flex-col">
       {/* ── Header ── */}
-      <div className="px-4 pt-7 pb-2 text-center sm:px-8 sm:pt-10">
-        <p className="mb-1 text-[9px] font-bold uppercase tracking-[0.4em] text-navy/40 sm:text-[10px]">
+      <div className="px-4 pt-4 pb-1 text-center sm:px-8 sm:pt-10 sm:pb-2">
+        <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.4em] text-navy/40 sm:mb-1 sm:text-[10px]">
           Let us help you find your perfect car
         </p>
-        <h2 className="font-serif text-2xl font-black tracking-wide text-gray-900 sm:text-3xl">
+        <h2 className="font-serif text-xl font-black tracking-wide text-gray-900 sm:text-3xl">
           {question.title}
         </h2>
-        <p className="mt-1 text-[11px] font-medium text-gray-400 sm:text-sm">
+        <p className="mt-0.5 text-[11px] font-medium text-gray-400 sm:mt-1 sm:text-sm">
           {question.subtitle}
         </p>
       </div>
 
       {/* ── Option cards ── */}
-      <div className="px-4 py-5 sm:px-8 sm:py-7">
+      <div className="px-3 py-3 sm:px-8 sm:py-7">
         <div
-          className={`mx-auto grid max-w-lg gap-3 ${
+          className={`mx-auto grid max-w-lg gap-2 sm:gap-3 ${
             hasImages
               ? "grid-cols-2"
               : question.options.length <= 3
@@ -665,7 +665,7 @@ function QuestionScreen({
                 <button
                   key={opt.value}
                   onClick={() => onSelect(opt.value)}
-                  className={`group relative aspect-[4/3] overflow-hidden rounded-lg border-2 shadow-sm transition-all duration-200 hover:shadow-xl ${
+                  className={`group relative aspect-[5/4] overflow-hidden rounded-lg border-2 shadow-sm transition-all duration-200 hover:shadow-xl sm:aspect-[4/3] ${
                     isSelected
                       ? "border-navy shadow-xl ring-2 ring-navy/20"
                       : "border-transparent hover:border-navy/60"
