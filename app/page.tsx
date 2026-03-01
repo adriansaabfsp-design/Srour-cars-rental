@@ -5,8 +5,11 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
+import MatchMyTrip from "@/components/MatchMyTrip";
+import LebanonMap from "@/components/LebanonMap";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const PROPERTY_IMAGES = [
   "/property-1.jpeg",
@@ -259,6 +262,7 @@ function InsightsSection() {
 export default function Home() {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeRoad, setActiveRoad] = useState("All Terrain");
@@ -520,6 +524,27 @@ export default function Home() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                     {showMoreFilters ? "Hide" : "Filters"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      const params = new URLSearchParams();
+                      if (searchQuery) params.set("search", searchQuery);
+                      if (activeCategory !== "All") params.set("category", activeCategory);
+                      if (activeRoad !== "All Terrain") params.set("road", activeRoad);
+                      if (brand !== "All") params.set("brand", brand);
+                      if (transmission !== "All") params.set("transmission", transmission);
+                      if (priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice)) {
+                        params.set("minPrice", String(priceRange[0]));
+                        params.set("maxPrice", String(priceRange[1]));
+                      }
+                      router.push(`/cars${params.toString() ? `?${params}` : ""}`);
+                    }}
+                    className="flex items-center gap-1.5 bg-navy px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-navy-light sm:px-5 sm:text-[11px] rounded-sm"
+                  >
+                    <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span className="hidden sm:inline">Search</span>
                   </button>
                 </div>
               </div>
@@ -829,7 +854,7 @@ export default function Home() {
             {filteredCars.length > 8 && (
               <div className="mt-6 text-center sm:mt-8">
                 <Link
-                  href="/cars"
+                  href={priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice) ? `/cars?minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}` : "/cars"}
                   className="inline-block border border-navy bg-navy px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light sm:px-12 sm:py-3.5 sm:text-[12px]"
                 >
                   View All Cars &rarr;
@@ -839,7 +864,7 @@ export default function Home() {
             {filteredCars.length <= 8 && filteredCars.length > 0 && (
               <div className="mt-6 text-center sm:mt-8">
                 <Link
-                  href="/cars"
+                  href={priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice) ? `/cars?minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}` : "/cars"}
                   className="inline-block border border-navy bg-transparent px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-all hover:bg-navy hover:text-white sm:px-12 sm:py-3.5 sm:text-[12px]"
                 >
                   View All Cars &rarr;
@@ -890,6 +915,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── EXPLORE LEBANON MAP ─── */}
+      <LebanonMap />
+
       {/* ─── COMPLETE YOUR STAY ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border">
         <div className="relative mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-10">
@@ -939,7 +967,8 @@ export default function Home() {
       {/* ─── TRAVEL INSIGHTS (animated tabs) ─── */}
       <InsightsSection />
 
-
+      {/* ─── MATCH MY TRIP QUIZ ─── */}
+      <MatchMyTrip />
 
       {/* ─── STATS (bottom) ─── */}
       <section className="border-t border-luxury-border bg-luxury-card">

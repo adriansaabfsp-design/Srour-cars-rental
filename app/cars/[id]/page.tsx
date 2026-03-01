@@ -9,6 +9,7 @@ import ImageGallery from "@/components/ImageGallery";
 import VideoModal from "@/components/VideoModal";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Breadcrumb from "@/components/Breadcrumb";
+import { useCompare } from "@/components/CompareContext";
 import Link from "next/link";
 
 export default function CarDetailPage() {
@@ -16,6 +17,8 @@ export default function CarDetailPage() {
   const [car, setCar] = useState<Car | null>(null);
   const [loading, setLoading] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
+  const { addCar, removeCar, isComparing, compareCars } = useCompare();
+  const inCompare = car ? isComparing(car.id) : false;
 
   useEffect(() => {
     const fetchCar = async () => {
@@ -167,16 +170,43 @@ export default function CarDetailPage() {
               {/* Divider */}
               <div className="my-7 h-px bg-luxury-border" />
 
-              {/* Rent button */}
-              <Link
-                href={`/book?car=${encodeURIComponent(car.name)}&price=${car.price}&phone=${car.whatsapp}`}
-                className="group inline-flex w-full items-center justify-center gap-3 bg-navy px-8 py-4 text-[13px] font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] active:scale-[0.98]"
-              >
-                <svg className="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-                Rent This Car
-              </Link>
+              {/* Compare + Rent buttons */}
+              <div className="flex gap-2 sm:gap-3">
+                <button
+                  onClick={() => {
+                    if (!car) return;
+                    if (inCompare) removeCar(car.id);
+                    else addCar(car);
+                  }}
+                  disabled={!inCompare && compareCars.length >= 2}
+                  className={`flex shrink-0 items-center justify-center gap-1.5 border px-3 py-4 text-[11px] font-bold uppercase tracking-[0.12em] transition-all duration-300 sm:gap-2 sm:px-4 sm:text-[12px] sm:tracking-[0.15em] ${
+                    inCompare
+                      ? "border-navy bg-navy/10 text-navy"
+                      : compareCars.length >= 2
+                        ? "border-luxury-border bg-transparent text-gray-900/20 cursor-not-allowed"
+                        : "border-luxury-border bg-transparent text-gray-900/50 hover:border-navy hover:text-navy"
+                  }`}
+                  title={inCompare ? "Remove from compare" : compareCars.length >= 2 ? "Max 2 cars" : "Add to compare"}
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {inCompare ? (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    ) : (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    )}
+                  </svg>
+                  {inCompare ? "Added" : "Compare"}
+                </button>
+                <Link
+                  href={`/book?car=${encodeURIComponent(car.name)}&price=${car.price}&phone=${car.whatsapp}`}
+                  className="group inline-flex flex-1 items-center justify-center gap-2 bg-navy px-4 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] active:scale-[0.98] sm:gap-3 sm:px-8 sm:text-[13px] sm:tracking-[0.15em]"
+                >
+                  <svg className="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  Rent This Car
+                </Link>
+              </div>
             </div>
           </div>
         </div>

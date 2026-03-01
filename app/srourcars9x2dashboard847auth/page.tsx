@@ -20,7 +20,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
-import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES } from "@/lib/types";
+import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES } from "@/lib/types";
 
 const EMPTY_FORM = {
   name: "",
@@ -45,6 +45,7 @@ const EMPTY_FORM = {
   rentals: [] as RentalRecord[],
   category: "Sedan",
   roadTypes: [] as string[],
+  tripCategory: "None",
 };
 
 const inputCls =
@@ -195,6 +196,7 @@ export default function AdminPage() {
         rentals: form.rentals,
         category: form.category,
         roadTypes: form.roadTypes,
+        tripCategory: form.tripCategory === "None" ? "" : form.tripCategory,
         gallery: galleryUrls,
         createdAt: editingId ? undefined : Date.now(),
       };
@@ -247,6 +249,7 @@ export default function AdminPage() {
       rentals: car.rentals || [],
       category: car.category || "Sedan",
       roadTypes: car.roadTypes || [],
+      tripCategory: car.tripCategory || "None",
     });
     setEditingId(car.id);
     setPhotoFiles({});
@@ -540,6 +543,21 @@ export default function AdminPage() {
                     <option key={c} value={c}>{c}</option>
                   ))}
                 </select>
+              </div>
+
+              {/* Trip Category (Match My Trip) */}
+              <div>
+                <label className={labelCls}>Match My Trip Category</label>
+                <select
+                  value={form.tripCategory}
+                  onChange={(e) => setForm({ ...form, tripCategory: e.target.value })}
+                  className={inputCls}
+                >
+                  {TRIP_CATEGORIES.map((c) => (
+                    <option key={c} value={c}>{c === "None" ? "— Not in quiz —" : c}</option>
+                  ))}
+                </select>
+                <p className="mt-1 text-[9px] text-gray-400">Controls which quiz result shows this car</p>
               </div>
 
               {/* Road Types */}

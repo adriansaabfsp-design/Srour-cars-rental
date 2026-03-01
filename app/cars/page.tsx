@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import Breadcrumb from "@/components/Breadcrumb";
+import PriceCalculator from "@/components/PriceCalculator";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -15,15 +16,32 @@ const CARS_PER_PAGE = 12;
 function AllCarsInner() {
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
+  const tripParam = searchParams.get("trip");
+  const minPriceParam = searchParams.get("minPrice");
+  const maxPriceParam = searchParams.get("maxPrice");
+  const searchParam = searchParams.get("search");
+  const roadParam = searchParams.get("road");
+  const brandParam = searchParams.get("brand");
+  const transmissionParam = searchParams.get("transmission");
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(searchParam || "");
   const [activeCategory, setActiveCategory] = useState(categoryParam || "All");
-  const [activeRoad, setActiveRoad] = useState("All Terrain");
-  const [brand, setBrand] = useState("All");
-  const [transmission, setTransmission] = useState("All");
-  const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [activeRoad, setActiveRoad] = useState(roadParam || "All Terrain");
+  const [brand, setBrand] = useState(brandParam || "All");
+  const [transmission, setTransmission] = useState(transmissionParam || "All");
+  const [activeTripCategory, setActiveTripCategory] = useState(tripParam || "");
+  const [showMoreFilters, setShowMoreFilters] = useState(
+    !!(roadParam || brandParam || transmissionParam)
+  );
+
+  // Price range slider state
+  const [priceRange, setPriceRange] = useState<[number, number]>([0, 9999]);
+  const [priceInited, setPriceInited] = useState(false);
+  const [activePriceThumb, setActivePriceThumb] = useState<"min" | "max" | null>(null);
+  const [priceBounce, setPriceBounce] = useState(false);
+  const bounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Compute available brands from actual car data
   const availableBrands = ["All", ...Array.from(new Set(cars.filter(c => c.available !== false).map(c => c.brand).filter(Boolean))).sort()];
@@ -32,6 +50,10 @@ function AllCarsInner() {
   useEffect(() => {
     if (categoryParam) setActiveCategory(categoryParam);
   }, [categoryParam]);
+
+  useEffect(() => {
+    if (tripParam) setActiveTripCategory(tripParam);
+  }, [tripParam]);
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -49,6 +71,32 @@ function AllCarsInner() {
     fetchCars();
   }, []);
 
+  // Compute min/max prices from available cars
+  const availableCars = cars.filter((c) => c.available !== false);
+  const dataMinPrice = availableCars.length > 0 ? Math.min(...availableCars.map((c) => c.price)) : 0;
+  const dataMaxPrice = availableCars.length > 0 ? Math.max(...availableCars.map((c) => c.price)) : 9999;
+
+  // Initialize price range once cars load (respecting URL params)
+  useEffect(() => {
+    if (availableCars.length > 0 && !priceInited) {
+      const initMin = minPriceParam ? Math.max(Number(minPriceParam), dataMinPrice) : dataMinPrice;
+      const initMax = maxPriceParam ? Math.min(Number(maxPriceParam), dataMaxPrice) : dataMaxPrice;
+      setPriceRange([initMin, initMax]);
+      setPriceInited(true);
+    }
+  }, [availableCars.length, dataMinPrice, dataMaxPrice, priceInited, minPriceParam, maxPriceParam]);
+
+  useEffect(() => {
+    return () => { if (bounceRef.current) clearTimeout(bounceRef.current); };
+  }, []);
+
+  const handlePriceRelease = () => {
+    setActivePriceThumb(null);
+    setPriceBounce(true);
+    if (bounceRef.current) clearTimeout(bounceRef.current);
+    bounceRef.current = setTimeout(() => setPriceBounce(false), 400);
+  };
+
   const filteredCars = cars
     .filter((car) => {
       if (car.available === false) return false;
@@ -61,10 +109,12 @@ function AllCarsInner() {
         if (!s.includes(q)) return false;
       }
       if (activeCategory !== "All" && car.category !== activeCategory) return false;
+      if (activeTripCategory && car.tripCategory !== activeTripCategory) return false;
       if (activeRoad !== "All Terrain" && (!car.roadTypes || !car.roadTypes.includes(activeRoad)))
         return false;
       if (brand !== "All" && car.brand !== brand) return false;
       if (transmission !== "All" && car.transmission !== transmission) return false;
+      if (priceInited && (car.price < priceRange[0] || car.price > priceRange[1])) return false;
       return true;
     })
     .sort((a, b) => {
@@ -77,7 +127,7 @@ function AllCarsInner() {
   const paginatedCars = filteredCars.slice((page - 1) * CARS_PER_PAGE, page * CARS_PER_PAGE);
 
   const hasFilters =
-    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || transmission !== "All";
+    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || transmission !== "All" || activeTripCategory || (priceInited && (priceRange[0] !== dataMinPrice || priceRange[1] !== dataMaxPrice));
 
   const resetFilters = () => {
     setSearchQuery("");
@@ -85,6 +135,8 @@ function AllCarsInner() {
     setActiveRoad("All Terrain");
     setBrand("All");
     setTransmission("All");
+    setActiveTripCategory("");
+    if (priceInited) setPriceRange([dataMinPrice, dataMaxPrice]);
     setPage(1);
   };
 
@@ -113,34 +165,45 @@ function AllCarsInner() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 lg:px-8">
-        {/* search */}
+        {/* search + filter trigger */}
         <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
-          <div className="relative">
-            <svg
-              className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white sm:left-4 sm:h-5 sm:w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name, brand, year..."
-              className="w-full border border-navy/30 bg-navy py-2.5 pl-10 pr-4 text-[13px] text-white placeholder-white/50 outline-none transition-all focus:border-navy-light focus:ring-1 focus:ring-navy-light sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+          <div className="flex items-stretch gap-2">
+            <div className="relative flex-1">
+              <svg
+                className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white sm:left-4 sm:h-5 sm:w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            )}
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by name, brand, year..."
+                className="w-full border border-navy/30 bg-navy py-2.5 pl-10 pr-4 text-[13px] text-white placeholder-white/50 outline-none transition-all focus:border-navy-light focus:ring-1 focus:ring-navy-light sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/50 hover:text-white"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+            </div>
+            <button
+              onClick={() => setShowMoreFilters(!showMoreFilters)}
+              className="flex items-center gap-1.5 border border-navy bg-white px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-navy transition-colors hover:bg-navy hover:text-white sm:px-4 sm:text-[11px] rounded-sm"
+            >
+              <svg className={`h-3.5 w-3.5 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+              {showMoreFilters ? "Hide" : "Filters"}
+            </button>
           </div>
         </div>
 
@@ -176,15 +239,6 @@ function AllCarsInner() {
 
         {/* collapsible extra filters */}
         <div className="mb-3 sm:mb-4">
-          <button
-            onClick={() => setShowMoreFilters(!showMoreFilters)}
-            className="mx-auto flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-[0.2em] text-gray-900/40 transition-colors hover:text-gray-900/70 sm:text-[10px]"
-          >
-            <svg className={`h-3 w-3 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-            </svg>
-            {showMoreFilters ? "Hide Filters" : "More Filters"}
-          </button>
           {showMoreFilters && (
             <div className="mt-3 space-y-3">
               {/* road type pills */}
@@ -246,6 +300,113 @@ function AllCarsInner() {
             </div>
           )}
         </div>
+
+        {/* Price range slider — always visible */}
+        {priceInited && dataMaxPrice > dataMinPrice && (
+          <div className="mx-auto max-w-2xl mb-3 sm:mb-4">
+            <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">
+              Price Range
+            </p>
+            <div className="flex items-center gap-3">
+              <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${dataMinPrice}</span>
+              <div className="relative flex-1 h-6 flex items-center">
+                {/* Track background */}
+                <div className="absolute left-0 right-0 h-[5px] rounded-full bg-gray-200/80" />
+                {/* Active track */}
+                <div
+                  className={`absolute h-[5px] rounded-full ${
+                    activePriceThumb
+                      ? "bg-[#1B4F72] shadow-[0_0_12px_3px_rgba(27,79,114,0.45)]"
+                      : "bg-[#1B4F72]/70 shadow-none"
+                  }`}
+                  style={{
+                    left: `${((priceRange[0] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%`,
+                    right: `${100 - ((priceRange[1] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%`,
+                  }}
+                />
+                {/* Min handle */}
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
+                  style={{ left: `${((priceRange[0] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%` }}
+                >
+                  <svg
+                    className={`text-[#1B4F72] transition-all duration-200 ${
+                      activePriceThumb === "min" ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]" : "h-10 w-10"
+                    }`}
+                    viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                  >
+                    <path d="M8 14h32v2H8z" fill="currentColor" />
+                    <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
+                    <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
+                    <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
+                    <circle cx="14" cy="16" r="3" fill="#0f2f47" />
+                    <circle cx="34" cy="16" r="3" fill="#0f2f47" />
+                  </svg>
+                </div>
+                {/* Max handle */}
+                <div
+                  className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
+                  style={{ left: `${((priceRange[1] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%` }}
+                >
+                  <svg
+                    className={`text-[#1B4F72] [transform:scaleX(-1)] transition-all duration-200 ${
+                      activePriceThumb === "max" ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]" : "h-10 w-10"
+                    }`}
+                    viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                  >
+                    <path d="M8 14h32v2H8z" fill="currentColor" />
+                    <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
+                    <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
+                    <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
+                    <circle cx="14" cy="16" r="3" fill="#0f2f47" />
+                    <circle cx="34" cy="16" r="3" fill="#0f2f47" />
+                  </svg>
+                </div>
+                {/* Invisible range inputs */}
+                <input
+                  type="range"
+                  min={dataMinPrice}
+                  max={dataMaxPrice}
+                  value={priceRange[0]}
+                  onPointerDown={() => setActivePriceThumb("min")}
+                  onChange={(e) => {
+                    const v = Number(e.target.value);
+                    setPriceRange([Math.min(v, priceRange[1]), priceRange[1]]);
+                  }}
+                  onPointerUp={handlePriceRelease}
+                  onTouchEnd={handlePriceRelease}
+                  className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "min" ? "z-30" : "z-20")}
+                  aria-label="Minimum daily price"
+                />
+                <input
+                  type="range"
+                  min={dataMinPrice}
+                  max={dataMaxPrice}
+                  value={priceRange[1]}
+                  onPointerDown={() => setActivePriceThumb("max")}
+                  onChange={(e) => {
+                    const v = Number(e.target.value);
+                    setPriceRange([priceRange[0], Math.max(v, priceRange[0])]);
+                  }}
+                  onPointerUp={handlePriceRelease}
+                  onTouchEnd={handlePriceRelease}
+                  className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "max" ? "z-30" : "z-20")}
+                  aria-label="Maximum daily price"
+                />
+              </div>
+              <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${dataMaxPrice}</span>
+            </div>
+            {/* Price badges */}
+            <div className="flex justify-between mt-2">
+              <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "min" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>
+                ${priceRange[0]}<span className="text-white/50 font-normal">/day</span>
+              </span>
+              <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "max" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>
+                ${priceRange[1]}<span className="text-white/50 font-normal">/day</span>
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* result count */}
         <div className="mb-3 sm:mb-4">
@@ -340,6 +501,9 @@ function AllCarsInner() {
           </>
         )}
       </div>
+
+      {/* Floating Price Calculator */}
+      <PriceCalculator />
     </div>
   );
 }

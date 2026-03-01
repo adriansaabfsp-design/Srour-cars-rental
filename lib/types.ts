@@ -51,6 +51,7 @@ export interface Car {
   rentals?: RentalRecord[];
   category?: string;
   roadTypes?: string[];
+  tripCategory?: string;
 }
 
 export const BRANDS = [
@@ -161,4 +162,14 @@ export const ROAD_TYPES = [
   "Off-Road",
   "Snow",
   "Desert",
+] as const;
+
+export const TRIP_CATEGORIES = [
+  "None",
+  "Sedan",
+  "SUV",
+  "Luxury",
+  "Economy",
+  "4×4",
+  "Convertible",
 ] as const;

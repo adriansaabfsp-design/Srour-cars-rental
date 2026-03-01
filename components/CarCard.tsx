@@ -3,6 +3,7 @@
 import { useState, useCallback } from "react";
 import Link from "next/link";
 import { Car, CarPhotos } from "@/lib/types";
+import { useCompare } from "@/components/CompareContext";
 
 const PHOTO_ORDER: { key: keyof CarPhotos; label: string }[] = [
   { key: "main", label: "Main" },
@@ -13,6 +14,8 @@ const PHOTO_ORDER: { key: keyof CarPhotos; label: string }[] = [
 ];
 
 export default function CarCard({ car }: { car: Car }) {
+  const { addCar, removeCar, isComparing, compareCars } = useCompare();
+  const inCompare = isComparing(car.id);
   const isUnavailable = car.available === false;
 
   const photoList = (() => {
@@ -102,6 +105,36 @@ export default function CarCard({ car }: { car: Car }) {
             </div>
           </>
         )}
+
+        {/* Compare toggle */}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (inCompare) removeCar(car.id);
+            else addCar(car);
+          }}
+          disabled={!inCompare && compareCars.length >= 2}
+          className={`absolute top-2 right-2 z-20 flex items-center gap-1 px-2 py-1 text-[8px] font-bold uppercase tracking-wider backdrop-blur-sm transition-all duration-200 ${
+            inCompare
+              ? "bg-navy text-white shadow-[0_0_12px_rgba(27,79,114,0.4)]"
+              : compareCars.length >= 2
+                ? "bg-black/30 text-white/30 cursor-not-allowed"
+                : "bg-black/50 text-white/70 opacity-0 group-hover:opacity-100 hover:bg-navy hover:text-white"
+          }`}
+          title={inCompare ? "Remove from compare" : compareCars.length >= 2 ? "Max 2 cars" : "Add to compare"}
+        >
+          <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {inCompare ? (
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            ) : (
+              <>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </>
+            )}
+          </svg>
+          {inCompare ? "Added" : "Compare"}
+        </button>
 
         {/* Rented badge */}
         {isUnavailable && (
