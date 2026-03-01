@@ -57,7 +57,7 @@ export default function Navbar() {
         {/* Mobile: hamburger left */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="flex h-10 w-10 items-center justify-center text-[#1a4b6e] sm:hidden"
+          className="flex h-10 w-10 items-center justify-center text-[#1B4F72] sm:hidden"
         >
           {menuOpen ? (
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,8 +78,8 @@ export default function Navbar() {
               href={link.href}
               className={`relative text-[15px] font-extrabold transition-colors ${
                 isActive(link.href)
-                  ? "text-[#1a6fa0]"
-                  : "text-[#1a6fa0]/70 hover:text-[#1a6fa0]"
+                  ? "text-[#1B4F72]"
+                  : "text-[#1B4F72]/70 hover:text-[#1B4F72]"
               }`}
             >
               {link.label}
@@ -111,8 +111,8 @@ export default function Navbar() {
               href={link.href}
               className={`relative text-[15px] font-extrabold transition-colors ${
                 isActive(link.href)
-                  ? "text-[#1a6fa0]"
-                  : "text-[#1a6fa0]/70 hover:text-[#1a6fa0]"
+                  ? "text-[#1B4F72]"
+                  : "text-[#1B4F72]/70 hover:text-[#1B4F72]"
               }`}
             >
               {link.label}
@@ -123,7 +123,7 @@ export default function Navbar() {
         {/* Mobile: phone icon right */}
         <a
           href="tel:+96181062329"
-          className="flex h-10 w-10 items-center justify-center text-[#1a4b6e] sm:hidden"
+          className="flex h-10 w-10 items-center justify-center text-[#1B4F72] sm:hidden"
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
@@ -140,7 +140,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`text-[11px] font-extrabold uppercase tracking-[0.08em] ${
-                  isActive(link.href) ? "text-[#1a6fa0]" : "text-[#1a6fa0]/70"
+                  isActive(link.href) ? "text-[#1B4F72]" : "text-[#1B4F72]/70"
                 }`}
               >
                 {link.label}
@@ -153,7 +153,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={`text-[11px] font-extrabold uppercase tracking-[0.08em] ${
-                  isActive(link.href) ? "text-[#1a6fa0]" : "text-[#1a6fa0]/70"
+                  isActive(link.href) ? "text-[#1B4F72]" : "text-[#1B4F72]/70"
                 }`}
               >
                 {link.label}
@@ -173,7 +173,7 @@ export default function Navbar() {
                 href={link.href}
                 onClick={() => setMenuOpen(false)}
                 className={`text-[15px] font-bold uppercase tracking-[0.12em] ${
-                  isActive(link.href) ? "text-[#1a6fa0]" : "text-[#1a4b6e]/70"
+                  isActive(link.href) ? "text-[#1B4F72]" : "text-[#1B4F72]/70"
                 }`}
               >
                 {link.label}

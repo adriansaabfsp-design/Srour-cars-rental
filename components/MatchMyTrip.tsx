@@ -9,7 +9,6 @@ import Link from "next/link";
 
 type Vibe = "adventure" | "coastal" | "luxury" | "family";
 type Passengers = "1-2" | "3-4" | "5-7";
-type Scenery = "mountains" | "coast" | "history" | "hidden";
 type Budget = "economy" | "mid" | "premium";
 
 interface Question {
@@ -21,14 +20,13 @@ interface Question {
 
 const QUESTIONS: Question[] = [
   {
-    id: "vibe",
-    title: "WHAT'S THE VIBE?",
-    subtitle: "Choose the mood for your trip",
+    id: "budget",
+    title: "WHAT'S YOUR BUDGET?",
+    subtitle: "Daily rental budget range",
     options: [
-      { value: "adventure", label: "Adventure", desc: "Mountains, off-road, nature", image: "/Quiz/adventure.jpg" },
-      { value: "coastal", label: "Coastal Chill", desc: "Beach towns, seaside drives", image: "/Quiz/coastal.jpg" },
-      { value: "luxury", label: "Luxury Escape", desc: "Premium experience", image: "/Quiz/luxury.jpg" },
-      { value: "family", label: "Family Trip", desc: "Comfortable & spacious", image: "/Quiz/family.jpg" },
+      { value: "economy", label: "Economy", desc: "Under $60/day" },
+      { value: "mid", label: "Mid-Range", desc: "$60–$100/day" },
+      { value: "premium", label: "Premium", desc: "$100+/day" },
     ],
   },
   {
@@ -42,24 +40,14 @@ const QUESTIONS: Question[] = [
     ],
   },
   {
-    id: "scenery",
-    title: "PICK YOUR SCENERY",
-    subtitle: "What do you want to see?",
+    id: "vibe",
+    title: "WHAT'S THE VIBE?",
+    subtitle: "Choose the mood for your trip",
     options: [
-      { value: "mountains", label: "Mountains & Cedars", desc: "Alpine roads & ancient forests" },
-      { value: "coast", label: "Coast & Beaches", desc: "Mediterranean shoreline" },
-      { value: "history", label: "History & Culture", desc: "Ancient ruins & old towns" },
-      { value: "hidden", label: "Hidden Gems", desc: "Off-the-beaten-path" },
-    ],
-  },
-  {
-    id: "budget",
-    title: "WHAT'S YOUR BUDGET?",
-    subtitle: "Daily rental budget range",
-    options: [
-      { value: "economy", label: "Economy", desc: "Under $60/day" },
-      { value: "mid", label: "Mid-Range", desc: "$60–$100/day" },
-      { value: "premium", label: "Premium", desc: "$100+/day" },
+      { value: "adventure", label: "Adventure", desc: "Mountains, off-road, nature", image: "/Quiz/adventure.jpg" },
+      { value: "coastal", label: "Coastal Chill", desc: "Beach towns, seaside drives", image: "/Quiz/coastal.jpg" },
+      { value: "luxury", label: "Luxury Escape", desc: "Premium experience", image: "/Quiz/luxury.jpg" },
+      { value: "family", label: "Family Trip", desc: "Comfortable & spacious", image: "/Quiz/family.jpg" },
     ],
   },
 ];
@@ -178,107 +166,46 @@ interface MatchResult {
 }
 
 function getMatch(answers: {
-  vibe: Vibe;
-  passengers: Passengers;
-  scenery: Scenery;
-  budget: Budget;
+  vibe?: Vibe;
+  passengers?: Passengers;
+  budget?: Budget;
 }): MatchResult {
-  const { vibe, passengers, scenery, budget } = answers;
+  const vibe = answers.vibe || "family";
+  const passengers = answers.passengers || "3-4";
+  const budget = answers.budget || "mid";
 
   // Budget override for economy
   if (budget === "economy") {
-    const trip = getEconomyTrip(scenery);
-    return { car: CARS.economy, trip };
+    return { car: CARS.economy, trip: TRIPS.jezzine };
   }
 
   // Luxury vibe always gets luxury car
   if (vibe === "luxury") {
-    const trip = getLuxuryTrip(scenery);
-    const car = CARS.luxury;
-    return { car, trip };
+    const trip = budget === "premium" ? TRIPS.ehden : TRIPS.batrounCoast;
+    return { car: CARS.luxury, trip };
   }
 
   // Adventure vibe
   if (vibe === "adventure") {
-    return getAdventureMatch(scenery, passengers, budget);
-  }
-
-  // Coastal chill
-  if (vibe === "coastal") {
-    return getCoastalMatch(scenery, passengers, budget);
-  }
-
-  // Family trip
-  if (vibe === "family") {
-    return getFamilyMatch(scenery, passengers, budget);
-  }
-
-  // Fallback
-  return { car: CARS.sedan, trip: TRIPS.jezzine };
-}
-
-function getAdventureMatch(scenery: Scenery, passengers: Passengers, budget: Budget): MatchResult {
-  if (scenery === "mountains") {
     const car = passengers === "5-7" ? CARS.suv : CARS.fourByFour;
     const trip = Math.random() > 0.5 ? TRIPS.qadisha : TRIPS.tannourine;
     return { car, trip };
   }
-  if (scenery === "coast") {
-    const car = budget === "premium" ? CARS.convertible : CARS.suv;
-    return { car, trip: TRIPS.fullCoast };
-  }
-  if (scenery === "history") {
-    const car = passengers === "5-7" ? CARS.suv : CARS.fourByFour;
-    return { car, trip: TRIPS.baalbek };
-  }
-  // hidden gems
-  const car = CARS.fourByFour;
-  const trip = Math.random() > 0.5 ? TRIPS.akkar : TRIPS.northLoop;
-  return { car, trip };
-}
 
-function getCoastalMatch(scenery: Scenery, passengers: Passengers, budget: Budget): MatchResult {
-  if (scenery === "coast") {
+  // Coastal chill
+  if (vibe === "coastal") {
     const car = budget === "premium" || passengers === "1-2" ? CARS.convertible : CARS.sedan;
     return { car, trip: TRIPS.batrounCoast };
   }
-  if (scenery === "mountains") {
-    return { car: CARS.suv, trip: TRIPS.ehden };
-  }
-  if (scenery === "history") {
-    return { car: CARS.sedan, trip: TRIPS.byblosBatroun };
-  }
-  // hidden gems
-  return { car: passengers === "5-7" ? CARS.suv : CARS.sedan, trip: TRIPS.northLoop };
-}
 
-function getFamilyMatch(scenery: Scenery, passengers: Passengers, budget: Budget): MatchResult {
-  const car = passengers === "5-7" || scenery === "mountains" ? CARS.suv : CARS.sedan;
-  if (scenery === "mountains") {
-    return { car, trip: TRIPS.ehden };
-  }
-  if (scenery === "coast") {
+  // Family trip
+  if (vibe === "family") {
+    const car = passengers === "5-7" ? CARS.suv : CARS.sedan;
     return { car, trip: TRIPS.byblosBatroun };
   }
-  if (scenery === "history") {
-    return { car, trip: TRIPS.baalbek };
-  }
-  // hidden
-  return { car: CARS.suv, trip: TRIPS.chouf };
-}
 
-function getLuxuryTrip(scenery: Scenery): TripResult {
-  if (scenery === "mountains") return TRIPS.ehden;
-  if (scenery === "coast") return TRIPS.batrounCoast;
-  if (scenery === "history") return TRIPS.baalbek;
-  return TRIPS.chouf;
-}
-
-function getEconomyTrip(scenery: Scenery): TripResult {
-  if (scenery === "mountains") return TRIPS.jezzine;
-  if (scenery === "coast") return TRIPS.byblosBatroun;
-  if (scenery === "history") return TRIPS.baalbek;
-  return TRIPS.chouf;
+  // Fallback
+  return { car: CARS.sedan, trip: TRIPS.jezzine };
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -402,18 +329,20 @@ export default function MatchMyTrip() {
       if (isAnimating) return;
 
       const currentQ = QUESTIONS[step];
-      const newAnswers = { ...answers, [currentQ.id]: value };
-      setAnswers(newAnswers);
+      // "__skip__" means user chose "I don't know yet" — don't record an answer
+      const newAnswers = value === "__skip__"
+        ? { ...answers }
+        : { ...answers, [currentQ.id]: value };
+      if (value !== "__skip__") setAnswers(newAnswers);
 
       if (isLastStep) {
         setSlideDir("left");
         setIsAnimating(true);
         setTimeout(() => {
           const matchResult = getMatch(newAnswers as {
-            vibe: Vibe;
-            passengers: Passengers;
-            scenery: Scenery;
-            budget: Budget;
+            vibe?: Vibe;
+            passengers?: Passengers;
+            budget?: Budget;
           });
           setResult(matchResult);
           setTimeout(() => {
@@ -497,7 +426,7 @@ export default function MatchMyTrip() {
             MATCH MY TRIP
           </h2>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[#1a4b6e]/50 sm:text-base">
-            Answer 4 quick questions and we&apos;ll recommend the perfect car &amp; road trip
+            Answer 3 quick questions and we&apos;ll recommend the perfect car &amp; road trip
             combo for your Lebanon adventure.
           </p>
           <button
@@ -522,17 +451,17 @@ export default function MatchMyTrip() {
         <div className="fixed inset-0 z-[9999] flex items-center justify-center">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/30 backdrop-blur-md"
             onClick={close}
           />
 
           {/* Modal container */}
           <div
             ref={containerRef}
-            className="relative z-10 mx-3 flex max-h-[80vh] w-full flex-col overflow-hidden rounded-2xl bg-white/80 shadow-2xl backdrop-blur-xl sm:mx-0 sm:max-h-[94vh] sm:max-w-2xl sm:rounded-xl"
+            className="relative z-10 mx-3 flex max-h-[80vh] w-full flex-col overflow-hidden rounded-3xl border border-white/40 bg-white/30 shadow-[0_8px_60px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-2xl backdrop-saturate-150 sm:mx-0 sm:max-h-[94vh] sm:max-w-2xl sm:rounded-2xl"
           >
             {/* ── Top bar ── */}
-            <div className="relative flex items-center justify-between border-b border-gray-200/60 bg-white/70 px-4 py-2.5 backdrop-blur-sm sm:rounded-t-xl sm:py-3 sm:px-6">
+            <div className="relative flex items-center justify-between border-b border-white/30 bg-white/20 px-4 py-2.5 sm:py-3 sm:px-6">
               <div className="flex items-center gap-3">
                 {(step > 0 || showingResult) && (
                   <button
@@ -557,7 +486,7 @@ export default function MatchMyTrip() {
 
               <button
                 onClick={close}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-900"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/25 text-gray-600 backdrop-blur-sm transition-colors hover:bg-white/50 hover:text-gray-900"
               >
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
@@ -566,9 +495,9 @@ export default function MatchMyTrip() {
             </div>
 
             {/* ── Progress bar ── */}
-            <div className="h-1 w-full bg-gray-200">
+            <div className="h-0.5 w-full bg-white/20">
               <div
-                className="h-full bg-navy transition-all duration-500 ease-out"
+                className="h-full bg-navy/70 transition-all duration-500 ease-out"
                 style={{ width: `${progressPercent}%` }}
               />
             </div>
@@ -635,7 +564,7 @@ function QuestionScreen({
       {/* ── Header ── */}
       <div className="px-4 pt-4 pb-1 text-center sm:px-8 sm:pt-10 sm:pb-2">
         <p className="mb-0.5 text-[9px] font-bold uppercase tracking-[0.4em] text-navy/40 sm:mb-1 sm:text-[10px]">
-          Let us help you find your perfect car
+          Hello Traveller
         </p>
         <h2 className="font-serif text-xl font-black tracking-wide text-gray-900 sm:text-3xl">
           {question.title}
@@ -733,12 +662,11 @@ function QuestionScreen({
         {/* Skip / I don't know yet */}
         <button
           onClick={() => {
-            const random = question.options[Math.floor(Math.random() * question.options.length)];
-            onSelect(random.value);
+            onSelect("__skip__");
           }}
-          className="mx-auto mt-2 flex items-center gap-1.5 rounded-full px-5 py-2 text-[11px] font-semibold tracking-wide text-gray-400 transition-colors hover:bg-gray-200/60 hover:text-gray-600 sm:text-xs"
+          className="mx-auto mt-2 flex items-center gap-1.5 rounded-full px-5 py-2 text-[11px] font-semibold tracking-wide text-gray-400 transition-colors hover:bg-white/30 hover:text-gray-600 sm:text-xs"
         >
-          I don&apos;t know yet — surprise me
+          I don&apos;t know yet
           <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
           </svg>
