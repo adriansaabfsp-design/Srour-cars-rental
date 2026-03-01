@@ -57,6 +57,7 @@ export default function CarCard({ car }: { car: Car }) {
           <img
             src={photoList[currentIndex]}
             alt={car.name}
+            loading="lazy"
             className="h-full w-full object-contain transition-transform duration-700 group-hover:scale-[1.03]"
           />
         ) : (

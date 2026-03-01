@@ -185,7 +185,7 @@ export default function LebanonMap() {
                         <circle
                           cx={0}
                           cy={0}
-                          r={8}
+                          r={14}
                           fill="none"
                           stroke={d.isStart ? "#D4A853" : isSelected ? "#1B3A5C" : "#5B9BD5"}
                           strokeWidth={2}
@@ -194,11 +194,19 @@ export default function LebanonMap() {
                         />
                       )}
 
+                      {/* Invisible larger touch target for mobile */}
+                      <circle
+                        cx={0}
+                        cy={0}
+                        r={22}
+                        fill="transparent"
+                      />
+
                       {/* Pin dot */}
                       <circle
                         cx={0}
                         cy={0}
-                        r={d.isStart ? 10 : isSelected ? 9 : 7}
+                        r={d.isStart ? 14 : isSelected ? 13 : 11}
                         fill={d.isStart ? "#D4A853" : isSelected ? "#1B3A5C" : "#5B9BD5"}
                         stroke="#fff"
                         strokeWidth={d.isStart ? 3 : 2}
@@ -222,11 +230,11 @@ export default function LebanonMap() {
                         </text>
                       ) : (
                         <text
-                          y={-16}
+                          y={-20}
                           textAnchor="middle"
                           fill="#1B3A5C"
-                          fontWeight={600}
-                          fontSize={11}
+                          fontWeight={700}
+                          fontSize={14}
                           opacity={showLabel ? 1 : 0}
                           style={{
                             transition: "opacity 0.25s",

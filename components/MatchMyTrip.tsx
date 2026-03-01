@@ -529,7 +529,7 @@ export default function MatchMyTrip() {
           {/* Modal container */}
           <div
             ref={containerRef}
-            className="relative z-10 flex h-full w-full flex-col overflow-hidden bg-[#F0F4F8] sm:h-auto sm:max-h-[94vh] sm:max-w-2xl sm:rounded-xl sm:shadow-2xl"
+            className="relative z-10 mx-3 flex max-h-[88vh] w-full flex-col overflow-hidden rounded-2xl bg-[#F0F4F8]/95 shadow-2xl backdrop-blur-md sm:mx-0 sm:max-h-[94vh] sm:max-w-2xl sm:rounded-xl"
           >
             {/* ── Top bar ── */}
             <div className="relative flex items-center justify-between border-b border-gray-200/80 bg-white/95 px-4 py-3 backdrop-blur-sm sm:rounded-t-xl sm:px-6">
@@ -557,10 +557,10 @@ export default function MatchMyTrip() {
 
               <button
                 onClick={close}
-                className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-900"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-colors hover:bg-gray-200 hover:text-gray-900"
               >
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
             </div>
@@ -729,6 +729,20 @@ function QuestionScreen({
             );
           })}
         </div>
+
+        {/* Skip / I don't know yet */}
+        <button
+          onClick={() => {
+            const random = question.options[Math.floor(Math.random() * question.options.length)];
+            onSelect(random.value);
+          }}
+          className="mx-auto mt-2 flex items-center gap-1.5 rounded-full px-5 py-2 text-[11px] font-semibold tracking-wide text-gray-400 transition-colors hover:bg-gray-200/60 hover:text-gray-600 sm:text-xs"
+        >
+          I don&apos;t know yet — surprise me
+          <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </button>
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { Car } from "@/lib/types";
 
 interface CompareContextValue {
@@ -19,6 +20,12 @@ const CompareContext = createContext<CompareContextValue | null>(null);
 export function CompareProvider({ children }: { children: ReactNode }) {
   const [compareCars, setCompareCars] = useState<Car[]>([]);
   const [showModal, setShowModal] = useState(false);
+  const pathname = usePathname();
+
+  // Auto-close compare modal on route change
+  useEffect(() => {
+    setShowModal(false);
+  }, [pathname]);
 
   const addCar = useCallback((car: Car) => {
     setCompareCars((prev) => {

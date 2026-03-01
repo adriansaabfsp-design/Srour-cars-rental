@@ -64,7 +64,7 @@ export default function CompareBar() {
     <>
       {/* ── Floating bottom bar ── */}
       {!showModal && (
-        <div className="fixed bottom-20 left-1/2 -translate-x-1/2 z-[90] w-[94vw] max-w-xl animate-slide-up sm:bottom-16">
+        <div className="fixed bottom-20 left-1/2 z-[90] w-[94vw] max-w-xl animate-slide-up sm:bottom-16">
           <div className="flex items-center gap-2 rounded-full border border-[#1B4F72]/25 bg-[#0d2a3f]/95 px-4 py-2.5 shadow-[0_6px_36px_rgba(0,0,0,0.4)] backdrop-blur-lg sm:gap-3 sm:px-5">
             {/* Car thumbnails */}
             <div className="flex -space-x-2">
