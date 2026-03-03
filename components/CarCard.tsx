@@ -49,7 +49,7 @@ export default function CarCard({ car }: { car: Car }) {
   return (
     <Link
       href={`/cars/${car.id}`}
-      className={`group relative block overflow-hidden border border-gray-200 bg-white transition-all duration-500 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
+      className={`group relative block overflow-hidden border border-gray-200 bg-white transition-shadow duration-200 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
     >
       {/* Image */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-50">

@@ -268,9 +268,15 @@ html {
   animation: trainScroll 6s linear infinite;
   will-change: transform;
 }
+.car-train-track:hover,
+.car-train-track:active {
+  animation-play-state: paused;
+}
 .car-train-track a {
   position: relative;
   z-index: 2;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 /* Hide scrollbar for thumbnail train */
