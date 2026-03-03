@@ -12,50 +12,6 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { useCompare } from "@/components/CompareContext";
 import Link from "next/link";
 
-/* ── feature icon lookup ── */
-const FEATURE_ICONS: Record<string, string> = {
-  "Bluetooth": "📶",
-  "Apple CarPlay": "🍎",
-  "Android Auto": "📱",
-  "Backup Camera": "📷",
-  "360° Camera": "🎥",
-  "Navigation System": "🧭",
-  "Leather Seats": "💺",
-  "Heated Seats": "🔥",
-  "Cooled Seats": "❄️",
-  "Sunroof": "☀️",
-  "Panoramic Roof": "🌅",
-  "Cruise Control": "🚗",
-  "Adaptive Cruise Control": "🛣️",
-  "Blind Spot Monitor": "👁️",
-  "Lane Departure Warning": "⚠️",
-  "Parking Sensors": "📡",
-  "Keyless Entry": "🔑",
-  "Push Button Start": "⏹️",
-  "USB Ports": "🔌",
-  "Wireless Charging": "🔋",
-  "LED Headlights": "💡",
-  "Fog Lights": "🌫️",
-  "Tinted Windows": "🕶️",
-  "Power Seats": "⚡",
-  "Memory Seats": "🧠",
-  "Rear AC Vents": "🌬️",
-  "Roof Rack": "🏔️",
-  "Third Row Seating": "👨‍👩‍👧‍👦",
-  "Dashcam": "📹",
-  "ABS": "🛞",
-  "Airbags": "🎈",
-  "Traction Control": "🏎️",
-  "All-Wheel Drive (AWD)": "🏔️",
-  "4×4": "🏔️",
-  "Rain Sensing Wipers": "🌧️",
-  "Power Windows": "🪟",
-  "Power Mirrors": "🪞",
-  "Rear Spoiler": "🏁",
-  "Sport Mode": "⚡",
-  "Turbo Engine": "🔧",
-};
-
 export default function CarDetailPage() {
   const params = useParams();
   const [car, setCar] = useState<Car | null>(null);
@@ -292,10 +248,12 @@ export default function CarDetailPage() {
                     {car.features.map((feature) => (
                       <div
                         key={feature}
-                        className="flex items-center gap-2 border border-luxury-border bg-white px-3 py-2.5"
+                        className="group relative overflow-hidden border border-navy/30 bg-gradient-to-r from-navy/10 via-white to-navy/5 px-3 py-2.5 shadow-[0_0_22px_rgba(27,58,92,0.12)] transition-all duration-300 hover:border-navy/50 hover:shadow-[0_0_30px_rgba(27,58,92,0.24)] animate-[pulse_3s_ease-in-out_infinite]"
                       >
-                        <span className="text-sm">{FEATURE_ICONS[feature] || "✓"}</span>
-                        <span className="text-[11px] font-medium text-gray-900/70">{feature}</span>
+                        <span className="absolute left-0 top-0 h-full w-1 bg-navy" />
+                        <span className="pl-2 text-[11px] font-bold uppercase tracking-[0.08em] text-navy/90">
+                          {feature}
+                        </span>
                       </div>
                     ))}
                   </div>
