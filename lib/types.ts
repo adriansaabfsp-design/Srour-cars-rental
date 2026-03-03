@@ -52,6 +52,7 @@ export interface Car {
   category?: string;
   roadTypes?: string[];
   tripCategory?: string;
+  features?: string[];
 }
 
 export const BRANDS = [
@@ -172,4 +173,47 @@ export const TRIP_CATEGORIES = [
   "Economy",
   "4×4",
   "Convertible",
+] as const;
+
+export const CAR_FEATURES = [
+  "Bluetooth",
+  "Apple CarPlay",
+  "Android Auto",
+  "Backup Camera",
+  "360° Camera",
+  "Navigation System",
+  "Leather Seats",
+  "Heated Seats",
+  "Cooled Seats",
+  "Sunroof",
+  "Panoramic Roof",
+  "Cruise Control",
+  "Adaptive Cruise Control",
+  "Blind Spot Monitor",
+  "Lane Departure Warning",
+  "Parking Sensors",
+  "Keyless Entry",
+  "Push Button Start",
+  "USB Ports",
+  "Wireless Charging",
+  "LED Headlights",
+  "Fog Lights",
+  "Tinted Windows",
+  "Power Seats",
+  "Memory Seats",
+  "Rear AC Vents",
+  "Roof Rack",
+  "Third Row Seating",
+  "Dashcam",
+  "ABS",
+  "Airbags",
+  "Traction Control",
+  "All-Wheel Drive (AWD)",
+  "4×4",
+  "Rain Sensing Wipers",
+  "Power Windows",
+  "Power Mirrors",
+  "Rear Spoiler",
+  "Sport Mode",
+  "Turbo Engine",
 ] as const;

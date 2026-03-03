@@ -20,7 +20,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
-import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES } from "@/lib/types";
+import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES, CAR_FEATURES } from "@/lib/types";
 
 const EMPTY_FORM = {
   name: "",
@@ -46,6 +46,8 @@ const EMPTY_FORM = {
   category: "Sedan",
   roadTypes: [] as string[],
   tripCategory: "None",
+  features: [] as string[],
+  customFeature: "",
 };
 
 const inputCls =
@@ -197,6 +199,7 @@ export default function AdminPage() {
         category: form.category,
         roadTypes: form.roadTypes,
         tripCategory: form.tripCategory === "None" ? "" : form.tripCategory,
+        features: form.features,
         gallery: galleryUrls,
         createdAt: editingId ? undefined : Date.now(),
       };
@@ -250,6 +253,8 @@ export default function AdminPage() {
       category: car.category || "Sedan",
       roadTypes: car.roadTypes || [],
       tripCategory: car.tripCategory || "None",
+      features: car.features || [],
+      customFeature: "",
     });
     setEditingId(car.id);
     setPhotoFiles({});
@@ -589,6 +594,88 @@ export default function AdminPage() {
                     );
                   })}
                 </div>
+              </div>
+
+              {/* Car Features */}
+              <div className="sm:col-span-2">
+                <label className={labelCls}>Car Features</label>
+                <div className="flex flex-wrap gap-2">
+                  {CAR_FEATURES.map((feature) => {
+                    const selected = form.features.includes(feature);
+                    return (
+                      <button
+                        key={feature}
+                        type="button"
+                        onClick={() => {
+                          setForm({
+                            ...form,
+                            features: selected
+                              ? form.features.filter((f) => f !== feature)
+                              : [...form.features, feature],
+                          });
+                        }}
+                        className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all ${
+                          selected
+                            ? "border border-navy bg-navy/20 text-navy"
+                            : "border border-luxury-border bg-white text-gray-900/30 hover:border-white/20 hover:text-gray-900/50"
+                        }`}
+                      >
+                        {feature}
+                      </button>
+                    );
+                  })}
+                </div>
+                {/* Custom feature input */}
+                <div className="mt-3 flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Add a custom feature..."
+                    value={form.customFeature}
+                    onChange={(e) => setForm({ ...form, customFeature: e.target.value })}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        e.preventDefault();
+                        const val = form.customFeature.trim();
+                        if (val && !form.features.includes(val)) {
+                          setForm({ ...form, features: [...form.features, val], customFeature: "" });
+                        }
+                      }
+                    }}
+                    className="flex-1 border border-luxury-border bg-white px-3 py-2 text-sm text-gray-900 placeholder-gray-900/20 outline-none focus:border-navy"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const val = form.customFeature.trim();
+                      if (val && !form.features.includes(val)) {
+                        setForm({ ...form, features: [...form.features, val], customFeature: "" });
+                      }
+                    }}
+                    className="border border-navy bg-navy/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-navy hover:bg-navy/20 transition-colors"
+                  >
+                    + Add
+                  </button>
+                </div>
+                {/* Show selected features as removable tags */}
+                {form.features.length > 0 && (
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {form.features.map((f) => (
+                      <span
+                        key={f}
+                        className="inline-flex items-center gap-1.5 border border-navy/20 bg-navy/10 px-2.5 py-1 text-[10px] font-bold text-navy"
+                      >
+                        {f}
+                        <button
+                          type="button"
+                          onClick={() => setForm({ ...form, features: form.features.filter((x) => x !== f) })}
+                          className="text-navy/50 hover:text-red-400 transition-colors"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* WhatsApp */}

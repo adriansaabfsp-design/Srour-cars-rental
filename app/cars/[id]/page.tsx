@@ -12,11 +12,56 @@ import Breadcrumb from "@/components/Breadcrumb";
 import { useCompare } from "@/components/CompareContext";
 import Link from "next/link";
 
+/* ── feature icon lookup ── */
+const FEATURE_ICONS: Record<string, string> = {
+  "Bluetooth": "📶",
+  "Apple CarPlay": "🍎",
+  "Android Auto": "📱",
+  "Backup Camera": "📷",
+  "360° Camera": "🎥",
+  "Navigation System": "🧭",
+  "Leather Seats": "💺",
+  "Heated Seats": "🔥",
+  "Cooled Seats": "❄️",
+  "Sunroof": "☀️",
+  "Panoramic Roof": "🌅",
+  "Cruise Control": "🚗",
+  "Adaptive Cruise Control": "🛣️",
+  "Blind Spot Monitor": "👁️",
+  "Lane Departure Warning": "⚠️",
+  "Parking Sensors": "📡",
+  "Keyless Entry": "🔑",
+  "Push Button Start": "⏹️",
+  "USB Ports": "🔌",
+  "Wireless Charging": "🔋",
+  "LED Headlights": "💡",
+  "Fog Lights": "🌫️",
+  "Tinted Windows": "🕶️",
+  "Power Seats": "⚡",
+  "Memory Seats": "🧠",
+  "Rear AC Vents": "🌬️",
+  "Roof Rack": "🏔️",
+  "Third Row Seating": "👨‍👩‍👧‍👦",
+  "Dashcam": "📹",
+  "ABS": "🛞",
+  "Airbags": "🎈",
+  "Traction Control": "🏎️",
+  "All-Wheel Drive (AWD)": "🏔️",
+  "4×4": "🏔️",
+  "Rain Sensing Wipers": "🌧️",
+  "Power Windows": "🪟",
+  "Power Mirrors": "🪞",
+  "Rear Spoiler": "🏁",
+  "Sport Mode": "⚡",
+  "Turbo Engine": "🔧",
+};
+
 export default function CarDetailPage() {
   const params = useParams();
   const [car, setCar] = useState<Car | null>(null);
   const [loading, setLoading] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
+  const [activeTab, setActiveTab] = useState<"about" | "features" | null>(null);
   const { addCar, removeCar, isComparing, compareCars } = useCompare();
   const inCompare = car ? isComparing(car.id) : false;
 
@@ -160,18 +205,8 @@ export default function CarDetailPage() {
                 </div>
               </div>
 
-              {car.description && (
-                <div className="mt-7">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">About This Vehicle</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-gray-900/60">{car.description}</p>
-                </div>
-              )}
-
-              {/* Divider */}
-              <div className="my-7 h-px bg-luxury-border" />
-
-              {/* Compare + Rent buttons */}
-              <div className="flex gap-2 sm:gap-3">
+              {/* Rent + Compare — right under specs */}
+              <div className="mt-5 flex gap-2 sm:gap-3">
                 <button
                   onClick={() => {
                     if (!car) return;
@@ -207,6 +242,60 @@ export default function CarDetailPage() {
                   Rent This Car
                 </Link>
               </div>
+
+              {/* About + Car Features toggle buttons */}
+              <div className="mt-4 flex gap-2">
+                {car.description && (
+                  <button
+                    onClick={() => setActiveTab(activeTab === "about" ? null : "about")}
+                    className={`flex-1 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-200 ${
+                      activeTab === "about"
+                        ? "bg-navy text-white"
+                        : "border border-navy text-navy hover:bg-navy/5"
+                    }`}
+                  >
+                    About
+                  </button>
+                )}
+                {car.features && car.features.length > 0 && (
+                  <button
+                    onClick={() => setActiveTab(activeTab === "features" ? null : "features")}
+                    className={`flex-1 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-200 ${
+                      activeTab === "features"
+                        ? "bg-navy text-white"
+                        : "border border-navy text-navy hover:bg-navy/5"
+                    }`}
+                  >
+                    Car Features
+                  </button>
+                )}
+              </div>
+
+              {/* About section — expandable */}
+              {activeTab === "about" && car.description && (
+                <div className="mt-4 animate-[fadeIn_0.2s_ease-out]">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">About This Vehicle</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-gray-900/60">{car.description}</p>
+                </div>
+              )}
+
+              {/* Features section — expandable */}
+              {activeTab === "features" && car.features && car.features.length > 0 && (
+                <div className="mt-4 animate-[fadeIn_0.2s_ease-out]">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Car Features</h3>
+                  <div className="mt-3 grid grid-cols-2 gap-2">
+                    {car.features.map((feature) => (
+                      <div
+                        key={feature}
+                        className="flex items-center gap-2 border border-luxury-border bg-white px-3 py-2.5"
+                      >
+                        <span className="text-sm">{FEATURE_ICONS[feature] || "✓"}</span>
+                        <span className="text-[11px] font-medium text-gray-900/70">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
