@@ -50,6 +50,7 @@ export default function CarCard({ car }: { car: Car }) {
     <Link
       href={`/cars/${car.id}`}
       className={`group relative block overflow-hidden border border-gray-200 bg-white transition-shadow duration-200 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
+      style={{ WebkitTapHighlightColor: "transparent", touchAction: "manipulation" }}
     >
       {/* Image */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-50">
@@ -68,12 +69,12 @@ export default function CarCard({ car }: { car: Car }) {
           </div>
         )}
 
-        {/* Hover arrows — desktop only, hidden from touch on mobile */}
+        {/* Hover arrows — desktop only */}
         {photoList.length > 1 && (
           <>
             <button
               onClick={goPrev}
-              className="absolute left-2 top-1/2 z-20 -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto hover:bg-black/80"
+              className="absolute left-2 top-1/2 z-20 hidden -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 pointer-events-none sm:block sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto hover:bg-black/80"
             >
               <svg className="h-3 w-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -81,15 +82,15 @@ export default function CarCard({ car }: { car: Car }) {
             </button>
             <button
               onClick={goNext}
-              className="absolute right-2 top-1/2 z-20 -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto hover:bg-black/80"
+              className="absolute right-2 top-1/2 z-20 hidden -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 pointer-events-none sm:block sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto hover:bg-black/80"
             >
               <svg className="h-3 w-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
 
-            {/* Dot indicators — also desktop only */}
-            <div className="absolute bottom-2 left-1/2 z-20 -translate-x-1/2 flex gap-1.5 opacity-0 transition-opacity duration-300 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto">
+            {/* Dot indicators — desktop only */}
+            <div className="absolute bottom-2 left-1/2 z-20 hidden -translate-x-1/2 gap-1.5 opacity-0 transition-opacity duration-300 pointer-events-none sm:flex sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto">
               {photoList.map((_, i) => (
                 <button
                   key={i}
@@ -107,7 +108,7 @@ export default function CarCard({ car }: { car: Car }) {
           </>
         )}
 
-        {/* Compare toggle — desktop only hover, always visible if active */}
+        {/* Compare toggle — desktop only */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -116,7 +117,7 @@ export default function CarCard({ car }: { car: Car }) {
             else addCar(car);
           }}
           disabled={!inCompare && compareCars.length >= 2}
-          className={`absolute top-2 right-2 z-20 flex items-center gap-1 px-2 py-1 text-[8px] font-bold uppercase tracking-wider backdrop-blur-sm transition-all duration-200 ${
+          className={`absolute top-2 right-2 z-20 hidden items-center gap-1 px-2 py-1 text-[8px] font-bold uppercase tracking-wider backdrop-blur-sm transition-all duration-200 sm:flex ${
             inCompare
               ? "bg-navy text-white shadow-[0_0_12px_rgba(27,79,114,0.4)]"
               : compareCars.length >= 2

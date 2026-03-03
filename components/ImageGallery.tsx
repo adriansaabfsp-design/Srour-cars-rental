@@ -19,19 +19,52 @@ interface ImageGalleryProps {
   onPlayVideo?: () => void;
 }
 
+type GalleryItem = {
+  type: "image" | "video";
+  url: string;
+  label: string;
+  thumb: string;
+};
+
+function getYouTubeId(url: string): string | null {
+  const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  const match = url.match(regExp);
+  return match && match[1].length === 11 ? match[1] : null;
+}
+
 export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVideo }: ImageGalleryProps) {
-  // Build ordered list of { url, label } from photos or fallback to images
-  const photoList = (() => {
+  // Build ordered image list from photos or fallback to images
+  const imageList = (() => {
     if (photos && Object.values(photos).some(Boolean)) {
       return PHOTO_LABELS
         .filter((p) => photos[p.key])
-        .map((p) => ({ url: photos[p.key]!, label: p.label }));
+        .map((p) => ({ type: "image" as const, url: photos[p.key]!, label: p.label, thumb: photos[p.key]! }));
     }
     if (images && images.length > 0) {
       const labels = ["Main Photo", "Front View", "Back View", "Left Side", "Right Side"];
-      return images.map((url, i) => ({ url, label: labels[i] || `Photo ${i + 1}` }));
+      return images.map((url, i) => ({ type: "image" as const, url, label: labels[i] || `Photo ${i + 1}`, thumb: url }));
     }
     return [];
+  })();
+
+  const galleryItems: GalleryItem[] = (() => {
+    if (!videoUrl) return imageList;
+
+    const youtubeId = getYouTubeId(videoUrl);
+    const videoThumb = youtubeId
+      ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
+      : imageList[0]?.url || "";
+
+    const videoItem: GalleryItem = {
+      type: "video",
+      url: videoUrl,
+      label: "Video",
+      thumb: videoThumb,
+    };
+
+    if (imageList.length === 0) return [videoItem];
+
+    return [imageList[0], videoItem, ...imageList.slice(1)];
   })();
 
   const [selected, setSelected] = useState(0);
@@ -46,16 +79,18 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
 
   // Preload adjacent images
   useEffect(() => {
-    if (photoList.length <= 1) return;
+    if (galleryItems.length <= 1) return;
     const preloadIndexes = [
-      (selected + 1) % photoList.length,
-      (selected - 1 + photoList.length) % photoList.length,
+      (selected + 1) % galleryItems.length,
+      (selected - 1 + galleryItems.length) % galleryItems.length,
     ];
     preloadIndexes.forEach((idx) => {
-      const img = new Image();
-      img.src = photoList[idx].url;
+      if (galleryItems[idx].thumb) {
+        const img = new Image();
+        img.src = galleryItems[idx].thumb;
+      }
     });
-  }, [selected, photoList]);
+  }, [selected, galleryItems]);
 
   // Scroll thumbnail into view
   useEffect(() => {
@@ -88,14 +123,14 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
   );
 
   const goPrev = useCallback(() => {
-    const newIdx = selected === 0 ? photoList.length - 1 : selected - 1;
+    const newIdx = selected === 0 ? galleryItems.length - 1 : selected - 1;
     navigate(newIdx, "left");
-  }, [selected, photoList.length, navigate]);
+  }, [selected, galleryItems.length, navigate]);
 
   const goNext = useCallback(() => {
-    const newIdx = selected === photoList.length - 1 ? 0 : selected + 1;
+    const newIdx = selected === galleryItems.length - 1 ? 0 : selected + 1;
     navigate(newIdx, "right");
-  }, [selected, photoList.length, navigate]);
+  }, [selected, galleryItems.length, navigate]);
 
   // Swipe support for mobile
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -123,7 +158,7 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
     return () => window.removeEventListener("keydown", handleKey);
   }, [goPrev, goNext]);
 
-  if (photoList.length === 0) {
+  if (galleryItems.length === 0) {
     return (
       <div className="flex aspect-[16/10] w-full items-center justify-center border border-luxury-border bg-luxury-card text-gray-900/10">
         <svg className="h-24 w-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -133,8 +168,10 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
     );
   }
 
-  // Separate the angle thumbnails (everything after index 0)
-  const angleThumbnails = photoList.length > 1 ? photoList.slice(1) : [];
+  // Thumbnails after main slot (index 0)
+  const angleThumbnails = galleryItems.length > 1 ? galleryItems.slice(1) : [];
+  const currentItem = galleryItems[selected];
+  const displayItem = galleryItems[displayIndex];
 
   return (
     <div>
@@ -147,15 +184,15 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
       >
         {/* Current image */}
         <img
-          src={photoList[selected].url}
-          alt={`${alt} - ${photoList[selected].label}`}
+          src={currentItem.thumb || currentItem.url}
+          alt={`${alt} - ${currentItem.label}`}
           className="absolute inset-0 h-full w-full object-cover"
         />
         {/* Incoming image during animation */}
         {isAnimating && (
           <img
-            src={photoList[displayIndex].url}
-            alt={`${alt} - ${photoList[displayIndex].label}`}
+            src={displayItem.thumb || displayItem.url}
+            alt={`${alt} - ${displayItem.label}`}
             className="absolute inset-0 h-full w-full object-cover"
             style={{
               animation: `${direction === "right" ? "gallerySlideInRight" : "gallerySlideInLeft"} 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`,
@@ -166,8 +203,8 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
 
-        {/* Video play button overlay */}
-        {videoUrl && onPlayVideo && (
+        {/* Video play button overlay (only on video slot) */}
+        {currentItem.type === "video" && onPlayVideo && (
           <button
             onClick={onPlayVideo}
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 group"
@@ -184,7 +221,7 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
         )}
 
         {/* Arrow navigation — desktop only */}
-        {photoList.length > 1 && (
+        {galleryItems.length > 1 && (
           <>
             <button
               onClick={goPrev}
@@ -205,7 +242,7 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
 
             {/* Counter */}
             <div className="absolute bottom-3 right-3 z-10 bg-black/80 px-3 py-1 text-xs font-bold text-white/60">
-              {(isAnimating ? displayIndex : selected) + 1} / {photoList.length}
+              {(isAnimating ? displayIndex : selected) + 1} / {galleryItems.length}
             </div>
 
             {/* Swipe hint — mobile only, fades after first interaction */}
@@ -235,7 +272,14 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
                     : "border-luxury-border opacity-50 hover:opacity-80"
                 }`}
               >
-                <img src={photo.url} alt={`${alt} - ${photo.label}`} className="h-full w-full object-cover" />
+                <img src={photo.thumb || photo.url} alt={`${alt} - ${photo.label}`} className="h-full w-full object-cover" />
+                {photo.type === "video" && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                    <svg className="h-8 w-8 text-white/90" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                )}
               </button>
             );
           })}
