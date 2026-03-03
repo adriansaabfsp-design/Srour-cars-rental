@@ -5,11 +5,13 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
-import MatchMyTrip from "@/components/MatchMyTrip";
-import LebanonMap from "@/components/LebanonMap";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+
+const MatchMyTrip = dynamic(() => import("@/components/MatchMyTrip"));
+const LebanonMap = dynamic(() => import("@/components/LebanonMap"));
 
 const PROPERTY_IMAGES = [
   "/property-1.jpeg",
@@ -22,13 +24,6 @@ const PROPERTY_IMAGES = [
 
 function PropertySlideshow() {
   const [currentIdx, setCurrentIdx] = useState(0);
-
-  useEffect(() => {
-    PROPERTY_IMAGES.forEach((src) => {
-      const img = new window.Image();
-      img.src = src;
-    });
-  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -406,7 +401,7 @@ export default function Home() {
             muted
             loop
             playsInline
-            preload="auto"
+            preload="metadata"
             className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
             src="/new-hero.mp4"
           />
@@ -415,13 +410,12 @@ export default function Home() {
 
         <div className="relative" style={{ height: "360px" }} />
 
-        {/* Auto-scrolling car train */}
-        <div className="relative w-full overflow-hidden pb-3">
-          <div className="car-train-track flex">
-            {/* Duplicate the list for seamless infinite scroll */}
-            {[...featuredCars, ...featuredCars, ...featuredCars, ...featuredCars].map((car, i) => (
+        {/* Mobile car row (no autoplay movement for reliable taps) */}
+        <div className="relative w-full overflow-x-auto scrollbar-hide pb-3" style={{ touchAction: "pan-x" }}>
+          <div className="flex w-max gap-2 px-2">
+            {featuredCars.map((car) => (
               <Link
-                key={car.id + "-" + i}
+                key={car.id}
                 href={"/cars/" + car.id}
                 className="car-train-card relative flex-shrink-0 w-36 mx-1 overflow-hidden group"
               >
@@ -429,6 +423,8 @@ export default function Home() {
                   <img
                     src={car.photos?.main || car.images?.[0] || ""}
                     alt={car.name}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -460,7 +456,7 @@ export default function Home() {
               muted
               loop
               playsInline
-              preload="auto"
+              preload="metadata"
               className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
               src="/new-hero.mp4"
             />

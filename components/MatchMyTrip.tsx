@@ -295,25 +295,11 @@ export default function MatchMyTrip() {
   const close = useCallback(() => {
     setIsOpen(false);
     document.body.style.overflow = "";
-    // Mark as seen so popup doesn't reappear
-    try { localStorage.setItem("matchMyTripSeen", "1"); } catch {}
   }, []);
 
-  /* ── Auto-popup on first visit ── */
+  /* ── Preload quiz images only when opening the quiz ── */
   useEffect(() => {
-    try {
-      if (!localStorage.getItem("matchMyTripSeen")) {
-        const timer = setTimeout(() => {
-          setIsOpen(true);
-          document.body.style.overflow = "hidden";
-        }, 2500);
-        return () => clearTimeout(timer);
-      }
-    } catch {}
-  }, []);
-
-  /* ── Preload quiz images ── */
-  useEffect(() => {
+    if (!isOpen) return;
     QUESTIONS.forEach((q) => {
       q.options.forEach((opt) => {
         if (opt.image) {
@@ -322,7 +308,7 @@ export default function MatchMyTrip() {
         }
       });
     });
-  }, []);
+  }, [isOpen]);
 
   const selectOption = useCallback(
     (value: string) => {
