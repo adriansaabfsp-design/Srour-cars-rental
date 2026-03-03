@@ -48,6 +48,7 @@ const EMPTY_FORM = {
   tripCategory: "None",
   features: [] as string[],
   customFeature: "",
+  minDays: 1,
 };
 
 const inputCls =
@@ -200,6 +201,7 @@ export default function AdminPage() {
         roadTypes: form.roadTypes,
         tripCategory: form.tripCategory === "None" ? "" : form.tripCategory,
         features: form.features,
+        minDays: Number(form.minDays) || 1,
         gallery: galleryUrls,
         createdAt: editingId ? undefined : Date.now(),
       };
@@ -255,6 +257,7 @@ export default function AdminPage() {
       tripCategory: car.tripCategory || "None",
       features: car.features || [],
       customFeature: "",
+      minDays: car.minDays || 1,
     });
     setEditingId(car.id);
     setPhotoFiles({});
@@ -480,6 +483,20 @@ export default function AdminPage() {
                   onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
                   className={inputCls}
                 />
+              </div>
+
+              {/* Minimum Rental Days */}
+              <div>
+                <label className={labelCls}>Min. Days to Rent</label>
+                <input
+                  type="number"
+                  min="1"
+                  max="30"
+                  value={form.minDays}
+                  onChange={(e) => setForm({ ...form, minDays: Number(e.target.value) })}
+                  className={inputCls}
+                />
+                <p className="mt-1 text-[9px] text-gray-400">Minimum number of days required to rent this car</p>
               </div>
 
               {/* Mileage */}

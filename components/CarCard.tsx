@@ -68,12 +68,12 @@ export default function CarCard({ car }: { car: Car }) {
           </div>
         )}
 
-        {/* Hover arrows */}
+        {/* Hover arrows — desktop only, hidden from touch on mobile */}
         {photoList.length > 1 && (
           <>
             <button
               onClick={goPrev}
-              className="absolute left-2 top-1/2 z-20 -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 hover:bg-black/80"
+              className="absolute left-2 top-1/2 z-20 -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto hover:bg-black/80"
             >
               <svg className="h-3 w-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -81,15 +81,15 @@ export default function CarCard({ car }: { car: Car }) {
             </button>
             <button
               onClick={goNext}
-              className="absolute right-2 top-1/2 z-20 -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 group-hover:opacity-100 hover:bg-black/80"
+              className="absolute right-2 top-1/2 z-20 -translate-y-1/2 bg-black/60 p-2 backdrop-blur-sm opacity-0 transition-all duration-300 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto hover:bg-black/80"
             >
               <svg className="h-3 w-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
 
-            {/* Dot indicators */}
-            <div className="absolute bottom-2 left-1/2 z-20 -translate-x-1/2 flex gap-1.5 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            {/* Dot indicators — also desktop only */}
+            <div className="absolute bottom-2 left-1/2 z-20 -translate-x-1/2 flex gap-1.5 opacity-0 transition-opacity duration-300 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto">
               {photoList.map((_, i) => (
                 <button
                   key={i}
@@ -107,7 +107,7 @@ export default function CarCard({ car }: { car: Car }) {
           </>
         )}
 
-        {/* Compare toggle */}
+        {/* Compare toggle — desktop only hover, always visible if active */}
         <button
           onClick={(e) => {
             e.preventDefault();
@@ -120,8 +120,8 @@ export default function CarCard({ car }: { car: Car }) {
             inCompare
               ? "bg-navy text-white shadow-[0_0_12px_rgba(27,79,114,0.4)]"
               : compareCars.length >= 2
-                ? "bg-black/30 text-white/30 cursor-not-allowed"
-                : "bg-black/50 text-white/70 opacity-0 group-hover:opacity-100 hover:bg-navy hover:text-white"
+                ? "bg-black/30 text-white/30 cursor-not-allowed pointer-events-none"
+                : "bg-black/50 text-white/70 opacity-0 pointer-events-none sm:group-hover:opacity-100 sm:group-hover:pointer-events-auto hover:bg-navy hover:text-white"
           }`}
           title={inCompare ? "Remove from compare" : compareCars.length >= 2 ? "Max 2 cars" : "Add to compare"}
         >
@@ -178,9 +178,12 @@ export default function CarCard({ car }: { car: Car }) {
             <span className="hidden min-[400px]:inline">{car.mileage.toLocaleString()} km</span>
             <span>{car.transmission === "Automatic" ? "Auto" : car.transmission}</span>
           </div>
-          <div className="whitespace-nowrap">
+          <div className="whitespace-nowrap text-right">
             <span className="text-base font-bold text-navy sm:text-lg">${car.price}</span>
             <span className="text-[9px] font-medium text-gray-400">/day</span>
+            {car.minDays && car.minDays > 1 && (
+              <p className="text-[8px] font-bold text-navy/50">{car.minDays} days min</p>
+            )}
           </div>
         </div>
       </div>

@@ -40,6 +40,9 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
   const [displayIndex, setDisplayIndex] = useState(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const thumbnailRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
 
   // Preload adjacent images
   useEffect(() => {
@@ -94,6 +97,22 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
     navigate(newIdx, "right");
   }, [selected, photoList.length, navigate]);
 
+  // Swipe support for mobile
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    // Only trigger if horizontal swipe is dominant and long enough
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+      if (dx < 0) goNext();
+      else goPrev();
+    }
+  }, [goNext, goPrev]);
+
   // Keyboard navigation
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -120,7 +139,12 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
   return (
     <div>
       {/* Main Hero Image */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden border border-luxury-border bg-white">
+      <div
+        ref={heroRef}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        className="relative aspect-[16/10] w-full overflow-hidden border border-luxury-border bg-white"
+      >
         {/* Current image */}
         <img
           src={photoList[selected].url}
@@ -159,12 +183,12 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
           </button>
         )}
 
-        {/* Arrow navigation */}
+        {/* Arrow navigation — desktop only */}
         {photoList.length > 1 && (
           <>
             <button
               onClick={goPrev}
-              className="absolute left-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-navy/30 hover:bg-black/90"
+              className="absolute left-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-navy/30 hover:bg-black/90 hidden sm:block"
             >
               <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
@@ -172,7 +196,7 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
             </button>
             <button
               onClick={goNext}
-              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-navy/30 hover:bg-black/90"
+              className="absolute right-3 top-1/2 z-10 -translate-y-1/2 border border-white/10 bg-black/70 p-3 backdrop-blur-sm transition-all hover:border-navy/30 hover:bg-black/90 hidden sm:block"
             >
               <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
@@ -182,6 +206,14 @@ export default function ImageGallery({ photos, images, alt, videoUrl, onPlayVide
             {/* Counter */}
             <div className="absolute bottom-3 right-3 z-10 bg-black/80 px-3 py-1 text-xs font-bold text-white/60">
               {(isAnimating ? displayIndex : selected) + 1} / {photoList.length}
+            </div>
+
+            {/* Swipe hint — mobile only, fades after first interaction */}
+            <div className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 bg-black/60 px-2.5 py-1 backdrop-blur-sm sm:hidden">
+              <svg className="h-3 w-3 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4M16 17H4m0 0l4 4m-4-4l4-4" />
+              </svg>
+              <span className="text-[9px] font-bold uppercase tracking-wider text-white/50">Swipe</span>
             </div>
           </>
         )}

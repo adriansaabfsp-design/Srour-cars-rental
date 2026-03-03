@@ -178,6 +178,11 @@ export default function CarDetailPage() {
                 </span>
                 <span className="text-sm text-gray-900/30">/day</span>
               </div>
+              {car.minDays && car.minDays > 1 && (
+                <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.15em] text-navy/60">
+                  Minimum {car.minDays} days rental
+                </p>
+              )}
 
               <div className="my-7 h-px bg-luxury-border" />
 

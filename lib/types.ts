@@ -53,6 +53,7 @@ export interface Car {
   roadTypes?: string[];
   tripCategory?: string;
   features?: string[];
+  minDays?: number;
 }
 
 export const BRANDS = [
