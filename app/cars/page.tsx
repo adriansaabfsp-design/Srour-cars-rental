@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, TRANSMISSIONS } from "@/lib/types";
+import { Car, CAR_CATEGORIES, BRANDS, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import Breadcrumb from "@/components/Breadcrumb";
 import PriceCalculator from "@/components/PriceCalculator";
@@ -20,7 +20,6 @@ function AllCarsInner() {
   const minPriceParam = searchParams.get("minPrice");
   const maxPriceParam = searchParams.get("maxPrice");
   const searchParam = searchParams.get("search");
-  const roadParam = searchParams.get("road");
   const brandParam = searchParams.get("brand");
   const transmissionParam = searchParams.get("transmission");
   const [cars, setCars] = useState<Car[]>([]);
@@ -28,12 +27,11 @@ function AllCarsInner() {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState(searchParam || "");
   const [activeCategory, setActiveCategory] = useState(categoryParam || "All");
-  const [activeRoad, setActiveRoad] = useState(roadParam || "All Terrain");
   const [brand, setBrand] = useState(brandParam || "All");
   const [transmission, setTransmission] = useState(transmissionParam || "All");
   const [activeTripCategory, setActiveTripCategory] = useState(tripParam || "");
   const [showMoreFilters, setShowMoreFilters] = useState(
-    !!(roadParam || brandParam || transmissionParam)
+    !!(brandParam || transmissionParam)
   );
 
   // Price range slider state
@@ -110,8 +108,6 @@ function AllCarsInner() {
       }
       if (activeCategory !== "All" && car.category !== activeCategory) return false;
       if (activeTripCategory && car.tripCategory !== activeTripCategory) return false;
-      if (activeRoad !== "All Terrain" && (!car.roadTypes || !car.roadTypes.includes(activeRoad)))
-        return false;
       if (brand !== "All" && car.brand !== brand) return false;
       if (transmission !== "All" && car.transmission !== transmission) return false;
       if (priceInited && (car.price < priceRange[0] || car.price > priceRange[1])) return false;
@@ -127,12 +123,11 @@ function AllCarsInner() {
   const paginatedCars = filteredCars.slice((page - 1) * CARS_PER_PAGE, page * CARS_PER_PAGE);
 
   const hasFilters =
-    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || transmission !== "All" || activeTripCategory || (priceInited && (priceRange[0] !== dataMinPrice || priceRange[1] !== dataMaxPrice));
+    searchQuery || activeCategory !== "All" || brand !== "All" || transmission !== "All" || activeTripCategory || (priceInited && (priceRange[0] !== dataMinPrice || priceRange[1] !== dataMaxPrice));
 
   const resetFilters = () => {
     setSearchQuery("");
     setActiveCategory("All");
-    setActiveRoad("All Terrain");
     setBrand("All");
     setTransmission("All");
     setActiveTripCategory("");
@@ -143,7 +138,7 @@ function AllCarsInner() {
   // Reset page when filters change
   useEffect(() => {
     setPage(1);
-  }, [searchQuery, activeCategory, activeRoad, brand, transmission]);
+  }, [searchQuery, activeCategory, brand, transmission]);
 
   return (
     <div className="min-h-screen bg-luxury-black">
@@ -165,8 +160,8 @@ function AllCarsInner() {
       </div>
 
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 sm:py-8 lg:px-8">
-        {/* search + filter trigger */}
-        <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
+        {/* Search bar - own row */}
+        <div className="mx-auto mb-4 max-w-2xl">
           <div className="flex items-stretch gap-2">
             <div className="relative flex-1">
               <svg
@@ -182,7 +177,7 @@ function AllCarsInner() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search by name, brand, year..."
-                className="w-full border border-navy/30 bg-navy py-2.5 pl-10 pr-4 text-[13px] text-white placeholder-white/50 outline-none transition-all focus:border-navy-light focus:ring-1 focus:ring-navy-light sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
+                className="w-full border border-navy/30 bg-navy py-3 pl-10 pr-4 text-[13px] text-white placeholder-white/50 outline-none transition-all focus:border-navy-light focus:ring-1 focus:ring-navy-light sm:py-4 sm:pl-12 sm:text-sm rounded-sm"
               />
               {searchQuery && (
                 <button
@@ -195,20 +190,27 @@ function AllCarsInner() {
                 </button>
               )}
             </div>
-            <button
-              onClick={() => setShowMoreFilters(!showMoreFilters)}
-              className="flex items-center gap-1.5 border border-navy bg-white px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-navy transition-colors hover:bg-navy hover:text-white sm:px-4 sm:text-[11px] rounded-sm"
-            >
-              <svg className={`h-3.5 w-3.5 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-              {showMoreFilters ? "Hide" : "Filters"}
-            </button>
           </div>
         </div>
 
-        {/* category tabs */}
-        <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:mb-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
+        {/* FILTERS toggle */}
+        <div className="mx-auto max-w-2xl mb-3 sm:mb-4">
+          <button
+            onClick={() => setShowMoreFilters(!showMoreFilters)}
+            className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-colors hover:text-navy-light sm:text-[12px]"
+          >
+            <svg className={`h-4 w-4 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+            Filters
+          </button>
+        </div>
+
+        {/* Collapsible: categories, brand, transmission, price */}
+        {showMoreFilters && (
+          <div className="mx-auto max-w-3xl space-y-4 mb-4 animate-fade-in-up">
+            {/* category tabs */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
           {CAR_CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             const count =
@@ -235,38 +237,10 @@ function AllCarsInner() {
               </button>
             );
           })}
-        </div>
+            </div>
 
-        {/* collapsible extra filters */}
-        <div className="mb-3 sm:mb-4">
-          {showMoreFilters && (
-            <div className="mt-3 space-y-3">
-              {/* road type pills */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
-                <span className="mr-1 text-[8px] font-bold uppercase tracking-[0.2em] text-gray-900/25 sm:text-[9px] sm:tracking-[0.25em]">
-                  Best for:
-                </span>
-                {ROAD_TYPES.map((road) => {
-                  const isActive = activeRoad === road;
-                  return (
-                    <button
-                      key={road}
-                      onClick={() => setActiveRoad(road)}
-                      className={
-                        "px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-all sm:px-3 sm:text-[10px] " +
-                        (isActive
-                          ? "border border-navy bg-navy/15 text-gray-900"
-                          : "border border-luxury-border text-gray-900/30 hover:border-white/20 hover:text-gray-900/50")
-                      }
-                    >
-                      {road === "All Terrain" ? "All" : road}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* dropdowns row */}
-              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
+            {/* Brand & Transmission */}
+            <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
                 <select
                   value={brand}
                   onChange={(e) => setBrand(e.target.value)}
@@ -296,12 +270,9 @@ function AllCarsInner() {
                     Clear Filters
                   </button>
                 )}
-              </div>
             </div>
-          )}
-        </div>
 
-        {/* Price range slider — always visible */}
+            {/* Price range slider */}
         {priceInited && dataMaxPrice > dataMinPrice && (
           <div className="mx-auto max-w-2xl mb-3 sm:mb-4">
             <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">
@@ -405,6 +376,8 @@ function AllCarsInner() {
                 ${priceRange[1]}<span className="text-white/50 font-normal">/day</span>
               </span>
             </div>
+          </div>
+        )}
           </div>
         )}
 

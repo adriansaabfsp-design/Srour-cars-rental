@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Car, CAR_CATEGORIES, ROAD_TYPES, BRANDS, TRANSMISSIONS } from "@/lib/types";
+import { Car, CAR_CATEGORIES, BRANDS, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -260,16 +260,12 @@ export default function Home() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
-  const [activeRoad, setActiveRoad] = useState("All Terrain");
   const [brand, setBrand] = useState("All");
   const [transmission, setTransmission] = useState("All");
   const [showMoreFilters, setShowMoreFilters] = useState(false);
 
   // Compute available brands from actual car data
   const availableBrands = ["All", ...Array.from(new Set(cars.filter(c => c.available !== false).map(c => c.brand).filter(Boolean))).sort()];
-  const [previewIndex, setPreviewIndex] = useState(0);
-  const [previewFading, setPreviewFading] = useState(false);
-  const previewTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 9999]);
   const [priceInited, setPriceInited] = useState(false);
   const [activePriceThumb, setActivePriceThumb] = useState<"min" | "max" | null>(null);
@@ -307,7 +303,6 @@ export default function Home() {
   }, [availableCars.length, minPrice, maxPrice, priceInited]);
 
   const featuredCars = cars.filter((c) => c.featured);
-  const previewCars = featuredCars.length > 0 ? featuredCars : cars.filter((c) => c.available !== false);
 
   const filteredCars = cars
     .filter((car) => {
@@ -321,8 +316,6 @@ export default function Home() {
         if (!s.includes(q)) return false;
       }
       if (activeCategory !== "All" && car.category !== activeCategory) return false;
-      if (activeRoad !== "All Terrain" && (!car.roadTypes || !car.roadTypes.includes(activeRoad)))
-        return false;
       if (brand !== "All" && car.brand !== brand) return false;
       if (transmission !== "All" && car.transmission !== transmission) return false;
       if (priceInited && (car.price < priceRange[0] || car.price > priceRange[1])) return false;
@@ -337,7 +330,6 @@ export default function Home() {
   const resetFilters = () => {
     setSearchQuery("");
     setActiveCategory("All");
-    setActiveRoad("All Terrain");
     setBrand("All");
     setTransmission("All");
     if (priceInited) setPriceRange([minPrice, maxPrice]);
@@ -345,36 +337,9 @@ export default function Home() {
 
 
   const hasFilters =
-    searchQuery || activeCategory !== "All" || activeRoad !== "All Terrain" || brand !== "All" || transmission !== "All" || (priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice));
+    searchQuery || activeCategory !== "All" || brand !== "All" || transmission !== "All" || (priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice));
 
-  const previewCar = previewCars.length > 0 ? previewCars[previewIndex % previewCars.length] : null;
 
-  useEffect(() => {
-    setPreviewIndex(0);
-    setPreviewFading(false);
-    if (previewTimeoutRef.current) {
-      clearTimeout(previewTimeoutRef.current);
-      previewTimeoutRef.current = null;
-    }
-  }, [previewCars.length]);
-
-  useEffect(() => {
-    if (previewCars.length < 2) return;
-    const interval = setInterval(() => {
-      setPreviewFading(true);
-      previewTimeoutRef.current = setTimeout(() => {
-        setPreviewIndex((prev) => (prev + 1) % previewCars.length);
-        setPreviewFading(false);
-      }, 280);
-    }, 7000);
-
-    return () => {
-      clearInterval(interval);
-      if (previewTimeoutRef.current) {
-        clearTimeout(previewTimeoutRef.current);
-      }
-    };
-  }, [previewCars.length]);
 
   useEffect(() => {
     return () => {
@@ -409,41 +374,6 @@ export default function Home() {
         </div>
 
         <div className="relative" style={{ height: "360px" }} />
-
-        {/* Mobile car row (no autoplay movement for reliable taps) */}
-        <div className="relative w-full overflow-x-auto scrollbar-hide pb-3" style={{ touchAction: "pan-x" }}>
-          <div className="flex w-max gap-2 px-2">
-            {featuredCars.map((car) => (
-              <Link
-                key={car.id}
-                href={"/cars/" + car.id}
-                className="car-train-card relative flex-shrink-0 w-36 mx-1 overflow-hidden group"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <img
-                    src={car.photos?.main || car.images?.[0] || ""}
-                    alt={car.name}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
-                      {car.brand}
-                    </p>
-                    <p className="text-sm font-bold text-white leading-tight truncate">
-                      {car.name}
-                    </p>
-                    <p className="mt-0.5 text-xs font-extrabold text-white/90">
-                      ${car.price}<span className="text-[9px] font-normal text-white/50">/day</span>
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
       </section>
 
       {/* DESKTOP: video hero */}
@@ -480,10 +410,8 @@ export default function Home() {
               50+ handpicked cars for every road, season, and adventure across Lebanon.
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-start sm:gap-8">
-            <div className="flex-1 min-w-0">
-              {/* search + filter trigger */}
-              <div className="mx-auto mb-3 max-w-2xl sm:mb-5">
+              {/* Search bar - own row */}
+              <div className="mx-auto mb-4 max-w-2xl">
                 <div className="flex items-stretch gap-2">
                   <div className="relative flex-1">
                     <svg
@@ -499,7 +427,7 @@ export default function Home() {
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search by name, brand, year..."
-                      className="w-full border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-3.5 sm:pl-12 sm:text-sm rounded-sm"
+                      className="w-full border border-gray-300 bg-white py-3 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-4 sm:pl-12 sm:text-sm rounded-sm"
                     />
                     {searchQuery && (
                       <button
@@ -513,20 +441,10 @@ export default function Home() {
                     )}
                   </div>
                   <button
-                    onClick={() => setShowMoreFilters(!showMoreFilters)}
-                    className="flex items-center gap-1.5 border border-navy bg-white px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-navy transition-colors hover:bg-navy hover:text-white sm:px-4 sm:text-[11px]"
-                  >
-                    <svg className={`h-3.5 w-3.5 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                    {showMoreFilters ? "Hide" : "Filters"}
-                  </button>
-                  <button
                     onClick={() => {
                       const params = new URLSearchParams();
                       if (searchQuery) params.set("search", searchQuery);
                       if (activeCategory !== "All") params.set("category", activeCategory);
-                      if (activeRoad !== "All Terrain") params.set("road", activeRoad);
                       if (brand !== "All") params.set("brand", brand);
                       if (transmission !== "All") params.set("transmission", transmission);
                       if (priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice)) {
@@ -535,9 +453,9 @@ export default function Home() {
                       }
                       router.push(`/cars${params.toString() ? `?${params}` : ""}`);
                     }}
-                    className="flex items-center gap-1.5 bg-navy px-3 text-[10px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-navy-light sm:px-5 sm:text-[11px] rounded-sm"
+                    className="flex items-center gap-1.5 bg-navy px-4 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-navy-light sm:px-6 sm:py-4 sm:text-[12px] rounded-sm"
                   >
-                    <svg className="h-3.5 w-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     <span className="hidden sm:inline">Search</span>
@@ -545,8 +463,24 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* FILTERS toggle */}
+              <div className="mx-auto max-w-2xl mb-3 sm:mb-4">
+                <button
+                  onClick={() => setShowMoreFilters(!showMoreFilters)}
+                  className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-colors hover:text-navy-light sm:text-[12px]"
+                >
+                  <svg className={`h-4 w-4 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                  Filters
+                </button>
+              </div>
+
+              {/* Collapsible: categories, brand, transmission, price */}
+              {showMoreFilters && (
+                <div className="mx-auto max-w-3xl space-y-4 mb-4 animate-fade-in-up">
               {/* category tabs */}
-              <div className="mb-3 flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:mb-4 sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
           {CAR_CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat;
             const count =
@@ -575,35 +509,7 @@ export default function Home() {
           })}
               </div>
 
-              {/* collapsible extra filters */}
-              <div className="mb-2 sm:mb-0">
-          {showMoreFilters && (
-            <div className="mt-3 space-y-3 animate-fade-in-up">
-              {/* road type pills */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
-                <span className="mr-1 text-[8px] font-bold uppercase tracking-[0.2em] text-gray-900/25 sm:text-[9px] sm:tracking-[0.25em]">
-                  Best for:
-                </span>
-                {ROAD_TYPES.map((road) => {
-                  const isActive = activeRoad === road;
-                  return (
-                    <button
-                      key={road}
-                      onClick={() => setActiveRoad(road)}
-                      className={
-                        "px-2.5 py-1.5 text-[9px] font-bold uppercase tracking-wider transition-all sm:px-3 sm:text-[10px] " +
-                        (isActive
-                          ? "border border-navy bg-navy/15 text-gray-900"
-                          : "border border-luxury-border text-gray-900/30 hover:border-white/20 hover:text-gray-900/50")
-                      }
-                    >
-                      {road === "All Terrain" ? "All" : road}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* dropdowns row */}
+              {/* Brand & Transmission */}
               <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
                 <select
                   value={brand}
@@ -635,8 +541,6 @@ export default function Home() {
                   </button>
                 )}
               </div>
-            </div>
-          )}
               {/* Price range slider */}
               {priceInited && maxPrice > minPrice && (
                 <div className="mx-auto max-w-2xl mt-3 sm:mt-4">
@@ -753,40 +657,8 @@ export default function Home() {
                   </div>
                 </div>
               )}
-              </div>
-            </div>
-
-            {/* Right: large featured car with fade */}
-            <div className="hidden sm:block w-[340px] lg:w-[420px] flex-shrink-0 self-stretch">
-              <div className="sticky top-24 h-full">
-                <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.3em] text-navy/50">Featured Cars</p>
-                {previewCar && (
-                  <Link
-                    href={"/cars/" + previewCar.id}
-                    className={`group block bg-white border border-navy/10 overflow-hidden transition-all duration-500 hover:border-navy/30 hover:shadow-lg ${
-                      previewFading ? "opacity-0" : "opacity-100"
-                    }`}
-                  >
-                    <div className="relative aspect-[4/3] w-full overflow-hidden">
-                      <img
-                        src={previewCar.photos?.main || previewCar.images?.[0] || ""}
-                        alt={previewCar.name}
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-4 lg:p-5">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">{previewCar.brand} &middot; {previewCar.year}</p>
-                        <p className="text-xl lg:text-2xl font-bold leading-tight text-white truncate">{previewCar.name}</p>
-                        <p className="mt-1 text-lg font-extrabold text-white">
-                          ${previewCar.price}<span className="text-sm font-normal text-white/60">/day</span>
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                )}
-              </div>
-            </div>
-          </div>
+                </div>
+              )}
         </div>
       </div>
 
@@ -801,9 +673,6 @@ export default function Home() {
                 {filteredCars.length} vehicle{filteredCars.length !== 1 ? "s" : ""}
                 {activeCategory !== "All" && (
                   <span className="text-gray-900/60"> &middot; {activeCategory}</span>
-                )}
-                {activeRoad !== "All Terrain" && (
-                  <span className="text-gray-900/60"> &middot; {activeRoad}</span>
                 )}
               </>
             )}
