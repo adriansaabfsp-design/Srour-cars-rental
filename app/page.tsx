@@ -302,8 +302,7 @@ export default function Home() {
       </section>
 
       {/* DESKTOP: video hero */}
-      <section className="relative hidden w-full overflow-hidden bg-black sm:block">
-        <div className="relative aspect-video max-h-[80vh]">
+      <section className="relative hidden w-full overflow-hidden bg-black sm:block" style={{ height: "clamp(400px, 56.25vw, 80vh)" }}>
           {/* Video background */}
           <div className="absolute inset-0">
             <video
@@ -320,7 +319,6 @@ export default function Home() {
           {/* overlays */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/15 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/15" />
-        </div>
       </section>
 
       {/* ─── SEARCH & FILTERS (under hero) ─── */}
