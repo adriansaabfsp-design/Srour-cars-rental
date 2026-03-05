@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Car, CAR_CATEGORIES, BRANDS, TRANSMISSIONS } from "@/lib/types";
+import { Car } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -78,19 +78,6 @@ const INSIGHT_TABS = [
     icon: (
       <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z" />
-      </svg>
-    ),
-  },
-  {
-    tab: "Extras",
-    title: "Rental Extras & Add-ons",
-    desc: "GPS, child seats, extra drivers, insurance upgrades, and 24/7 roadside assistance. Add what you need at checkout.",
-    href: "/extras",
-    image: "/IMG_1663.jpg",
-    icon: (
-      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
       </svg>
     ),
   },
@@ -259,18 +246,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [brand, setBrand] = useState("All");
-  const [transmission, setTransmission] = useState("All");
-  const [showMoreFilters, setShowMoreFilters] = useState(false);
-
-  // Compute available brands from actual car data
-  const availableBrands = ["All", ...Array.from(new Set(cars.filter(c => c.available !== false).map(c => c.brand).filter(Boolean))).sort()];
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 9999]);
-  const [priceInited, setPriceInited] = useState(false);
-  const [activePriceThumb, setActivePriceThumb] = useState<"min" | "max" | null>(null);
-  const [priceBounce, setPriceBounce] = useState(false);
-  const bounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 
   useEffect(() => {
@@ -289,69 +264,12 @@ export default function Home() {
     fetchCars();
   }, []);
 
-  // Compute min/max prices from all available cars
-  const availableCars = cars.filter((c) => c.available !== false);
-  const minPrice = availableCars.length > 0 ? Math.min(...availableCars.map((c) => c.price)) : 0;
-  const maxPrice = availableCars.length > 0 ? Math.max(...availableCars.map((c) => c.price)) : 9999;
-
-  // Initialize price range once cars load
-  useEffect(() => {
-    if (availableCars.length > 0 && !priceInited) {
-      setPriceRange([minPrice, maxPrice]);
-      setPriceInited(true);
-    }
-  }, [availableCars.length, minPrice, maxPrice, priceInited]);
-
   const featuredCars = cars.filter((c) => c.featured);
 
-  const filteredCars = cars
-    .filter((car) => {
-      if (car.available === false) return false;
-      if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        const s = (
-          car.name + " " + car.brand + " " + car.year + " " + car.fuel + " " +
-          car.transmission + " " + (car.category || "")
-        ).toLowerCase();
-        if (!s.includes(q)) return false;
-      }
-      if (activeCategory !== "All" && car.category !== activeCategory) return false;
-      if (brand !== "All" && car.brand !== brand) return false;
-      if (transmission !== "All" && car.transmission !== transmission) return false;
-      if (priceInited && (car.price < priceRange[0] || car.price > priceRange[1])) return false;
-      return true;
-    })
-    .sort((a, b) => {
-      if (a.featured && !b.featured) return -1;
-      if (!a.featured && b.featured) return 1;
-      return 0;
-    });
-
-  const resetFilters = () => {
-    setSearchQuery("");
-    setActiveCategory("All");
-    setBrand("All");
-    setTransmission("All");
-    if (priceInited) setPriceRange([minPrice, maxPrice]);
-  };
-
-
-  const hasFilters =
-    searchQuery || activeCategory !== "All" || brand !== "All" || transmission !== "All" || (priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice));
-
-
-
-  useEffect(() => {
-    return () => {
-      if (bounceRef.current) clearTimeout(bounceRef.current);
-    };
-  }, []);
-
-  const handlePriceRelease = () => {
-    setActivePriceThumb(null);
-    setPriceBounce(true);
-    if (bounceRef.current) clearTimeout(bounceRef.current);
-    bounceRef.current = setTimeout(() => setPriceBounce(false), 400);
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchQuery) params.set("search", searchQuery);
+    router.push(`/cars${params.toString() ? `?${params}` : ""}`);
   };
 
   return (
@@ -426,6 +344,7 @@ export default function Home() {
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === "Enter") handleSearch(); }}
                       placeholder="Search by name, brand, year..."
                       className="w-full border border-gray-300 bg-white py-3 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-4 sm:pl-12 sm:text-sm rounded-sm"
                     />
@@ -441,18 +360,7 @@ export default function Home() {
                     )}
                   </div>
                   <button
-                    onClick={() => {
-                      const params = new URLSearchParams();
-                      if (searchQuery) params.set("search", searchQuery);
-                      if (activeCategory !== "All") params.set("category", activeCategory);
-                      if (brand !== "All") params.set("brand", brand);
-                      if (transmission !== "All") params.set("transmission", transmission);
-                      if (priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice)) {
-                        params.set("minPrice", String(priceRange[0]));
-                        params.set("maxPrice", String(priceRange[1]));
-                      }
-                      router.push(`/cars${params.toString() ? `?${params}` : ""}`);
-                    }}
+                    onClick={handleSearch}
                     className="flex items-center gap-1.5 bg-navy px-4 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-navy-light sm:px-6 sm:py-4 sm:text-[12px] rounded-sm"
                   >
                     <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -463,226 +371,33 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* FILTERS toggle */}
-              <div className="mx-auto max-w-2xl mb-3 sm:mb-4">
-                <button
-                  onClick={() => setShowMoreFilters(!showMoreFilters)}
-                  className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-colors hover:text-navy-light sm:text-[12px]"
-                >
-                  <svg className={`h-4 w-4 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                  Filters
-                </button>
-              </div>
 
-              {/* Collapsible: categories, brand, transmission, price */}
-              {showMoreFilters && (
-                <div className="mx-auto max-w-3xl space-y-4 mb-4 animate-fade-in-up">
-              {/* category tabs */}
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
-          {CAR_CATEGORIES.map((cat) => {
-            const isActive = activeCategory === cat;
-            const count =
-              cat === "All"
-                ? cars.filter((c) => c.available !== false).length
-                : cars.filter((c) => c.category === cat && c.available !== false).length;
-            return (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={
-                  "px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all sm:px-4 sm:py-2.5 sm:text-[11px] " +
-                  (isActive
-                    ? "bg-navy text-white"
-                    : "border border-luxury-border bg-luxury-card text-gray-900/50 hover:border-navy/30 hover:text-gray-900")
-                }
-              >
-                {cat}
-                {count > 0 && (
-                  <span className={"ml-1.5 text-[9px] " + (isActive ? "text-gray-900/50" : "text-navy")}>
-                    ({count})
-                  </span>
-                )}
-              </button>
-            );
-          })}
-              </div>
-
-              {/* Brand & Transmission */}
-              <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
-                <select
-                  value={brand}
-                  onChange={(e) => setBrand(e.target.value)}
-                  className="w-full border border-luxury-border bg-luxury-card px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px]"
-                >
-                  {availableBrands.map((b) => (
-                    <option key={b} value={b}>
-                      {b === "All" ? "All Brands" : b}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  value={transmission}
-                  onChange={(e) => setTransmission(e.target.value)}
-                  className="w-full border border-luxury-border bg-luxury-card px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/50 outline-none transition-colors focus:border-navy [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px]"
-                >
-                  <option value="All">All Transmissions</option>
-                  {TRANSMISSIONS.map((t) => (
-                    <option key={t} value={t}>{t}</option>
-                  ))}
-                </select>
-                {hasFilters && (
-                  <button
-                    onClick={resetFilters}
-                    className="col-span-2 text-[9px] font-bold uppercase tracking-wider text-gray-900/50 transition-colors hover:text-gray-900 sm:col-span-1 sm:text-[10px]"
-                  >
-                    Clear Filters
-                  </button>
-                )}
-              </div>
-              {/* Price range slider */}
-              {priceInited && maxPrice > minPrice && (
-                <div className="mx-auto max-w-2xl mt-3 sm:mt-4">
-                  <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">
-                    Price Range
-                  </p>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${minPrice}</span>
-                    <div className="relative flex-1 h-6 flex items-center">
-                      {/* Track background */}
-                      <div className="absolute left-0 right-0 h-[5px] rounded-full bg-gray-200/80" />
-                      {/* Active track with glow */}
-                      <div
-                        className={`absolute h-[5px] rounded-full ${
-                          activePriceThumb
-                            ? "bg-[#1B4F72] shadow-[0_0_12px_3px_rgba(27,79,114,0.45)]"
-                            : "bg-[#1B4F72]/70 shadow-none"
-                        }`}
-                        style={{
-                          left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%`,
-                          right: `${100 - ((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%`,
-                        }}
-                      />
-                      {/* Min handle visual */}
-                      <div
-                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
-                        style={{ left: `${((priceRange[0] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
-                      >
-                        <svg
-                          className={`text-[#1B4F72] transition-all duration-200 ${
-                            activePriceThumb === "min"
-                              ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
-                              : "h-10 w-10"
-                          }`}
-                          viewBox="0 0 48 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          aria-hidden="true"
-                        >
-                          <path d="M8 14h32v2H8z" fill="currentColor" />
-                          <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
-                          <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
-                          <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
-                          <circle cx="14" cy="16" r="3" fill="#0f2f47" />
-                          <circle cx="34" cy="16" r="3" fill="#0f2f47" />
-                        </svg>
-                      </div>
-                      {/* Max handle visual */}
-                      <div
-                        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
-                        style={{ left: `${((priceRange[1] - minPrice) / (maxPrice - minPrice)) * 100}%` }}
-                      >
-                        <svg
-                          className={`text-[#1B4F72] [transform:scaleX(-1)] transition-all duration-200 ${
-                            activePriceThumb === "max"
-                              ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]"
-                              : "h-10 w-10"
-                          }`}
-                          viewBox="0 0 48 20"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          aria-hidden="true"
-                        >
-                          <path d="M8 14h32v2H8z" fill="currentColor" />
-                          <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
-                          <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
-                          <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
-                          <circle cx="14" cy="16" r="3" fill="#0f2f47" />
-                          <circle cx="34" cy="16" r="3" fill="#0f2f47" />
-                        </svg>
-                      </div>
-                      {/* Invisible range inputs on top */}
-                      <input
-                        type="range"
-                        min={minPrice}
-                        max={maxPrice}
-                        value={priceRange[0]}
-                        onPointerDown={() => setActivePriceThumb("min")}
-                        onChange={(e) => {
-                          const v = Number(e.target.value);
-                          setPriceRange([Math.min(v, priceRange[1]), priceRange[1]]);
-                        }}
-                        onPointerUp={handlePriceRelease}
-                        onTouchEnd={handlePriceRelease}
-                        className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "min" ? "z-30" : "z-20")}
-                        aria-label="Minimum daily price"
-                      />
-                      <input
-                        type="range"
-                        min={minPrice}
-                        max={maxPrice}
-                        value={priceRange[1]}
-                        onPointerDown={() => setActivePriceThumb("max")}
-                        onChange={(e) => {
-                          const v = Number(e.target.value);
-                          setPriceRange([priceRange[0], Math.max(v, priceRange[0])]);
-                        }}
-                        onPointerUp={handlePriceRelease}
-                        onTouchEnd={handlePriceRelease}
-                        className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "max" ? "z-30" : "z-20")}
-                        aria-label="Maximum daily price"
-                      />
-                    </div>
-                    <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${maxPrice}</span>
-                  </div>
-                  {/* Price badges */}
-                  <div className="flex justify-between mt-2">
-                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "min" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>
-                      ${priceRange[0]}<span className="text-white/50 font-normal">/day</span>
-                    </span>
-                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "max" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>
-                      ${priceRange[1]}<span className="text-white/50 font-normal">/day</span>
-                    </span>
-                  </div>
-                </div>
-              )}
-                </div>
-              )}
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-4 pt-4 pb-6 sm:px-6 sm:pt-8 sm:pb-8 lg:px-8">
-        {/* result count */}
-        <div className="mb-3 sm:mb-4">
-          <p className="text-xs text-navy/50 sm:text-sm">
-            {loading ? (
-              <span className="lux-pulse">Loading fleet...</span>
-            ) : (
-              <>
-                {filteredCars.length} vehicle{filteredCars.length !== 1 ? "s" : ""}
-                {activeCategory !== "All" && (
-                  <span className="text-gray-900/60"> &middot; {activeCategory}</span>
-                )}
-              </>
-            )}
-          </p>
+        {/* Featured section header */}
+        <div className="mb-3 flex items-center justify-between sm:mb-4">
+          <div className="flex items-center gap-2.5">
+            <svg className="h-4 w-4 text-navy" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-navy sm:text-[13px]">
+              Featured Cars
+            </span>
+          </div>
+          <Link
+            href="/cars"
+            className="text-[10px] font-bold uppercase tracking-[0.15em] text-navy/50 transition-colors hover:text-navy sm:text-[11px]"
+          >
+            View All &rarr;
+          </Link>
         </div>
 
-        {/* car grid */}
+        {/* Featured car grid */}
         {loading ? (
           <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 8 }).map((_, i) => (
+            {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="overflow-hidden border border-luxury-border bg-luxury-card">
                 <div className="aspect-[16/10] lux-pulse bg-luxury-dark" />
                 <div className="border-t border-luxury-border p-3 sm:p-5 space-y-2 sm:space-y-3">
@@ -693,49 +408,25 @@ export default function Home() {
               </div>
             ))}
           </div>
-        ) : filteredCars.length === 0 ? (
-          <div className="flex flex-col items-center justify-center border border-luxury-border bg-luxury-card py-14 sm:py-20">
-            <svg className="h-16 w-16 text-gray-900/10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <h3 className="mt-4 font-serif text-2xl font-bold text-gray-900">NO VEHICLES FOUND</h3>
-            <p className="mt-2 text-sm text-gray-900/40">Adjust your filters to discover more</p>
-            <button
-              onClick={resetFilters}
-              className="mt-6 border border-navy bg-transparent px-8 py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-gray-900/60 transition-all hover:bg-navy hover:text-white"
-            >
-              Reset Filters
-            </button>
-          </div>
+        ) : featuredCars.length === 0 ? (
+          <p className="text-center text-sm text-navy/40 py-8">No featured cars yet.</p>
         ) : (
           <>
             <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
-              {filteredCars.slice(0, 8).map((car) => (
+              {featuredCars.map((car) => (
                 <div key={car.id} className="car-grid-card">
                   <CarCard car={car} />
                 </div>
               ))}
             </div>
-            {filteredCars.length > 8 && (
-              <div className="mt-6 text-center sm:mt-8">
-                <Link
-                  href={priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice) ? `/cars?minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}` : "/cars"}
-                  className="inline-block border border-navy bg-navy px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light sm:px-12 sm:py-3.5 sm:text-[12px]"
-                >
-                  View All Cars &rarr;
-                </Link>
-              </div>
-            )}
-            {filteredCars.length <= 8 && filteredCars.length > 0 && (
-              <div className="mt-6 text-center sm:mt-8">
-                <Link
-                  href={priceInited && (priceRange[0] !== minPrice || priceRange[1] !== maxPrice) ? `/cars?minPrice=${priceRange[0]}&maxPrice=${priceRange[1]}` : "/cars"}
-                  className="inline-block border border-navy bg-transparent px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-navy transition-all hover:bg-navy hover:text-white sm:px-12 sm:py-3.5 sm:text-[12px]"
-                >
-                  View All Cars &rarr;
-                </Link>
-              </div>
-            )}
+            <div className="mt-6 text-center sm:mt-8">
+              <Link
+                href="/cars"
+                className="inline-block border border-navy bg-navy px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light sm:px-12 sm:py-3.5 sm:text-[12px]"
+              >
+                View All Cars &rarr;
+              </Link>
+            </div>
           </>
         )}
       </div>
@@ -803,7 +494,7 @@ export default function Home() {
               </p>
               <div className="mt-2 flex items-center gap-2 sm:mt-3">
                 <Link
-                  href="/#collection"
+                  href="/cars"
                   className="inline-block border border-navy bg-navy px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white transition-all hover:bg-navy-light sm:px-5 sm:py-2.5 sm:text-[11px] sm:tracking-[0.2em]"
                 >
                   Our Fleet

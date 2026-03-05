@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 /* ── destination data ── */
 interface Destination {
@@ -41,7 +43,6 @@ const destinations: Destination[] = [
   { id: 18, name: "Aanjar", lat: 33.7275, lng: 35.9302, x: 489.9, y: 683.5, distance: "60km", time: "~1hr", car: "Sedan", desc: "Umayyad palace ruins, unique in the region", tags: ["Bekaa", "History"], season: "Year-round" },
 ];
 
-const beirut = destinations.find((d) => d.isStart)!;
 const popularIds = [3, 6, 14];
 
 /* ── keyframe styles injected once ── */
@@ -63,14 +64,34 @@ const mapStyles = `
 }
 `;
 
+const defaultStartId = 1; // Beirut
+
 export default function LebanonMap() {
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [startId, setStartId] = useState(defaultStartId);
   const panelRef = useRef<HTMLDivElement>(null);
+
+  const startDest = destinations.find((d) => d.id === startId) ?? destinations[0];
 
   const selectedDest = selectedId
     ? destinations.find((d) => d.id === selectedId) ?? null
     : null;
+
+  /* Load customizable start city from Firestore settings */
+  useEffect(() => {
+    getDoc(doc(db, "settings", "homepage")).then((snap) => {
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.mapStartCity) {
+          const found = destinations.find(
+            (d) => d.name.toLowerCase() === data.mapStartCity.toLowerCase()
+          );
+          if (found) setStartId(found.id);
+        }
+      }
+    }).catch(() => {});
+  }, []);
 
   /* inject keyframes once */
   useEffect(() => {
@@ -83,7 +104,7 @@ export default function LebanonMap() {
   }, []);
 
   function selectDestination(id: number) {
-    if (id === 1) return; // can't select Beirut start pin
+    if (id === startId) return; // can't select the start pin
     setSelectedId(id);
   }
 
@@ -146,11 +167,11 @@ export default function LebanonMap() {
                 {/* Embed the real SVG map via <image> */}
                 <image href="/lb.svg" x="0" y="0" width="1000" height="1000" />
 
-                {/* Route line from Beirut to selected */}
+                {/* Route line from start to selected */}
                 {selectedDest && (
                   <line
-                    x1={beirut.x}
-                    y1={beirut.y}
+                    x1={startDest.x}
+                    y1={startDest.y}
                     x2={selectedDest.x}
                     y2={selectedDest.y}
                     stroke="#1B3A5C"
@@ -165,11 +186,12 @@ export default function LebanonMap() {
 
                 {/* Destination pins */}
                 {destinations.map((d) => {
+                  const isStart = d.id === startId;
                   const isSelected = selectedId === d.id;
                   const isHovered = hoveredId === d.id;
                   const isPopular = popularIds.includes(d.id);
-                  const showLabel = d.isStart || isSelected || isHovered;
-                  const shouldPulse = d.isStart || isSelected || isPopular;
+                  const showLabel = isStart || isSelected || isHovered;
+                  const shouldPulse = isStart || isSelected || isPopular;
 
                   return (
                     <g
@@ -187,7 +209,7 @@ export default function LebanonMap() {
                           cy={0}
                           r={14}
                           fill="none"
-                          stroke={d.isStart ? "#D4A853" : isSelected ? "#1B3A5C" : "#5B9BD5"}
+                          stroke={isStart ? "#D4A853" : isSelected ? "#1B3A5C" : "#5B9BD5"}
                           strokeWidth={2}
                           opacity={0.6}
                           style={{ animation: "pingRing 2s ease-out infinite" }}
@@ -206,18 +228,18 @@ export default function LebanonMap() {
                       <circle
                         cx={0}
                         cy={0}
-                        r={d.isStart ? 14 : isSelected ? 13 : 11}
-                        fill={d.isStart ? "#D4A853" : isSelected ? "#1B3A5C" : "#5B9BD5"}
+                        r={isStart ? 14 : isSelected ? 13 : 11}
+                        fill={isStart ? "#D4A853" : isSelected ? "#1B3A5C" : "#5B9BD5"}
                         stroke="#fff"
-                        strokeWidth={d.isStart ? 3 : 2}
+                        strokeWidth={isStart ? 3 : 2}
                         style={{
-                          filter: d.isStart || isSelected ? "url(#mapGlow)" : undefined,
+                          filter: isStart || isSelected ? "url(#mapGlow)" : undefined,
                           transition: "r 0.3s, fill 0.3s",
                         }}
                       />
 
                       {/* Label */}
-                      {d.isStart ? (
+                      {isStart ? (
                         <text
                           y={-18}
                           textAnchor="middle"

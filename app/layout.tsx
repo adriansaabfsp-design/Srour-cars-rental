@@ -40,9 +40,9 @@ export default function RootLayout({
                 <Image
                   src="/logo-hd.png"
                   alt="Lebanon Rental"
-                  width={250}
-                  height={250}
-                  className="h-14 w-auto sm:h-20"
+                  width={180}
+                  height={180}
+                  className="h-6 w-auto sm:h-8"
                 />
                 <div className="min-w-0">
                   <p className="text-[8px] font-bold uppercase tracking-[0.15em] text-gray-900/20 sm:text-[10px] sm:tracking-[0.2em]">
@@ -66,7 +66,7 @@ export default function RootLayout({
                   <h4 className="text-[8px] font-bold uppercase tracking-[0.2em] text-gray-900/50 mb-2 sm:text-[10px] sm:tracking-[0.3em] sm:mb-3">Links</h4>
                   <div className="flex flex-col gap-1 sm:gap-1.5">
                     <a href="/" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Home</a>
-                    <a href="/#collection" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Collection</a>
+                    <a href="/cars" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Collection</a>
                     <a href="/road-trips" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Road Trips</a>
                     <a href="/seasonal-guide" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">Seasonal</a>
                     <a href="/faq" className="text-[11px] text-gray-900/30 transition-colors hover:text-gray-900 sm:text-sm">FAQ</a>

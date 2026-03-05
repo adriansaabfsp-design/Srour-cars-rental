@@ -73,6 +73,7 @@ export default function AdminPage() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [existingGallery, setExistingGallery] = useState<string[]>([]);
   const [savingSettings, setSavingSettings] = useState(false);
+  const [mapStartCity, setMapStartCity] = useState("Beirut");
   const [adminSearch, setAdminSearch] = useState("");
   const [adminFilter, setAdminFilter] = useState<"all" | "available" | "rented" | "featured" | string>("all");
   const [adminBrandFilter, setAdminBrandFilter] = useState("All");
@@ -103,7 +104,8 @@ export default function AdminPage() {
     fetchCars();
     getDoc(doc(db, "settings", "homepage")).then((snap) => {
       if (snap.exists()) {
-        // settings loaded
+        const data = snap.data();
+        if (data.mapStartCity) setMapStartCity(data.mapStartCity);
       }
     });
   }, []);
@@ -418,6 +420,43 @@ export default function AdminPage() {
           >
             {showForm ? "Cancel" : "+ Add New Car"}
           </button>
+        </div>
+
+        {/* ── Site Settings ── */}
+        <div className="mb-8 border border-luxury-border bg-luxury-card p-5 sm:p-6">
+          <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/40">Site Settings</h2>
+          <div className="flex flex-wrap items-end gap-3">
+            <div>
+              <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/35">Map Starting Point</label>
+              <select
+                value={mapStartCity}
+                onChange={(e) => setMapStartCity(e.target.value)}
+                className="border border-luxury-border bg-white px-4 py-2.5 text-sm text-gray-900 outline-none transition-colors focus:border-navy"
+              >
+                {["Beirut", "Jounieh", "Byblos", "Batroun", "Tripoli", "Bcharre & Cedars", "Ehden", "Tannourine", "Wadi Qadisha", "Faraya", "Laklouk", "Chouf", "Sidon", "Tyre", "Jezzine", "Baalbek", "Zahle", "Aanjar"].map((city) => (
+                  <option key={city} value={city}>{city}</option>
+                ))}
+              </select>
+            </div>
+            <button
+              onClick={async () => {
+                setSavingSettings(true);
+                try {
+                  await setDoc(doc(db, "settings", "homepage"), { mapStartCity }, { merge: true });
+                  alert("Settings saved!");
+                } catch (err) {
+                  console.error(err);
+                  alert("Failed to save settings.");
+                } finally {
+                  setSavingSettings(false);
+                }
+              }}
+              disabled={savingSettings}
+              className="bg-navy px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-all hover:bg-navy-light disabled:opacity-50"
+            >
+              {savingSettings ? "Saving..." : "Save Settings"}
+            </button>
+          </div>
         </div>
 
         {/* Form */}

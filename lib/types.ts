@@ -1,3 +1,11 @@
+/** Generate a URL-friendly slug from car name + brand + year */
+export function generateCarSlug(car: { name: string; brand: string; year: number }): string {
+  return `${car.name}-${car.brand}-${car.year}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 export interface CarPhotos {
   main?: string;
   front?: string;

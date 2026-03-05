@@ -59,8 +59,8 @@ const TOUR_STEPS = [
   {
     id: "tour_extras",
     message: "Make your trip perfect with our extras: child seats, GPS devices, airport transfers, chauffeur service, and more. Lebanon Rental guests also enjoy FREE car delivery to 1,000+ partner properties!",
-    link: "/extras",
-    linkLabel: "See All Extras →",
+    link: "/contact",
+    linkLabel: "Contact Us →",
     options: [
       { label: "Continue tour →", action: "tour_seasonal" },
       { label: "Book now", action: "contact" },

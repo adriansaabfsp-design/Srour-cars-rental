@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Car } from "@/lib/types";
+import { Car, generateCarSlug } from "@/lib/types";
 import ImageGallery from "@/components/ImageGallery";
 import VideoModal from "@/components/VideoModal";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -17,17 +17,24 @@ export default function CarDetailPage() {
   const [car, setCar] = useState<Car | null>(null);
   const [loading, setLoading] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
-  const [activeTab, setActiveTab] = useState<"about" | "features" | null>(null);
   const { addCar, removeCar, isComparing, compareCars } = useCompare();
   const inCompare = car ? isComparing(car.id) : false;
 
   useEffect(() => {
     const fetchCar = async () => {
       try {
-        const docRef = doc(db, "cars", params.id as string);
+        const slug = params.id as string;
+        // First try direct ID lookup (backwards compat)
+        const docRef = doc(db, "cars", slug);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           setCar({ id: docSnap.id, ...docSnap.data() } as Car);
+        } else {
+          // Slug-based lookup: fetch all cars and match by generated slug
+          const snapshot = await getDocs(collection(db, "cars"));
+          const allCars = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as Car[];
+          const match = allCars.find((c) => generateCarSlug(c) === slug);
+          if (match) setCar(match);
         }
       } catch (error) {
         console.error("Error fetching car:", error);
@@ -204,45 +211,17 @@ export default function CarDetailPage() {
                 </Link>
               </div>
 
-              {/* About + Car Features toggle buttons */}
-              <div className="mt-4 flex gap-2">
-                {car.description && (
-                  <button
-                    onClick={() => setActiveTab(activeTab === "about" ? null : "about")}
-                    className={`flex-1 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-200 ${
-                      activeTab === "about"
-                        ? "bg-navy text-white"
-                        : "border border-navy text-navy hover:bg-navy/5"
-                    }`}
-                  >
-                    About
-                  </button>
-                )}
-                {car.features && car.features.length > 0 && (
-                  <button
-                    onClick={() => setActiveTab(activeTab === "features" ? null : "features")}
-                    className={`flex-1 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-200 ${
-                      activeTab === "features"
-                        ? "bg-navy text-white"
-                        : "border border-navy text-navy hover:bg-navy/5"
-                    }`}
-                  >
-                    Car Features
-                  </button>
-                )}
-              </div>
-
-              {/* About section — expandable */}
-              {activeTab === "about" && car.description && (
-                <div className="mt-4 animate-[fadeIn_0.2s_ease-out]">
+              {/* About — always visible */}
+              {car.description && (
+                <div className="mt-6">
                   <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">About This Vehicle</h3>
                   <p className="mt-3 text-sm leading-relaxed text-gray-900/60">{car.description}</p>
                 </div>
               )}
 
-              {/* Features section — expandable */}
-              {activeTab === "features" && car.features && car.features.length > 0 && (
-                <div className="mt-4 animate-[fadeIn_0.2s_ease-out]">
+              {/* Features — always visible */}
+              {car.features && car.features.length > 0 && (
+                <div className="mt-6">
                   <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Car Features</h3>
                   <div className="mt-3 grid grid-cols-2 gap-2">
                     {car.features.map((feature) => (

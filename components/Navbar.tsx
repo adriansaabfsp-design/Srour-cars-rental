@@ -13,12 +13,11 @@ const nunito = Nunito_Sans({
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "Collection", href: "/#collection" },
-  { label: "Extras", href: "/extras" },
+  { label: "Collection", href: "/cars" },
   { label: "Road Trips", href: "/road-trips" },
   { label: "Seasonal Guide", href: "/seasonal-guide" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const CarSvg = ({ className }: { className?: string }) => (
@@ -39,10 +38,10 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const leftLinks = NAV_LINKS.slice(0, 4);
   const rightLinks = NAV_LINKS.slice(4);
-  const mobileLeftLinks = NAV_LINKS.filter((link) => link.href === "/" || link.href === "/#collection");
-  const mobileRightLinks = NAV_LINKS.filter((link) => link.href === "/faq" || link.href === "/#contact");
+  const mobileLeftLinks = NAV_LINKS.filter((link) => link.href === "/" || link.href === "/cars");
+  const mobileRightLinks = NAV_LINKS.filter((link) => link.href === "/faq" || link.href === "/contact");
   const mobileMenuLinks = NAV_LINKS.filter(
-    (link) => !["/", "/#collection", "/faq", "/#contact"].includes(link.href)
+    (link) => !["/", "/cars", "/faq", "/contact"].includes(link.href)
   );
 
   const isActive = (href: string) => {

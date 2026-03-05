@@ -1,7 +1,7 @@
 "use client";
 
 import { useCompare } from "@/components/CompareContext";
-import { Car, CarPhotos } from "@/lib/types";
+import { Car, CarPhotos, generateCarSlug } from "@/lib/types";
 import Link from "next/link";
 
 /* ── helper: first available image from a car ── */
@@ -147,7 +147,7 @@ export default function CompareBar() {
                 </div>
                 <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/35">{carA.brand}</p>
                 <p className="mt-0.5 text-[12px] font-bold text-white leading-tight sm:text-[15px]">{carA.name}</p>
-                <Link href={`/cars/${carA.id}`} onClick={closeModal} className="mt-1 inline-block text-[9px] font-bold uppercase tracking-wider text-[#5bafdf] hover:text-white transition-colors">
+                <Link href={`/cars/${generateCarSlug(carA)}`} onClick={closeModal} className="mt-1 inline-block text-[9px] font-bold uppercase tracking-wider text-[#5bafdf] hover:text-white transition-colors">
                   View Details &rarr;
                 </Link>
               </div>
@@ -170,7 +170,7 @@ export default function CompareBar() {
                 </div>
                 <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-white/35">{carB.brand}</p>
                 <p className="mt-0.5 text-[12px] font-bold text-white leading-tight sm:text-[15px]">{carB.name}</p>
-                <Link href={`/cars/${carB.id}`} onClick={closeModal} className="mt-1 inline-block text-[9px] font-bold uppercase tracking-wider text-[#5bafdf] hover:text-white transition-colors">
+                <Link href={`/cars/${generateCarSlug(carB)}`} onClick={closeModal} className="mt-1 inline-block text-[9px] font-bold uppercase tracking-wider text-[#5bafdf] hover:text-white transition-colors">
                   View Details &rarr;
                 </Link>
               </div>
