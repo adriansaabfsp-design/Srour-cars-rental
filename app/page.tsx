@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { Car } from "@/lib/types";
+import { Car, CAR_CATEGORIES, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -246,6 +246,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [showMoreFilters, setShowMoreFilters] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [brand, setBrand] = useState("All");
+  const [transmission, setTransmission] = useState("All");
 
 
   useEffect(() => {
@@ -266,9 +270,15 @@ export default function Home() {
 
   const featuredCars = cars.filter((c) => c.featured);
 
+  // Compute available brands from actual car data
+  const availableBrands = ["All", ...Array.from(new Set(cars.filter(c => c.available !== false).map(c => c.brand).filter(Boolean))).sort()];
+
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (searchQuery) params.set("search", searchQuery);
+    if (activeCategory !== "All") params.set("category", activeCategory);
+    if (brand !== "All") params.set("brand", brand);
+    if (transmission !== "All") params.set("transmission", transmission);
     router.push(`/cars${params.toString() ? `?${params}` : ""}`);
   };
 
@@ -371,6 +381,69 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* FILTERS toggle */}
+              <div className="mx-auto max-w-2xl mb-1">
+                <button
+                  onClick={() => setShowMoreFilters(!showMoreFilters)}
+                  className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a4b6e] transition-colors hover:text-[#1a4b6e]/70 sm:text-[12px]"
+                >
+                  <svg className={`h-4 w-4 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                  Filters
+                </button>
+              </div>
+
+              {/* Collapsible filter panel */}
+              {showMoreFilters && (
+                <div className="mx-auto max-w-3xl space-y-4 mb-2 animate-fade-in-up">
+                  {/* Category tabs */}
+                  <div className="flex items-center gap-2 overflow-x-auto pb-1 whitespace-nowrap sm:flex-wrap sm:justify-center sm:overflow-visible sm:pb-0">
+                    {CAR_CATEGORIES.map((cat) => {
+                      const isActive = activeCategory === cat;
+                      return (
+                        <button
+                          key={cat}
+                          onClick={() => setActiveCategory(cat)}
+                          className={
+                            "px-3 py-2 text-[10px] font-bold uppercase tracking-[0.12em] transition-all sm:px-4 sm:py-2.5 sm:text-[11px] rounded-sm " +
+                            (isActive
+                              ? "bg-[#1a4b6e] text-white"
+                              : "border border-gray-300 bg-white text-gray-500 hover:border-[#1a4b6e]/30 hover:text-gray-700")
+                          }
+                        >
+                          {cat}
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Brand & Transmission */}
+                  <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
+                    <select
+                      value={brand}
+                      onChange={(e) => setBrand(e.target.value)}
+                      className="w-full border border-gray-300 bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-500 outline-none transition-colors focus:border-[#1a4b6e] [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px] rounded-sm"
+                    >
+                      {availableBrands.map((b) => (
+                        <option key={b} value={b}>
+                          {b === "All" ? "All Brands" : b}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={transmission}
+                      onChange={(e) => setTransmission(e.target.value)}
+                      className="w-full border border-gray-300 bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-500 outline-none transition-colors focus:border-[#1a4b6e] [color-scheme:light] sm:w-auto sm:px-4 sm:py-2.5 sm:text-[11px] rounded-sm"
+                    >
+                      <option value="All">All Transmissions</option>
+                      {TRANSMISSIONS.map((t) => (
+                        <option key={t} value={t}>{t}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              )}
 
         </div>
       </div>
