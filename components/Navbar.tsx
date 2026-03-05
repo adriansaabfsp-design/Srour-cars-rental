@@ -36,8 +36,8 @@ const CarSvg = ({ className }: { className?: string }) => (
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const leftLinks = NAV_LINKS.slice(0, 4);
-  const rightLinks = NAV_LINKS.slice(4);
+  const leftLinks = NAV_LINKS.slice(0, 3);
+  const rightLinks = NAV_LINKS.slice(3);
   const mobileLeftLinks = NAV_LINKS.filter((link) => link.href === "/" || link.href === "/cars");
   const mobileRightLinks = NAV_LINKS.filter((link) => link.href === "/faq" || link.href === "/contact");
   const mobileMenuLinks = NAV_LINKS.filter(
