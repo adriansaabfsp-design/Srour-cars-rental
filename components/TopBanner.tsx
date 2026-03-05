@@ -25,13 +25,7 @@ export default function TopBanner() {
       <p className="px-6 text-[10px] font-bold uppercase tracking-[0.12em] text-white sm:px-0 sm:text-[11px] sm:tracking-[0.2em]">
         Lebanon Rental guests enjoy{" "}
         <span className="font-extrabold">FREE</span> car delivery to their
-        property —{" "}
-        <a
-          href="tel:+96181062329"
-          className="underline underline-offset-2 hover:no-underline"
-        >
-          Call +961 81 062 329
-        </a>
+        property
       </p>
       <button
         onClick={() => setVisible(false)}

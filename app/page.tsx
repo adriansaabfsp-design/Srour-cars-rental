@@ -285,10 +285,9 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      {/* MOBILE: video hero + car train marquee */}
+      {/* MOBILE: video hero */}
       <section className="relative overflow-hidden sm:hidden bg-luxury-black">
-        {/* Video background */}
-        <div className="absolute inset-0">
+        <div className="relative aspect-video">
           <video
             autoPlay
             muted
@@ -300,13 +299,11 @@ export default function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/35" />
         </div>
-
-        <div className="relative" style={{ height: "360px" }} />
       </section>
 
       {/* DESKTOP: video hero */}
       <section className="relative hidden w-full overflow-hidden bg-black sm:block">
-        <div className="relative h-[70vh] lg:h-[80vh]">
+        <div className="relative aspect-video max-h-[80vh]">
           {/* Video background */}
           <div className="absolute inset-0">
             <video
