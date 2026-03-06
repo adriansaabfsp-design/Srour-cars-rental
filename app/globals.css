@@ -283,6 +283,15 @@ html {
   display: none;
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Sun glow rotating around cedar */
 @keyframes cedarSunGlow {
   0%   { box-shadow: 0 -8px 16px -4px rgba(27,58,92,0.6), 0 0 0 0 transparent; }

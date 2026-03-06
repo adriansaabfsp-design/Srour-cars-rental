@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 
 const MatchMyTrip = dynamic(() => import("@/components/MatchMyTrip"));
 const LebanonMap = dynamic(() => import("@/components/LebanonMap"));
+const WeatherWidget = dynamic(() => import("@/components/WeatherWidget"));
 
 const PROPERTY_IMAGES = [
   "/property-1.jpeg",
@@ -601,6 +602,9 @@ export default function Home() {
 
       {/* ─── EXPLORE LEBANON MAP ─── */}
       <LebanonMap />
+
+      {/* ─── LIVE WEATHER ─── */}
+      <WeatherWidget />
 
       {/* ─── COMPLETE YOUR STAY ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border">
