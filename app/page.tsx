@@ -523,15 +523,16 @@ export default function Home() {
           </div>
           <Link
             href="/cars"
-            className="text-[10px] font-bold uppercase tracking-[0.15em] text-navy/50 transition-colors hover:text-navy sm:text-[11px]"
+            className="inline-flex items-center gap-1.5 bg-navy px-5 py-2.5 text-[10px] font-bold uppercase tracking-[0.15em] text-white transition-colors hover:bg-navy-light sm:px-6 sm:py-3 sm:text-[11px] rounded-sm"
           >
-            View All &rarr;
+            View All
+            <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </Link>
         </div>
 
         {/* Featured car grid */}
         {loading ? (
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="overflow-hidden border border-luxury-border bg-luxury-card">
                 <div className="aspect-[16/10] lux-pulse bg-luxury-dark" />
@@ -547,20 +548,12 @@ export default function Home() {
           <p className="text-center text-sm text-navy/40 py-8">No featured cars yet.</p>
         ) : (
           <>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
               {featuredCars.map((car) => (
                 <div key={car.id} className="car-grid-card">
                   <CarCard car={car} />
                 </div>
               ))}
-            </div>
-            <div className="mt-6 text-center sm:mt-8">
-              <Link
-                href="/cars"
-                className="inline-block border border-navy bg-navy px-8 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light sm:px-12 sm:py-3.5 sm:text-[12px]"
-              >
-                View All Cars &rarr;
-              </Link>
             </div>
           </>
         )}
