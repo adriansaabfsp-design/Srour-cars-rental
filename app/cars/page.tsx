@@ -404,7 +404,7 @@ function AllCarsInner() {
 
         {/* car grid */}
         {loading ? (
-          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="overflow-hidden border border-luxury-border bg-luxury-card">
                 <div className="aspect-[16/10] lux-pulse bg-luxury-dark" />
@@ -432,7 +432,7 @@ function AllCarsInner() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4 stagger-children">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4 stagger-children">
               {paginatedCars.map((car) => (
                 <div key={car.id} className="animate-fade-in-up opacity-0">
                   <CarCard car={car} />

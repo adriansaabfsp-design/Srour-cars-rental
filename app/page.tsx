@@ -531,7 +531,7 @@ export default function Home() {
 
         {/* Featured car grid */}
         {loading ? (
-          <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="overflow-hidden border border-luxury-border bg-luxury-card">
                 <div className="aspect-[16/10] lux-pulse bg-luxury-dark" />
@@ -547,7 +547,7 @@ export default function Home() {
           <p className="text-center text-sm text-navy/40 py-8">No featured cars yet.</p>
         ) : (
           <>
-            <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
               {featuredCars.map((car) => (
                 <div key={car.id} className="car-grid-card">
                   <CarCard car={car} />

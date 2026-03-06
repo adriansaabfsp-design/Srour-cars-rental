@@ -10,6 +10,7 @@ import VideoModal from "@/components/VideoModal";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useCompare } from "@/components/CompareContext";
+import PriceCalculator from "@/components/PriceCalculator";
 import Link from "next/link";
 
 export default function CarDetailPage() {
@@ -17,6 +18,7 @@ export default function CarDetailPage() {
   const [car, setCar] = useState<Car | null>(null);
   const [loading, setLoading] = useState(true);
   const [showVideo, setShowVideo] = useState(false);
+  const [showCalc, setShowCalc] = useState(false);
   const { addCar, removeCar, isComparing, compareCars } = useCompare();
   const inCompare = car ? isComparing(car.id) : false;
 
@@ -210,6 +212,34 @@ export default function CarDetailPage() {
                   Rent This Car
                 </Link>
               </div>
+
+              {/* Calculate Price button */}
+              <button
+                onClick={() => setShowCalc(!showCalc)}
+                className={`mt-3 flex w-full items-center justify-center gap-2 border px-4 py-3.5 text-[11px] font-bold uppercase tracking-[0.12em] transition-all duration-300 sm:text-[12px] sm:tracking-[0.15em] ${
+                  showCalc
+                    ? "border-navy bg-navy/10 text-navy"
+                    : "border-luxury-border bg-transparent text-gray-900/50 hover:border-navy hover:text-navy"
+                }`}
+              >
+                <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M6 2a2 2 0 00-2 2v1H3a1 1 0 000 2h1v2H3a1 1 0 000 2h1v2H3a1 1 0 000 2h1v1a2 2 0 002 2h8a2 2 0 002-2v-1h1a1 1 0 000-2h-1v-2h1a1 1 0 000-2h-1V7h1a1 1 0 000-2h-1V4a2 2 0 00-2-2H6z"/>
+                </svg>
+                {showCalc ? "Hide Calculator" : "Calculate Price"}
+              </button>
+
+              {/* Inline Price Calculator */}
+              {showCalc && (
+                <div className="mt-3">
+                  <PriceCalculator
+                    dailyPrice={car.price}
+                    label={car.name}
+                    minDays={car.minDays}
+                    initialOpen={true}
+                    inline={true}
+                  />
+                </div>
+              )}
 
               {/* About — always visible */}
               {car.description && (

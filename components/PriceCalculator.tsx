@@ -6,12 +6,18 @@ interface PriceCalculatorProps {
   dailyPrice?: number;
   /** Label shown next to the price (e.g. car name) */
   label?: string;
+  /** Minimum rental days for this car */
+  minDays?: number;
+  /** Start already open */
+  initialOpen?: boolean;
+  /** Render inline (not fixed at bottom) */
+  inline?: boolean;
 }
 
-export default function PriceCalculator({ dailyPrice, label }: PriceCalculatorProps) {
+export default function PriceCalculator({ dailyPrice, label, minDays, initialOpen, inline }: PriceCalculatorProps) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(initialOpen ?? false);
   const [customPrice, setCustomPrice] = useState("");
   const barRef = useRef<HTMLDivElement>(null);
 
@@ -19,7 +25,7 @@ export default function PriceCalculator({ dailyPrice, label }: PriceCalculatorPr
   const price = dailyPrice ?? (customPrice ? Number(customPrice) : 0);
 
   // Calculate rental days
-  const days =
+  const rawDays =
     startDate && endDate
       ? Math.max(
           1,
@@ -29,6 +35,10 @@ export default function PriceCalculator({ dailyPrice, label }: PriceCalculatorPr
           )
         )
       : 0;
+
+  // Enforce minimum rental days
+  const effectiveMinDays = minDays && minDays > 1 ? minDays : 1;
+  const days = rawDays > 0 ? Math.max(rawDays, effectiveMinDays) : 0;
 
   const total = days > 0 && price > 0 ? days * price : 0;
 
@@ -50,7 +60,7 @@ export default function PriceCalculator({ dailyPrice, label }: PriceCalculatorPr
   return (
     <div
       ref={barRef}
-      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] w-[95vw] max-w-lg"
+      className={inline ? "w-full" : "fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] w-[95vw] max-w-lg"}
     >
       {/* Collapsed pill */}
       {!open && (
@@ -152,6 +162,9 @@ export default function PriceCalculator({ dailyPrice, label }: PriceCalculatorPr
               {price > 0 && days > 0 && (
                 <p className="text-[10px] text-white/50">
                   ${price}/day &times; {days} day{days > 1 ? "s" : ""}
+                  {rawDays > 0 && rawDays < effectiveMinDays && (
+                    <span className="ml-1 text-[#5bafdf]">({effectiveMinDays}-day min)</span>
+                  )}
                 </p>
               )}
               {days === 0 && (
