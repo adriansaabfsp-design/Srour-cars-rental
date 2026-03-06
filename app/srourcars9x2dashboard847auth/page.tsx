@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   collection,
   addDoc,
@@ -420,6 +421,19 @@ export default function AdminPage() {
           >
             {showForm ? "Cancel" : "+ Add New Car"}
           </button>
+        </div>
+
+        {/* Quick Nav */}
+        <div className="mb-6 flex flex-wrap gap-2">
+          <Link
+            href="/srourcars9x2dashboard847auth/insurance"
+            className="flex items-center gap-2 border border-navy/20 bg-navy/5 px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] text-navy transition-all hover:bg-navy/15 hover:border-navy/40"
+          >
+            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            Insurance Companies
+          </Link>
         </div>
 
         {/* ── Site Settings ── */}
