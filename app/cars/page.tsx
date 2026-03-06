@@ -11,7 +11,7 @@ import PriceCalculator from "@/components/PriceCalculator";
 import Link from "next/link";
 import { Suspense } from "react";
 
-const CARS_PER_PAGE = 12;
+const CARS_PER_PAGE = 8;
 
 function AllCarsInner() {
   const searchParams = useSearchParams();
@@ -382,7 +382,7 @@ function AllCarsInner() {
         )}
 
         {/* result count */}
-        <div className="mb-3 sm:mb-4">
+        <div className="mb-3 flex items-center justify-between sm:mb-4">
           <p className="text-xs text-luxury-muted sm:text-sm">
             {loading ? (
               <span className="lux-pulse">Loading fleet...</span>
@@ -392,18 +392,20 @@ function AllCarsInner() {
                 {activeCategory !== "All" && (
                   <span className="text-gray-900/60"> &middot; {activeCategory}</span>
                 )}
-                {totalPages > 1 && (
-                  <span className="text-gray-900/40"> &middot; Page {page} of {totalPages}</span>
-                )}
               </>
             )}
           </p>
+          {!loading && totalPages > 1 && (
+            <span className="text-xs font-bold sm:text-sm">
+              Page <span className="text-navy">{page}</span> of {totalPages}
+            </span>
+          )}
         </div>
 
         {/* car grid */}
         {loading ? (
           <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 12 }).map((_, i) => (
+            {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="overflow-hidden border border-luxury-border bg-luxury-card">
                 <div className="aspect-[16/10] lux-pulse bg-luxury-dark" />
                 <div className="border-t border-luxury-border p-3 sm:p-5 space-y-2 sm:space-y-3">

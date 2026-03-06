@@ -409,6 +409,40 @@ export default function Home() {
                 50+ handpicked cars for every road, season, and adventure across Lebanon.
               </p>
 
+              {/* Price range slider - always visible */}
+              {priceInited && dataMaxPrice > dataMinPrice && (
+                <div className="mx-auto max-w-2xl mb-4">
+                  <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">Price Range</p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${dataMinPrice}</span>
+                    <div className="relative flex-1 h-6 flex items-center">
+                      <div className="absolute left-0 right-0 h-[5px] rounded-full bg-gray-200/80" />
+                      <div
+                        className={`absolute h-[5px] rounded-full ${activePriceThumb ? "bg-[#1B4F72] shadow-[0_0_12px_3px_rgba(27,79,114,0.45)]" : "bg-[#1B4F72]/70 shadow-none"}`}
+                        style={{ left: `${((priceRange[0] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%`, right: `${100 - ((priceRange[1] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%` }}
+                      />
+                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none" style={{ left: `${((priceRange[0] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%` }}>
+                        <svg className={`text-[#1B4F72] transition-all duration-200 ${activePriceThumb === "min" ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]" : "h-10 w-10"}`} viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M8 14h32v2H8z" fill="currentColor" /><path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" /><path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" /><path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" /><circle cx="14" cy="16" r="3" fill="#0f2f47" /><circle cx="34" cy="16" r="3" fill="#0f2f47" />
+                        </svg>
+                      </div>
+                      <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none" style={{ left: `${((priceRange[1] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%` }}>
+                        <svg className={`text-[#1B4F72] [transform:scaleX(-1)] transition-all duration-200 ${activePriceThumb === "max" ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]" : "h-10 w-10"}`} viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M8 14h32v2H8z" fill="currentColor" /><path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" /><path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" /><path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" /><circle cx="14" cy="16" r="3" fill="#0f2f47" /><circle cx="34" cy="16" r="3" fill="#0f2f47" />
+                        </svg>
+                      </div>
+                      <input type="range" min={dataMinPrice} max={dataMaxPrice} value={priceRange[0]} onPointerDown={() => setActivePriceThumb("min")} onChange={(e) => { const v = Number(e.target.value); setPriceRange([Math.min(v, priceRange[1]), priceRange[1]]); }} onPointerUp={handlePriceRelease} onTouchEnd={handlePriceRelease} className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "min" ? "z-30" : "z-20")} aria-label="Minimum daily price" />
+                      <input type="range" min={dataMinPrice} max={dataMaxPrice} value={priceRange[1]} onPointerDown={() => setActivePriceThumb("max")} onChange={(e) => { const v = Number(e.target.value); setPriceRange([priceRange[0], Math.max(v, priceRange[0])]); }} onPointerUp={handlePriceRelease} onTouchEnd={handlePriceRelease} className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "max" ? "z-30" : "z-20")} aria-label="Maximum daily price" />
+                    </div>
+                    <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${dataMaxPrice}</span>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "min" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>${priceRange[0]}<span className="text-white/50 font-normal">/day</span></span>
+                    <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "max" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>${priceRange[1]}<span className="text-white/50 font-normal">/day</span></span>
+                  </div>
+                </div>
+              )}
+
               {/* FILTERS toggle */}
               <div className="mx-auto max-w-2xl mb-1">
                 <button
@@ -470,63 +504,6 @@ export default function Home() {
                       ))}
                     </select>
                   </div>
-
-                  {/* Price range slider */}
-                  {priceInited && dataMaxPrice > dataMinPrice && (
-                    <div className="mx-auto max-w-2xl">
-                      <p className="text-[11px] font-bold text-[#1a4b6e] mb-2 sm:text-[12px]">Price Range</p>
-                      <div className="flex items-center gap-3">
-                        <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${dataMinPrice}</span>
-                        <div className="relative flex-1 h-6 flex items-center">
-                          <div className="absolute left-0 right-0 h-[5px] rounded-full bg-gray-200/80" />
-                          <div
-                            className={`absolute h-[5px] rounded-full ${
-                              activePriceThumb
-                                ? "bg-[#1B4F72] shadow-[0_0_12px_3px_rgba(27,79,114,0.45)]"
-                                : "bg-[#1B4F72]/70 shadow-none"
-                            }`}
-                            style={{
-                              left: `${((priceRange[0] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%`,
-                              right: `${100 - ((priceRange[1] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%`,
-                            }}
-                          />
-                          <div
-                            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
-                            style={{ left: `${((priceRange[0] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%` }}
-                          >
-                            <svg className={`text-[#1B4F72] transition-all duration-200 ${activePriceThumb === "min" ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]" : "h-10 w-10"}`} viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path d="M8 14h32v2H8z" fill="currentColor" />
-                              <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
-                              <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
-                              <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
-                              <circle cx="14" cy="16" r="3" fill="#0f2f47" />
-                              <circle cx="34" cy="16" r="3" fill="#0f2f47" />
-                            </svg>
-                          </div>
-                          <div
-                            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-none"
-                            style={{ left: `${((priceRange[1] - dataMinPrice) / (dataMaxPrice - dataMinPrice)) * 100}%` }}
-                          >
-                            <svg className={`text-[#1B4F72] [transform:scaleX(-1)] transition-all duration-200 ${activePriceThumb === "max" ? "h-12 w-12 drop-shadow-[0_0_10px_rgba(27,79,114,0.45)]" : "h-10 w-10"}`} viewBox="0 0 48 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                              <path d="M8 14h32v2H8z" fill="currentColor" />
-                              <path d="M6 12c0-2 2-4 4-4h6l4-4h8l2 4h6c2 0 4 2 4 4v4H6v-4z" fill="currentColor" />
-                              <path d="M14 8h4l-2-3h-4l2 3z" fill="white" opacity="0.45" />
-                              <path d="M20 8h6l-1-3h-4l-1 3z" fill="white" opacity="0.45" />
-                              <circle cx="14" cy="16" r="3" fill="#0f2f47" />
-                              <circle cx="34" cy="16" r="3" fill="#0f2f47" />
-                            </svg>
-                          </div>
-                          <input type="range" min={dataMinPrice} max={dataMaxPrice} value={priceRange[0]} onPointerDown={() => setActivePriceThumb("min")} onChange={(e) => { const v = Number(e.target.value); setPriceRange([Math.min(v, priceRange[1]), priceRange[1]]); }} onPointerUp={handlePriceRelease} onTouchEnd={handlePriceRelease} className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "min" ? "z-30" : "z-20")} aria-label="Minimum daily price" />
-                          <input type="range" min={dataMinPrice} max={dataMaxPrice} value={priceRange[1]} onPointerDown={() => setActivePriceThumb("max")} onChange={(e) => { const v = Number(e.target.value); setPriceRange([priceRange[0], Math.max(v, priceRange[0])]); }} onPointerUp={handlePriceRelease} onTouchEnd={handlePriceRelease} className={"price-slider absolute inset-0 w-full opacity-0 " + (activePriceThumb === "max" ? "z-30" : "z-20")} aria-label="Maximum daily price" />
-                        </div>
-                        <span className="text-[10px] font-semibold text-[#1a4b6e]/50">${dataMaxPrice}</span>
-                      </div>
-                      <div className="flex justify-between mt-2">
-                        <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "min" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>${priceRange[0]}<span className="text-white/50 font-normal">/day</span></span>
-                        <span className={`inline-block bg-[#1B4F72] text-white text-[10px] font-bold px-2.5 py-1 rounded-sm transition-transform duration-200 ${activePriceThumb === "max" ? "scale-125" : ""} ${priceBounce ? "price-badge-bounce" : ""}`}>${priceRange[1]}<span className="text-white/50 font-normal">/day</span></span>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
 
