@@ -12,6 +12,7 @@ import {
   setDoc,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import {
   ref,
@@ -20,8 +21,9 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
-import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES, CAR_FEATURES, BlogPost, FaqItem, FAQ_CATEGORIES } from "@/lib/types";
+import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES, CAR_FEATURES, BlogPost, FaqItem, FAQ_CATEGORIES, CarOwner } from "@/lib/types";
 import { useAdmin } from "@/components/AdminContext";
+import CarCalendar from "@/components/CarCalendar";
 
 const EMPTY_FORM = {
   name: "",
@@ -74,7 +76,7 @@ export default function AdminPage() {
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [existingGallery, setExistingGallery] = useState<string[]>([]);
   const [adminSearch, setAdminSearch] = useState("");
-  const [adminFilter, setAdminFilter] = useState<"all" | "available" | "rented" | "featured" | string>("all");
+  const [adminFilter, setAdminFilter] = useState<"all" | "available" | "rented" | "featured" | "pending" | string>("all");
   const [adminBrandFilter, setAdminBrandFilter] = useState("All");
 
   /* ── Blog state ── */
@@ -85,7 +87,7 @@ export default function AdminPage() {
   const [blogCoverFile, setBlogCoverFile] = useState<File | null>(null);
   const [blogUploading, setBlogUploading] = useState(false);
   const [deletingBlog, setDeletingBlog] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"cars" | "blog" | "faq">("cars");
+  const [activeTab, setActiveTab] = useState<"cars" | "blog" | "faq" | "owners">("cars");
 
   /* ── FAQ state ── */
   const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
@@ -95,6 +97,12 @@ export default function AdminPage() {
   const [faqUploading, setFaqUploading] = useState(false);
   const [deletingFaq, setDeletingFaq] = useState<string | null>(null);
   const [seedingFaqs, setSeedingFaqs] = useState(false);
+
+  /* ── Owners state ── */
+  const [owners, setOwners] = useState<CarOwner[]>([]);
+  const [deletingOwner, setDeletingOwner] = useState<string | null>(null);
+  const [calendarCarId, setCalendarCarId] = useState<string | null>(null);
+  const [calendarDates, setCalendarDates] = useState<string[]>([]);
 
   const brandsWithoutAll = BRANDS.filter((b) => b !== "All");
 
@@ -124,6 +132,7 @@ export default function AdminPage() {
     fetchCars();
     fetchBlogPosts();
     fetchFaqItems();
+    fetchOwners();
   }, []);
 
   const fetchCars = async () => {
@@ -151,6 +160,55 @@ export default function AdminPage() {
       );
     } catch (error) {
       console.error("Error fetching blogs:", error);
+    }
+  };
+
+  const fetchOwners = async () => {
+    try {
+      const q = query(collection(db, "owners"), orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
+      setOwners(snap.docs.map((d) => ({ id: d.id, ...d.data() })) as CarOwner[]);
+    } catch (error) {
+      console.error("Error fetching owners:", error);
+    }
+  };
+
+  const handleDeleteOwner = async (owner: CarOwner) => {
+    if (!confirm(`Delete owner "${owner.displayName}" (${owner.username})? Their cars will remain but will be marked as rejected.`)) return;
+    setDeletingOwner(owner.id);
+    try {
+      // Mark their cars as rejected
+      const carsQ = query(collection(db, "cars"), where("ownerId", "==", owner.id));
+      const carsSnap = await getDocs(carsQ);
+      for (const carDoc of carsSnap.docs) {
+        await updateDoc(doc(db, "cars", carDoc.id), { status: "rejected" });
+      }
+      await deleteDoc(doc(db, "owners", owner.id));
+      await fetchOwners();
+      await fetchCars();
+    } catch (err) {
+      console.error("Error deleting owner:", err);
+      alert("Failed to delete owner.");
+    } finally {
+      setDeletingOwner(null);
+    }
+  };
+
+  const setCarStatus = async (carId: string, status: "approved" | "rejected") => {
+    try {
+      await updateDoc(doc(db, "cars", carId), { status });
+      setCars((prev) => prev.map((c) => (c.id === carId ? { ...c, status } : c)));
+    } catch (err) {
+      console.error("Error updating car status:", err);
+    }
+  };
+
+  const saveBlockedDates = async (carId: string, dates: string[]) => {
+    try {
+      await updateDoc(doc(db, "cars", carId), { blockedDates: dates });
+      setCars((prev) => prev.map((c) => (c.id === carId ? { ...c, blockedDates: dates } : c)));
+    } catch (err) {
+      console.error("Error updating blocked dates:", err);
     }
   };
 
@@ -619,6 +677,16 @@ export default function AdminPage() {
             }`}
           >
             FAQ ({faqItems.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("owners")}
+            className={`px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors ${
+              activeTab === "owners"
+                ? "border-b-2 border-navy text-navy"
+                : "text-gray-900/40 hover:text-gray-900/60"
+            }`}
+          >
+            Owners ({owners.length})
           </button>
         </div>
 
@@ -1391,7 +1459,7 @@ export default function AdminPage() {
               ))}
             </select>
             <div className="flex gap-1">
-              {(["all", "available", "rented", "featured"] as const).map((f) => (
+              {(["all", "available", "rented", "featured", "pending"] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setAdminFilter(f)}
@@ -1413,6 +1481,7 @@ export default function AdminPage() {
                   if (adminFilter === "available" && !car.available) return false;
                   if (adminFilter === "rented" && car.available !== false) return false;
                   if (adminFilter === "featured" && !car.featured) return false;
+                  if (adminFilter === "pending" && car.status !== "pending") return false;
                   if (adminBrandFilter !== "All" && car.brand !== adminBrandFilter) return false;
                   if (adminSearch) {
                     const q = adminSearch.toLowerCase();
@@ -1466,6 +1535,7 @@ export default function AdminPage() {
                 if (adminFilter === "available" && !car.available) return false;
                 if (adminFilter === "rented" && car.available !== false) return false;
                 if (adminFilter === "featured" && !car.featured) return false;
+                if (adminFilter === "pending" && car.status !== "pending") return false;
                 if (adminBrandFilter !== "All" && car.brand !== adminBrandFilter) return false;
                 if (adminSearch) {
                   const q = adminSearch.toLowerCase();
@@ -1521,6 +1591,21 @@ export default function AdminPage() {
                           Video
                         </span>
                       )}
+                      {car.status === "pending" && (
+                        <span className="bg-yellow-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-yellow-700">
+                          Pending
+                        </span>
+                      )}
+                      {car.status === "rejected" && (
+                        <span className="bg-red-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-red-700">
+                          Rejected
+                        </span>
+                      )}
+                      {car.status === "approved" && car.ownerId && (
+                        <span className="bg-green-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-green-700">
+                          Approved
+                        </span>
+                      )}
                     </div>
                     <p className="text-sm text-gray-900/40">
                       {car.brand} · {car.year} · {car.mileage.toLocaleString()} km ·{" "}
@@ -1529,6 +1614,9 @@ export default function AdminPage() {
                         const count = car.photos ? Object.values(car.photos).filter(Boolean).length : (car.images?.length || 0);
                         return count > 0 ? ` · ${count} photo${count !== 1 ? "s" : ""}` : "";
                       })()}
+                      {car.ownerName && (
+                        <span className="text-gray-900/30"> · Owner: {car.ownerName}</span>
+                      )}
                     </p>
                   </div>
 
@@ -1576,8 +1664,58 @@ export default function AdminPage() {
                     >
                       {deleting === car.id ? "..." : "Delete"}
                     </button>
+
+                    {/* Approve / Reject — only for owner-submitted cars */}
+                    {car.ownerId && car.status !== "approved" && (
+                      <button
+                        onClick={() => setCarStatus(car.id, "approved")}
+                        className="border border-green-500/30 bg-green-500/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-green-600 hover:bg-green-500/20"
+                      >
+                        ✓ Approve
+                      </button>
+                    )}
+                    {car.ownerId && car.status !== "rejected" && (
+                      <button
+                        onClick={() => setCarStatus(car.id, "rejected")}
+                        className="border border-red-300/30 bg-red-50 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-red-500 hover:bg-red-100"
+                      >
+                        ✗ Reject
+                      </button>
+                    )}
+
+                    {/* Calendar */}
+                    <button
+                      onClick={() => {
+                        if (calendarCarId === car.id) {
+                          setCalendarCarId(null);
+                        } else {
+                          setCalendarCarId(car.id);
+                          setCalendarDates(car.blockedDates || []);
+                        }
+                      }}
+                      className="border border-luxury-border px-3 py-2 text-[10px] font-bold uppercase text-gray-900/50 hover:bg-gray-50"
+                      title="Manage blocked dates"
+                    >
+                      📅
+                    </button>
                   </div>
                 </div>
+
+                {/* Calendar panel */}
+                {calendarCarId === car.id && (
+                  <div className="mt-4 border-t border-luxury-border pt-4">
+                    <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/30">
+                      Blocked Dates Calendar — click to toggle
+                    </p>
+                    <CarCalendar
+                      blockedDates={calendarDates}
+                      onChange={(dates) => {
+                        setCalendarDates(dates);
+                        saveBlockedDates(car.id, dates);
+                      }}
+                    />
+                  </div>
+                )}
 
                 {/* Expanded Renter Info — shown when car is rented */}
                 {car.available === false && (car.currentRenterName || car.currentRenterPhone || car.availableEta || car.availableFrom) && (
@@ -1907,6 +2045,77 @@ export default function AdminPage() {
                           </div>
                         </div>
                       ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </>
+        )}
+
+        {/* ── Owners Tab ── */}
+        {activeTab === "owners" && (
+        <>
+          <div className="mb-6">
+            <p className="text-sm text-gray-900/40">
+              {owners.length} registered owner{owners.length !== 1 ? "s" : ""}
+              {" · "}
+              {cars.filter((c) => c.ownerId).length} owner-submitted cars
+              {" · "}
+              {cars.filter((c) => c.status === "pending").length} pending approval
+            </p>
+          </div>
+
+          {owners.length === 0 ? (
+            <div className="border border-luxury-border bg-luxury-card py-16 text-center">
+              <p className="text-gray-900/30 text-sm">No owners have signed up yet.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {owners.map((own) => {
+                const ownerCars = cars.filter((c) => c.ownerId === own.id);
+                return (
+                  <div key={own.id} className="border border-luxury-border bg-luxury-card p-5">
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-navy/20 bg-navy/5 text-sm font-bold text-navy">
+                        {own.displayName.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <h3 className="font-bold text-gray-900">{own.displayName}</h3>
+                          <span className="text-[10px] text-gray-900/30">@{own.username}</span>
+                        </div>
+                        <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-gray-900/40">
+                          {own.companyName && <span>🏢 {own.companyName}</span>}
+                          <span>📞 {own.phone}</span>
+                          {own.email && <span>✉️ {own.email}</span>}
+                          <span>🔑 {own.passwordPlain}</span>
+                          <span>📅 {new Date(own.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        <div className="mt-2 flex items-center gap-2 flex-wrap">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-gray-900/25">
+                            {ownerCars.length} car{ownerCars.length !== 1 ? "s" : ""}
+                          </span>
+                          {ownerCars.filter((c) => c.status === "pending").length > 0 && (
+                            <span className="bg-yellow-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-yellow-700">
+                              {ownerCars.filter((c) => c.status === "pending").length} pending
+                            </span>
+                          )}
+                          {ownerCars.filter((c) => c.status === "approved").length > 0 && (
+                            <span className="bg-green-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-green-700">
+                              {ownerCars.filter((c) => c.status === "approved").length} approved
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => handleDeleteOwner(own)}
+                        disabled={deletingOwner === own.id}
+                        className="border border-red-500/20 bg-red-500/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+                      >
+                        {deletingOwner === own.id ? "..." : "Delete"}
+                      </button>
                     </div>
                   </div>
                 );

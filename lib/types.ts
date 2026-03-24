@@ -62,6 +62,26 @@ export interface Car {
   tripCategory?: string;
   features?: string[];
   minDays?: number;
+  /* owner portal fields */
+  ownerId?: string;
+  ownerName?: string;
+  status?: CarStatus;
+  blockedDates?: string[];
+}
+
+export type CarStatus = "pending" | "approved" | "rejected";
+
+export interface CarOwner {
+  id: string;
+  username: string;
+  passwordHash: string;
+  passwordPlain: string;
+  displayName: string;
+  companyName: string;
+  phone: string;
+  email: string;
+  createdAt: number;
+  approved: boolean;
 }
 
 export const BRANDS = [

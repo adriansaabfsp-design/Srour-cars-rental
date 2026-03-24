@@ -11,6 +11,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useCompare } from "@/components/CompareContext";
 import PriceCalculator from "@/components/PriceCalculator";
+import CarCalendar from "@/components/CarCalendar";
 import Link from "next/link";
 
 export default function CarDetailPage() {
@@ -30,12 +31,18 @@ export default function CarDetailPage() {
         const docRef = doc(db, "cars", slug);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
-          setCar({ id: docSnap.id, ...docSnap.data() } as Car);
+          const data = { id: docSnap.id, ...docSnap.data() } as Car;
+          // Hide non-approved owner-submitted cars
+          if (data.status && data.status !== "approved") {
+            setCar(null);
+          } else {
+            setCar(data);
+          }
         } else {
           // Slug-based lookup: fetch all cars and match by generated slug
           const snapshot = await getDocs(collection(db, "cars"));
           const allCars = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as Car[];
-          const match = allCars.find((c) => generateCarSlug(c) === slug);
+          const match = allCars.find((c) => generateCarSlug(c) === slug && (!c.status || c.status === "approved"));
           if (match) setCar(match);
         }
       } catch (error) {
@@ -265,6 +272,17 @@ export default function CarDetailPage() {
                         </span>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Blocked dates calendar — read only */}
+              {car.blockedDates && car.blockedDates.length > 0 && (
+                <div className="mt-6">
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Availability Calendar</h3>
+                  <p className="mt-1 text-[11px] text-gray-500">Red dates are unavailable.</p>
+                  <div className="mt-3">
+                    <CarCalendar blockedDates={car.blockedDates} onChange={() => {}} readOnly />
                   </div>
                 </div>
               )}

@@ -59,7 +59,8 @@ function AllCarsInner() {
         const q = query(collection(db, "cars"), orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as Car[];
-        setCars(data);
+        // Only show approved or legacy (no status) cars
+        setCars(data.filter((c) => !c.status || c.status === "approved"));
       } catch (error) {
         console.error("Error fetching cars:", error);
       } finally {
