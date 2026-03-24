@@ -33,7 +33,7 @@ const EMPTY_FORM = {
   transmission: "Automatic",
   seats: 5,
   description: "",
-  whatsapp: "961",
+  whatsapp: "+96181062329",
   photos: { main: "", front: "", back: "", left: "", right: "" } as CarPhotos,
   available: true,
   availableFrom: "",
@@ -726,9 +726,8 @@ export default function AdminPage() {
 
               {/* Mileage */}
               <div>
-                <label className={labelCls}>Mileage (km) *</label>
+                <label className={labelCls}>Mileage (km)</label>
                 <input
-                  required
                   type="number"
                   min="0"
                   value={form.mileage}
@@ -1835,7 +1834,7 @@ export default function AdminPage() {
                 <select
                   value={faqForm.category}
                   onChange={(e) => setFaqForm({ ...faqForm, category: e.target.value })}
-                  className="w-full border border-luxury-border bg-white px-4 py-3 text-sm focus:border-navy focus:outline-none"
+                  className="w-full border border-luxury-border bg-white px-4 py-3 text-sm text-gray-900 focus:border-navy focus:outline-none"
                 >
                   {FAQ_CATEGORIES.map((cat) => (
                     <option key={cat} value={cat}>{cat}</option>
@@ -1848,7 +1847,7 @@ export default function AdminPage() {
                   type="text"
                   value={faqForm.question}
                   onChange={(e) => setFaqForm({ ...faqForm, question: e.target.value })}
-                  className="w-full border border-luxury-border px-4 py-3 text-sm focus:border-navy focus:outline-none"
+                  className="w-full border border-luxury-border bg-white px-4 py-3 text-sm text-gray-900 focus:border-navy focus:outline-none"
                   required
                 />
               </div>
@@ -1858,7 +1857,7 @@ export default function AdminPage() {
                   value={faqForm.answer}
                   onChange={(e) => setFaqForm({ ...faqForm, answer: e.target.value })}
                   rows={4}
-                  className="w-full border border-luxury-border px-4 py-3 text-sm focus:border-navy focus:outline-none"
+                  className="w-full border border-luxury-border bg-white px-4 py-3 text-sm text-gray-900 focus:border-navy focus:outline-none"
                   required
                 />
               </div>
