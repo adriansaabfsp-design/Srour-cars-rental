@@ -20,7 +20,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
-import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES, CAR_FEATURES } from "@/lib/types";
+import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES, CAR_FEATURES, BlogPost } from "@/lib/types";
 
 const EMPTY_FORM = {
   name: "",
@@ -72,11 +72,19 @@ export default function AdminPage() {
   const [photoFiles, setPhotoFiles] = useState<Partial<Record<PhotoSlotKey, File>>>({});
   const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
   const [existingGallery, setExistingGallery] = useState<string[]>([]);
-  const [savingSettings, setSavingSettings] = useState(false);
-  const [mapStartCity, setMapStartCity] = useState("Beirut");
   const [adminSearch, setAdminSearch] = useState("");
   const [adminFilter, setAdminFilter] = useState<"all" | "available" | "rented" | "featured" | string>("all");
   const [adminBrandFilter, setAdminBrandFilter] = useState("All");
+
+  /* ── Blog state ── */
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [showBlogForm, setShowBlogForm] = useState(false);
+  const [editingBlogId, setEditingBlogId] = useState<string | null>(null);
+  const [blogForm, setBlogForm] = useState({ title: "", content: "", coverImage: "", published: true });
+  const [blogCoverFile, setBlogCoverFile] = useState<File | null>(null);
+  const [blogUploading, setBlogUploading] = useState(false);
+  const [deletingBlog, setDeletingBlog] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"cars" | "blog">("cars");
 
   const brandsWithoutAll = BRANDS.filter((b) => b !== "All");
 
@@ -102,12 +110,7 @@ export default function AdminPage() {
 
   useEffect(() => {
     fetchCars();
-    getDoc(doc(db, "settings", "homepage")).then((snap) => {
-      if (snap.exists()) {
-        const data = snap.data();
-        if (data.mapStartCity) setMapStartCity(data.mapStartCity);
-      }
-    });
+    fetchBlogPosts();
   }, []);
 
   const fetchCars = async () => {
@@ -123,6 +126,91 @@ export default function AdminPage() {
       console.error("Error fetching cars:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchBlogPosts = async () => {
+    try {
+      const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+      setBlogPosts(
+        snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as BlogPost[]
+      );
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+
+  const generateSlug = (title: string) =>
+    title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+
+  const handleBlogSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!blogForm.title.trim() || !blogForm.content.trim()) return;
+    setBlogUploading(true);
+    try {
+      let coverUrl = blogForm.coverImage;
+      if (blogCoverFile) {
+        const storageRef = ref(storage, `blogs/${Date.now()}-${blogCoverFile.name}`);
+        await uploadBytes(storageRef, blogCoverFile);
+        coverUrl = await getDownloadURL(storageRef);
+      }
+      const now = Date.now();
+      const slug = generateSlug(blogForm.title);
+      if (editingBlogId) {
+        await updateDoc(doc(db, "blogs", editingBlogId), {
+          title: blogForm.title,
+          slug,
+          content: blogForm.content,
+          coverImage: coverUrl,
+          published: blogForm.published,
+          updatedAt: now,
+        });
+      } else {
+        await addDoc(collection(db, "blogs"), {
+          title: blogForm.title,
+          slug,
+          content: blogForm.content,
+          coverImage: coverUrl,
+          published: blogForm.published,
+          createdAt: now,
+          updatedAt: now,
+        });
+      }
+      setBlogForm({ title: "", content: "", coverImage: "", published: true });
+      setBlogCoverFile(null);
+      setEditingBlogId(null);
+      setShowBlogForm(false);
+      await fetchBlogPosts();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save blog post.");
+    } finally {
+      setBlogUploading(false);
+    }
+  };
+
+  const handleBlogEdit = (post: BlogPost) => {
+    setBlogForm({ title: post.title, content: post.content, coverImage: post.coverImage, published: post.published });
+    setEditingBlogId(post.id);
+    setShowBlogForm(true);
+    setBlogCoverFile(null);
+  };
+
+  const handleBlogDelete = async (post: BlogPost) => {
+    if (!confirm(`Delete "${post.title}"?`)) return;
+    setDeletingBlog(post.id);
+    try {
+      if (post.coverImage) {
+        try { await deleteObject(ref(storage, post.coverImage)); } catch {}
+      }
+      await deleteDoc(doc(db, "blogs", post.id));
+      await fetchBlogPosts();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete blog post.");
+    } finally {
+      setDeletingBlog(null);
     }
   };
 
@@ -393,15 +481,44 @@ export default function AdminPage() {
       ) : (
       <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between">
           <div>
             <h1 className="font-serif text-3xl font-bold text-gray-900">
               ADMIN PANEL
             </h1>
             <p className="mt-1 text-sm text-gray-900/30">
-              Manage your car listings
+              Manage your car listings &amp; blog
             </p>
           </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="mb-6 flex gap-1 border-b border-luxury-border">
+          <button
+            onClick={() => setActiveTab("cars")}
+            className={`px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors ${
+              activeTab === "cars"
+                ? "border-b-2 border-navy text-navy"
+                : "text-gray-900/40 hover:text-gray-900/60"
+            }`}
+          >
+            Cars
+          </button>
+          <button
+            onClick={() => setActiveTab("blog")}
+            className={`px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors ${
+              activeTab === "blog"
+                ? "border-b-2 border-navy text-navy"
+                : "text-gray-900/40 hover:text-gray-900/60"
+            }`}
+          >
+            Blog ({blogPosts.length})
+          </button>
+        </div>
+
+        {activeTab === "cars" && (
+        <>
+        <div className="mb-6 flex justify-end">
           <button
             onClick={() => {
               setShowForm(!showForm);
@@ -420,43 +537,6 @@ export default function AdminPage() {
           >
             {showForm ? "Cancel" : "+ Add New Car"}
           </button>
-        </div>
-
-        {/* ── Site Settings ── */}
-        <div className="mb-8 border border-luxury-border bg-luxury-card p-5 sm:p-6">
-          <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/40">Site Settings</h2>
-          <div className="flex flex-wrap items-end gap-3">
-            <div>
-              <label className="mb-1.5 block text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/35">Map Starting Point</label>
-              <select
-                value={mapStartCity}
-                onChange={(e) => setMapStartCity(e.target.value)}
-                className="border border-luxury-border bg-white px-4 py-2.5 text-sm text-gray-900 outline-none transition-colors focus:border-navy"
-              >
-                {["Beirut", "Jounieh", "Byblos", "Batroun", "Tripoli", "Bcharre & Cedars", "Ehden", "Tannourine", "Wadi Qadisha", "Faraya", "Laklouk", "Chouf", "Sidon", "Tyre", "Jezzine", "Baalbek", "Zahle", "Aanjar"].map((city) => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
-            </div>
-            <button
-              onClick={async () => {
-                setSavingSettings(true);
-                try {
-                  await setDoc(doc(db, "settings", "homepage"), { mapStartCity }, { merge: true });
-                  alert("Settings saved!");
-                } catch (err) {
-                  console.error(err);
-                  alert("Failed to save settings.");
-                } finally {
-                  setSavingSettings(false);
-                }
-              }}
-              disabled={savingSettings}
-              className="bg-navy px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] text-white transition-all hover:bg-navy-light disabled:opacity-50"
-            >
-              {savingSettings ? "Saving..." : "Save Settings"}
-            </button>
-          </div>
         </div>
 
         {/* Form */}
@@ -1460,6 +1540,154 @@ export default function AdminPage() {
               </div>
             ))}
           </div>
+        )}
+        </>
+        )}
+
+        {/* ── Blog Tab ── */}
+        {activeTab === "blog" && (
+        <>
+          <div className="mb-6 flex justify-end">
+            <button
+              onClick={() => {
+                setShowBlogForm(!showBlogForm);
+                if (showBlogForm) {
+                  setBlogForm({ title: "", content: "", coverImage: "", published: true });
+                  setEditingBlogId(null);
+                  setBlogCoverFile(null);
+                }
+              }}
+              className={`px-6 py-3 text-[12px] font-bold tracking-[0.15em] uppercase transition-all ${
+                showBlogForm
+                  ? "border border-luxury-border bg-luxury-card text-gray-900/50 hover:bg-luxury-dark"
+                  : "bg-navy text-white hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
+              }`}
+            >
+              {showBlogForm ? "Cancel" : "+ New Blog Post"}
+            </button>
+          </div>
+
+          {/* Blog Form */}
+          {showBlogForm && (
+            <form onSubmit={handleBlogSubmit} className="mb-10 border border-luxury-border bg-luxury-card p-6 sm:p-8">
+              <h2 className="mb-6 font-serif text-xl font-bold text-gray-900">
+                {editingBlogId ? "EDIT POST" : "NEW POST"}
+              </h2>
+              <div className="space-y-5">
+                <div>
+                  <label className={labelCls}>Title</label>
+                  <input
+                    type="text"
+                    value={blogForm.title}
+                    onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })}
+                    className={inputCls}
+                    placeholder="Blog post title"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Content</label>
+                  <textarea
+                    value={blogForm.content}
+                    onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })}
+                    className={`${inputCls} min-h-[200px] resize-y`}
+                    placeholder="Write your blog post content here... (supports paragraphs separated by empty lines)"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Cover Image</label>
+                  {blogForm.coverImage && !blogCoverFile && (
+                    <div className="mb-2">
+                      <img src={blogForm.coverImage} alt="" className="h-32 w-auto rounded border border-luxury-border object-cover" />
+                    </div>
+                  )}
+                  {blogCoverFile && (
+                    <p className="mb-2 text-[11px] text-navy">{blogCoverFile.name}</p>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setBlogCoverFile(e.target.files?.[0] ?? null)}
+                    className="text-sm text-gray-900/50 file:mr-3 file:border file:border-luxury-border file:bg-luxury-card file:px-4 file:py-2 file:text-[10px] file:font-bold file:uppercase file:tracking-wider file:text-gray-900/50 file:transition-colors hover:file:bg-luxury-dark"
+                  />
+                </div>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    id="blogPublished"
+                    checked={blogForm.published}
+                    onChange={(e) => setBlogForm({ ...blogForm, published: e.target.checked })}
+                    className="h-4 w-4 rounded border-gray-300 text-navy focus:ring-navy"
+                  />
+                  <label htmlFor="blogPublished" className="text-sm text-gray-900/60">Published</label>
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={blogUploading}
+                className="mt-6 w-full bg-navy py-3 text-[12px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light disabled:opacity-50"
+              >
+                {blogUploading ? "Saving..." : editingBlogId ? "Update Post" : "Publish Post"}
+              </button>
+            </form>
+          )}
+
+          {/* Blog List */}
+          {blogPosts.length === 0 ? (
+            <div className="border border-dashed border-luxury-border bg-luxury-card p-12 text-center">
+              <p className="text-sm text-gray-900/30">No blog posts yet</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {blogPosts.map((post) => (
+                <div key={post.id} className="border border-luxury-border bg-luxury-card p-5 sm:p-6">
+                  <div className="flex items-start gap-4">
+                    {post.coverImage && (
+                      <img src={post.coverImage} alt="" className="h-20 w-28 flex-shrink-0 rounded border border-luxury-border object-cover" />
+                    )}
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <h3 className="truncate font-serif text-lg font-bold text-gray-900">
+                          {post.title}
+                        </h3>
+                        <span className={`flex-shrink-0 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
+                          post.published
+                            ? "bg-green-500/10 text-green-600"
+                            : "bg-yellow-500/10 text-yellow-600"
+                        }`}>
+                          {post.published ? "Published" : "Draft"}
+                        </span>
+                      </div>
+                      <p className="mt-1 line-clamp-2 text-[12px] text-gray-900/40">
+                        {post.content}
+                      </p>
+                      <p className="mt-2 text-[10px] text-gray-900/25">
+                        {new Date(post.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}
+                        {post.updatedAt !== post.createdAt && " (edited)"}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-4 flex gap-2">
+                    <button
+                      onClick={() => handleBlogEdit(post)}
+                      className="border border-navy/30 bg-navy/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy/20"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleBlogDelete(post)}
+                      disabled={deletingBlog === post.id}
+                      className="border border-red-500/20 bg-red-500/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+                    >
+                      {deletingBlog === post.id ? "..." : "Delete"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
         )}
       </div>
       )}

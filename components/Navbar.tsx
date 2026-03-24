@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { label: "Home", href: "/" },
   { label: "Collection", href: "/cars" },
   { label: "Road Trips", href: "/road-trips" },
+  { label: "Blog", href: "/blog" },
   { label: "Seasonal Guide", href: "/seasonal-guide" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },

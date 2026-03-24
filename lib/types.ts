@@ -226,3 +226,14 @@ export const CAR_FEATURES = [
   "Sport Mode",
   "Turbo Engine",
 ] as const;
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  coverImage: string;
+  published: boolean;
+  createdAt: number;
+  updatedAt: number;
+}

@@ -2,8 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
 
 /* ── destination data ── */
 interface Destination {
@@ -78,21 +76,6 @@ export default function LebanonMap() {
     ? destinations.find((d) => d.id === selectedId) ?? null
     : null;
 
-  /* Load customizable start city from Firestore settings */
-  useEffect(() => {
-    getDoc(doc(db, "settings", "homepage")).then((snap) => {
-      if (snap.exists()) {
-        const data = snap.data();
-        if (data.mapStartCity) {
-          const found = destinations.find(
-            (d) => d.name.toLowerCase() === data.mapStartCity.toLowerCase()
-          );
-          if (found) setStartId(found.id);
-        }
-      }
-    }).catch(() => {});
-  }, []);
-
   /* inject keyframes once */
   useEffect(() => {
     const id = "lebanon-map-keyframes";
@@ -122,12 +105,31 @@ export default function LebanonMap() {
           <p className="mt-1 text-[11px] text-gray-500 sm:mt-2 sm:text-sm">
             Click a destination. We&rsquo;ll match the car.
           </p>
+          {/* Starting city selector */}
+          <div className="mt-3 inline-flex items-center gap-2">
+            <label className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+              Starting From
+            </label>
+            <select
+              value={startId}
+              onChange={(e) => {
+                const newId = Number(e.target.value);
+                setStartId(newId);
+                if (selectedId === newId) setSelectedId(null);
+              }}
+              className="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-[12px] font-semibold text-[#1B3A5C] outline-none transition-colors focus:border-[#1B3A5C] focus:ring-1 focus:ring-[#1B3A5C]/20"
+            >
+              {destinations.map((d) => (
+                <option key={d.id} value={d.id}>{d.name}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Mobile horizontal chips */}
         <div className="mb-3 flex gap-2 overflow-x-auto pb-2 sm:hidden" style={{ WebkitOverflowScrolling: "touch" }}>
           {destinations
-            .filter((d) => !d.isStart)
+            .filter((d) => d.id !== startId)
             .map((d) => (
               <button
                 key={d.id}
