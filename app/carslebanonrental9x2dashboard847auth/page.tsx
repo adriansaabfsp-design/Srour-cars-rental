@@ -20,7 +20,8 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { db, storage } from "@/lib/firebase";
-import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES, CAR_FEATURES, BlogPost } from "@/lib/types";
+import { Car, BRANDS, FUEL_TYPES, TRANSMISSIONS, PHOTO_SLOTS, CarPhotos, PhotoSlotKey, RentalRecord, CAR_CATEGORIES, ROAD_TYPES, TRIP_CATEGORIES, CAR_FEATURES, BlogPost, FaqItem, FAQ_CATEGORIES } from "@/lib/types";
+import { useAdmin } from "@/components/AdminContext";
 
 const EMPTY_FORM = {
   name: "",
@@ -84,20 +85,31 @@ export default function AdminPage() {
   const [blogCoverFile, setBlogCoverFile] = useState<File | null>(null);
   const [blogUploading, setBlogUploading] = useState(false);
   const [deletingBlog, setDeletingBlog] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"cars" | "blog">("cars");
+  const [activeTab, setActiveTab] = useState<"cars" | "blog" | "faq">("cars");
+
+  /* ── FAQ state ── */
+  const [faqItems, setFaqItems] = useState<FaqItem[]>([]);
+  const [showFaqForm, setShowFaqForm] = useState(false);
+  const [editingFaqId, setEditingFaqId] = useState<string | null>(null);
+  const [faqForm, setFaqForm] = useState({ question: "", answer: "", category: FAQ_CATEGORIES[0] as string });
+  const [faqUploading, setFaqUploading] = useState(false);
+  const [deletingFaq, setDeletingFaq] = useState<string | null>(null);
+  const [seedingFaqs, setSeedingFaqs] = useState(false);
 
   const brandsWithoutAll = BRANDS.filter((b) => b !== "All");
 
+  const { isAdmin: isAdminPersistent, login: adminLogin } = useAdmin();
+
   // Check session on mount
   useEffect(() => {
-    if (typeof window !== "undefined" && sessionStorage.getItem("admin_auth") === "1") {
+    if (typeof window !== "undefined" && (sessionStorage.getItem("admin_auth") === "1" || isAdminPersistent)) {
       setIsAuthenticated(true);
     }
-  }, []);
+  }, [isAdminPersistent]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "srourcars@rentals") {
+    if (adminLogin(password)) {
       setIsAuthenticated(true);
       setAuthError(false);
       if (typeof window !== "undefined") {
@@ -111,6 +123,7 @@ export default function AdminPage() {
   useEffect(() => {
     fetchCars();
     fetchBlogPosts();
+    fetchFaqItems();
   }, []);
 
   const fetchCars = async () => {
@@ -211,6 +224,89 @@ export default function AdminPage() {
       alert("Failed to delete blog post.");
     } finally {
       setDeletingBlog(null);
+    }
+  };
+
+  /* ── FAQ CRUD ── */
+  const fetchFaqItems = async () => {
+    try {
+      const q = query(collection(db, "faqs"), orderBy("order", "asc"));
+      const snapshot = await getDocs(q);
+      setFaqItems(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as FaqItem[]);
+    } catch (error) {
+      console.error("Error fetching FAQs:", error);
+    }
+  };
+
+  const handleFaqSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!faqForm.question.trim() || !faqForm.answer.trim()) return;
+    setFaqUploading(true);
+    try {
+      const now = Date.now();
+      if (editingFaqId) {
+        await updateDoc(doc(db, "faqs", editingFaqId), {
+          question: faqForm.question,
+          answer: faqForm.answer,
+          category: faqForm.category,
+          updatedAt: now,
+        });
+      } else {
+        const maxOrder = faqItems.length > 0 ? Math.max(...faqItems.map((f) => f.order)) + 1 : 0;
+        await addDoc(collection(db, "faqs"), {
+          question: faqForm.question,
+          answer: faqForm.answer,
+          category: faqForm.category,
+          order: maxOrder,
+          createdAt: now,
+          updatedAt: now,
+        });
+      }
+      setFaqForm({ question: "", answer: "", category: FAQ_CATEGORIES[0] });
+      setEditingFaqId(null);
+      setShowFaqForm(false);
+      await fetchFaqItems();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save FAQ.");
+    } finally {
+      setFaqUploading(false);
+    }
+  };
+
+  const handleFaqEdit = (item: FaqItem) => {
+    setFaqForm({ question: item.question, answer: item.answer, category: item.category });
+    setEditingFaqId(item.id);
+    setShowFaqForm(true);
+  };
+
+  const handleFaqDelete = async (item: FaqItem) => {
+    if (!confirm(`Delete "${item.question}"?`)) return;
+    setDeletingFaq(item.id);
+    try {
+      await deleteDoc(doc(db, "faqs", item.id));
+      await fetchFaqItems();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete FAQ.");
+    } finally {
+      setDeletingFaq(null);
+    }
+  };
+
+  const handleSeedFaqs = async () => {
+    if (!confirm("Seed the FAQ database with default questions? This only works if there are no FAQs yet.")) return;
+    setSeedingFaqs(true);
+    try {
+      const res = await fetch("/api/seed-faqs", { method: "POST" });
+      const data = await res.json();
+      alert(data.message || data.error);
+      await fetchFaqItems();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to seed FAQs.");
+    } finally {
+      setSeedingFaqs(false);
     }
   };
 
@@ -513,6 +609,16 @@ export default function AdminPage() {
             }`}
           >
             Blog ({blogPosts.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("faq")}
+            className={`px-5 py-3 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors ${
+              activeTab === "faq"
+                ? "border-b-2 border-navy text-navy"
+                : "text-gray-900/40 hover:text-gray-900/60"
+            }`}
+          >
+            FAQ ({faqItems.length})
           </button>
         </div>
 
@@ -1685,6 +1791,127 @@ export default function AdminPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+        </>
+        )}
+
+        {/* ── FAQ TAB ── */}
+        {activeTab === "faq" && (
+        <>
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex gap-2">
+              {faqItems.length === 0 && (
+                <button
+                  onClick={handleSeedFaqs}
+                  disabled={seedingFaqs}
+                  className="border border-green-500/30 bg-green-500/10 px-5 py-3 text-[10px] font-bold uppercase tracking-wider text-green-600 transition-colors hover:bg-green-500/20 disabled:opacity-50"
+                >
+                  {seedingFaqs ? "Seeding..." : "Seed Default FAQs"}
+                </button>
+              )}
+            </div>
+            <button
+              onClick={() => {
+                setShowFaqForm(!showFaqForm);
+                if (showFaqForm) {
+                  setFaqForm({ question: "", answer: "", category: FAQ_CATEGORIES[0] });
+                  setEditingFaqId(null);
+                }
+              }}
+              className="border border-navy/30 bg-navy/10 px-5 py-3 text-[10px] font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy/20"
+            >
+              {showFaqForm ? "Cancel" : editingFaqId ? "Cancel Edit" : "+ Add FAQ"}
+            </button>
+          </div>
+
+          {showFaqForm && (
+            <form onSubmit={handleFaqSubmit} className="mb-8 border border-luxury-border bg-white p-6 space-y-4">
+              <h3 className="text-[11px] font-bold uppercase tracking-wider text-navy">
+                {editingFaqId ? "Edit FAQ" : "Add New FAQ"}
+              </h3>
+              <div>
+                <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-gray-900/40">Category</label>
+                <select
+                  value={faqForm.category}
+                  onChange={(e) => setFaqForm({ ...faqForm, category: e.target.value })}
+                  className="w-full border border-luxury-border bg-white px-4 py-3 text-sm focus:border-navy focus:outline-none"
+                >
+                  {FAQ_CATEGORIES.map((cat) => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-gray-900/40">Question</label>
+                <input
+                  type="text"
+                  value={faqForm.question}
+                  onChange={(e) => setFaqForm({ ...faqForm, question: e.target.value })}
+                  className="w-full border border-luxury-border px-4 py-3 text-sm focus:border-navy focus:outline-none"
+                  required
+                />
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-bold uppercase tracking-wider text-gray-900/40">Answer</label>
+                <textarea
+                  value={faqForm.answer}
+                  onChange={(e) => setFaqForm({ ...faqForm, answer: e.target.value })}
+                  rows={4}
+                  className="w-full border border-luxury-border px-4 py-3 text-sm focus:border-navy focus:outline-none"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={faqUploading}
+                className="border border-navy bg-navy px-6 py-3 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-navy/90 disabled:opacity-50"
+              >
+                {faqUploading ? "Saving..." : editingFaqId ? "Update FAQ" : "Add FAQ"}
+              </button>
+            </form>
+          )}
+
+          {faqItems.length === 0 && !showFaqForm ? (
+            <p className="py-12 text-center text-gray-900/30 text-sm">No FAQs yet. Click &quot;Seed Default FAQs&quot; to populate or add one manually.</p>
+          ) : (
+            <div className="space-y-3">
+              {FAQ_CATEGORIES.map((cat) => {
+                const items = faqItems.filter((f) => f.category === cat);
+                if (items.length === 0) return null;
+                return (
+                  <div key={cat} className="border border-luxury-border bg-white">
+                    <div className="border-b border-luxury-border px-5 py-3">
+                      <h3 className="text-[11px] font-bold uppercase tracking-wider text-navy">{cat} ({items.length})</h3>
+                    </div>
+                    <div className="divide-y divide-luxury-border">
+                      {items.map((item) => (
+                        <div key={item.id} className="flex items-start justify-between gap-4 px-5 py-4">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-gray-900">{item.question}</p>
+                            <p className="mt-1 text-xs text-gray-600 line-clamp-2">{item.answer}</p>
+                          </div>
+                          <div className="flex shrink-0 gap-2">
+                            <button
+                              onClick={() => handleFaqEdit(item)}
+                              className="border border-navy/30 bg-navy/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy/20"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleFaqDelete(item)}
+                              disabled={deletingFaq === item.id}
+                              className="border border-red-500/20 bg-red-500/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
+                            >
+                              {deletingFaq === item.id ? "..." : "Delete"}
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </>

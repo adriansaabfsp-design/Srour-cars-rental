@@ -71,7 +71,7 @@ export default function Navbar() {
         </button>
 
         {/* Desktop: left links */}
-        <div className="hidden flex-1 items-center justify-start gap-4 lg:gap-5 sm:flex">
+        <div className="relative z-20 hidden flex-1 items-center justify-start gap-4 lg:gap-5 sm:flex">
           {leftLinks.map((link) => (
             <Link
               key={link.href}
@@ -104,7 +104,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop: right links */}
-        <div className="hidden flex-1 items-center justify-end gap-4 lg:gap-5 sm:flex">
+        <div className="relative z-20 hidden flex-1 items-center justify-end gap-4 lg:gap-5 sm:flex">
           {rightLinks.map((link) => (
             <Link
               key={link.href}

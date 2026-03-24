@@ -5,6 +5,8 @@ import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import TopBanner from "@/components/TopBanner";
 import CompareWrapper from "@/components/CompareWrapper";
+import { AdminProvider } from "@/components/AdminContext";
+import AdminBar from "@/components/AdminBar";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -26,6 +28,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${montserrat.variable} font-sans antialiased`}>
+        <AdminProvider>
+        <AdminBar />
         <TopBanner />
         <Navbar />
         <CompareWrapper>
@@ -133,6 +137,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </AdminProvider>
       </body>
     </html>
   );

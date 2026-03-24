@@ -15,7 +15,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-beirut",
     name: "Beirut",
-    title: "Car Rental in Beirut Lebanon | Srour Cars",
+    title: "Car Rental in Beirut Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a luxury car in Beirut with free delivery to your hotel or address. SUVs, sedans, convertibles and more — 24/7 support. Book via WhatsApp today.",
     heroDescription:
@@ -36,7 +36,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-tripoli",
     name: "Tripoli",
-    title: "Car Rental in Tripoli Lebanon | Srour Cars",
+    title: "Car Rental in Tripoli Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a car in Tripoli with doorstep delivery. Explore North Lebanon's historic capital with a premium vehicle. Book now via WhatsApp.",
     heroDescription:
@@ -56,7 +56,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-jounieh",
     name: "Jounieh",
-    title: "Car Rental in Jounieh Lebanon | Srour Cars",
+    title: "Car Rental in Jounieh Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a car in Jounieh with free delivery. Explore Jounieh Bay, Casino du Liban, and Harissa. Premium vehicles at competitive prices.",
     heroDescription:
@@ -77,7 +77,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-batroun",
     name: "Batroun",
-    title: "Car Rental in Batroun Lebanon | Srour Cars",
+    title: "Car Rental in Batroun Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a car in Batroun for the ultimate coastal experience. Beach clubs, vineyards, and historic sites. Free delivery to your villa or chalet.",
     heroDescription:
@@ -98,7 +98,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-jbeil",
     name: "Jbeil (Byblos)",
-    title: "Car Rental in Jbeil Byblos Lebanon | Srour Cars",
+    title: "Car Rental in Jbeil Byblos Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a car in Jbeil / Byblos with doorstep delivery. Explore one of the world's oldest cities with a premium rental vehicle.",
     heroDescription:
@@ -119,7 +119,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-sidon",
     name: "Sidon",
-    title: "Car Rental in Sidon Lebanon | Srour Cars",
+    title: "Car Rental in Sidon Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a car in Sidon (Saida) with delivery to your door. Explore South Lebanon's capital and the surrounding historic sites.",
     heroDescription:
@@ -140,7 +140,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-tyre",
     name: "Tyre",
-    title: "Car Rental in Tyre Lebanon | Srour Cars",
+    title: "Car Rental in Tyre Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a car in Tyre (Sour) with free delivery. Explore Roman ruins, golden beaches, and South Lebanon at your own pace.",
     heroDescription:
@@ -160,7 +160,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-faraya",
     name: "Faraya",
-    title: "Car Rental in Faraya Lebanon | Srour Cars",
+    title: "Car Rental in Faraya Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent an SUV or 4x4 in Faraya for skiing and mountain driving. Door-to-door delivery to your chalet. Winter-ready vehicles available.",
     heroDescription:
@@ -181,7 +181,7 @@ export const CITIES: CityData[] = [
   {
     slug: "car-rental-zahle",
     name: "Zahle",
-    title: "Car Rental in Zahle Lebanon | Srour Cars",
+    title: "Car Rental in Zahle Lebanon | Cars Lebanon Rental",
     metaDescription:
       "Rent a car in Zahle to explore the Bekaa Valley. Wine tours, Baalbek temples, and Anjar ruins — all at your fingertips.",
     heroDescription:

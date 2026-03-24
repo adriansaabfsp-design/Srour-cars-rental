@@ -237,3 +237,22 @@ export interface BlogPost {
   createdAt: number;
   updatedAt: number;
 }
+
+export interface FaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+  order: number;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export const FAQ_CATEGORIES = [
+  "How to Rent a Car in Lebanon",
+  "Rental Requirements",
+  "Pricing & Payment",
+  "Pickup & Delivery",
+  "Insurance & Accidents",
+  "Our Fleet & Service",
+] as const;
