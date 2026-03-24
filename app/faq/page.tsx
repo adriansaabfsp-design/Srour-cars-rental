@@ -64,7 +64,14 @@ export default function FaqPage() {
       try {
         const q = query(collection(db, "faqs"), orderBy("order", "asc"));
         const snapshot = await getDocs(q);
-        setFaqs(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as FaqItem[]);
+        if (snapshot.empty) {
+          // Auto-seed on first visit
+          await fetch("/api/seed-faqs", { method: "POST" });
+          const retry = await getDocs(q);
+          setFaqs(retry.docs.map((d) => ({ id: d.id, ...d.data() })) as FaqItem[]);
+        } else {
+          setFaqs(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as FaqItem[]);
+        }
       } catch (err) {
         console.error("Error fetching FAQs:", err);
       } finally {
