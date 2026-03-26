@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, TRANSMISSIONS } from "@/lib/types";
+import { loadPublicCarsCache, savePublicCarsCache } from "@/lib/carCache";
 import CarCard from "@/components/CarCard";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -261,12 +262,20 @@ export default function Home() {
 
 
   useEffect(() => {
+    const cachedCars = loadPublicCarsCache();
+    if (cachedCars.length > 0) {
+      setCars(cachedCars);
+      setLoading(false);
+    }
+
     const fetchCars = async () => {
       try {
         const q = query(collection(db, "cars"), orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as Car[];
-        setCars(data);
+        const publicCars = data.filter((c) => !c.status || c.status === "approved");
+        setCars(publicCars);
+        savePublicCarsCache(publicCars);
       } catch (error) {
         console.error("Error fetching cars:", error);
       } finally {

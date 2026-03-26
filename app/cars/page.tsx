@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, BRANDS, TRANSMISSIONS } from "@/lib/types";
+import { loadPublicCarsCache, savePublicCarsCache } from "@/lib/carCache";
 import CarCard from "@/components/CarCard";
 import Breadcrumb from "@/components/Breadcrumb";
 import Link from "next/link";
@@ -53,13 +54,21 @@ function AllCarsInner() {
   }, [tripParam]);
 
   useEffect(() => {
+    const cachedCars = loadPublicCarsCache();
+    if (cachedCars.length > 0) {
+      setCars(cachedCars);
+      setLoading(false);
+    }
+
     const fetchCars = async () => {
       try {
         const q = query(collection(db, "cars"), orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
         const data = snapshot.docs.map((d) => ({ id: d.id, ...d.data() })) as Car[];
         // Only show approved or legacy (no status) cars
-        setCars(data.filter((c) => !c.status || c.status === "approved"));
+        const publicCars = data.filter((c) => !c.status || c.status === "approved");
+        setCars(publicCars);
+        savePublicCarsCache(publicCars);
       } catch (error) {
         console.error("Error fetching cars:", error);
       } finally {
