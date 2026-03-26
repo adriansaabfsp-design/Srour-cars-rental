@@ -8,9 +8,9 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  onSnapshot,
   query,
   where,
-  orderBy,
 } from "firebase/firestore";
 import {
   ref,
@@ -31,7 +31,6 @@ import {
   ROAD_TYPES,
   TRIP_CATEGORIES,
   CAR_FEATURES,
-  generateCarSlug,
 } from "@/lib/types";
 import { useOwner } from "@/components/OwnerContext";
 import CarCalendar from "@/components/CarCalendar";
@@ -101,26 +100,31 @@ export default function OwnerPortalPage() {
 
   const brandsWithoutAll = BRANDS.filter((b) => b !== "All");
 
-  /* ── Fetch owner's cars ── */
-  const fetchCars = async () => {
-    if (!owner) return;
-    try {
-      const q = query(
-        collection(db, "cars"),
-        where("ownerId", "==", owner.id),
-        orderBy("createdAt", "desc")
-      );
-      const snap = await getDocs(q);
-      setCars(snap.docs.map((d) => ({ id: d.id, ...d.data() })) as Car[]);
-    } catch (err) {
-      console.error("Error fetching owner cars:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    if (isOwner && owner) fetchCars();
+    if (!isOwner || !owner) {
+      setCars([]);
+      setLoading(false);
+      return;
+    }
+
+    setLoading(true);
+
+    const q = query(collection(db, "cars"), where("ownerId", "==", owner.id));
+    const unsubscribe = onSnapshot(
+      q,
+      (snap) => {
+        const nextCars = snap.docs.map((d) => ({ id: d.id, ...d.data() })) as Car[];
+        nextCars.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+        setCars(nextCars);
+        setLoading(false);
+      },
+      (err) => {
+        console.error("Error subscribing to owner cars:", err);
+        setLoading(false);
+      }
+    );
+
+    return () => unsubscribe();
   }, [isOwner, owner]);
 
   /* ── Auth handlers ── */
@@ -238,7 +242,6 @@ export default function OwnerPortalPage() {
       setVideoFile(null);
       setEditingId(null);
       setShowForm(false);
-      await fetchCars();
     } catch (error) {
       console.error("Error saving car:", error);
       alert("Error saving car. Please try again.");
@@ -313,7 +316,6 @@ export default function OwnerPortalPage() {
         }
       }
       await deleteDoc(doc(db, "cars", car.id));
-      await fetchCars();
     } catch (error) {
       console.error("Error deleting car:", error);
       alert("Error deleting car.");

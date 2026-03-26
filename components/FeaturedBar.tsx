@@ -99,7 +99,7 @@ export default function FeaturedBar({ cars, visibleCount }: FeaturedBarProps) {
         {visibleCars.map((car) => (
           <Link
             key={car.id}
-            href={`/cars/${generateCarSlug(car)}`}
+            href={`/cars/${car.id}`}
             className="group relative overflow-hidden border border-gray-200 bg-white transition-all duration-500 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.12)]"
           >
             {/* Image */}

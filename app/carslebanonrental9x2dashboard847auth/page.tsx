@@ -103,6 +103,7 @@ export default function AdminPage() {
   const [deletingOwner, setDeletingOwner] = useState<string | null>(null);
   const [calendarCarId, setCalendarCarId] = useState<string | null>(null);
   const [calendarDates, setCalendarDates] = useState<string[]>([]);
+  const [selectedOwnerId, setSelectedOwnerId] = useState<string | null>(null);
 
   const brandsWithoutAll = BRANDS.filter((b) => b !== "All");
 
@@ -210,6 +211,11 @@ export default function AdminPage() {
     } catch (err) {
       console.error("Error updating blocked dates:", err);
     }
+  };
+
+  const openCarEditor = (car: Car) => {
+    setActiveTab("cars");
+    handleEdit(car);
   };
 
   const generateSlug = (title: string) =>
@@ -2083,7 +2089,13 @@ export default function AdminPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="font-bold text-gray-900">{own.displayName}</h3>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedOwnerId((prev) => (prev === own.id ? null : own.id))}
+                            className="font-bold text-gray-900 transition-colors hover:text-navy"
+                          >
+                            {own.displayName}
+                          </button>
                           <span className="text-[10px] text-gray-900/30">@{own.username}</span>
                         </div>
                         <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-gray-900/40">
@@ -2117,6 +2129,98 @@ export default function AdminPage() {
                         {deletingOwner === own.id ? "..." : "Delete"}
                       </button>
                     </div>
+
+                    {selectedOwnerId === own.id && (
+                      <div className="mt-5 border-t border-luxury-border pt-5">
+                        <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
+                          <div className="border border-luxury-border bg-white p-5">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Owner Profile</p>
+                            <h3 className="mt-3 font-serif text-2xl font-bold text-gray-900">{own.displayName}</h3>
+                            <div className="mt-4 space-y-2 text-sm text-gray-700">
+                              <p><span className="font-semibold text-gray-900">Username:</span> @{own.username}</p>
+                              <p><span className="font-semibold text-gray-900">Email:</span> {own.email || "Not provided"}</p>
+                              <p><span className="font-semibold text-gray-900">Phone:</span> {own.phone}</p>
+                              <p><span className="font-semibold text-gray-900">Password:</span> {own.passwordPlain}</p>
+                              <p><span className="font-semibold text-gray-900">Company:</span> {own.companyName || "Not provided"}</p>
+                              <p><span className="font-semibold text-gray-900">Joined:</span> {new Date(own.createdAt).toLocaleDateString()}</p>
+                            </div>
+                          </div>
+
+                          <div>
+                            <div className="mb-3 flex items-center justify-between">
+                              <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">
+                                Owner Cars ({ownerCars.length})
+                              </p>
+                            </div>
+
+                            {ownerCars.length === 0 ? (
+                              <div className="border border-luxury-border bg-white p-6 text-sm text-gray-500">
+                                This owner has no submitted cars yet.
+                              </div>
+                            ) : (
+                              <div className="space-y-3">
+                                {ownerCars.map((car) => (
+                                  <div key={car.id} className="border border-luxury-border bg-white p-4">
+                                    <div className="flex flex-col gap-4 md:flex-row md:items-center">
+                                      <div className="h-20 w-full overflow-hidden bg-gray-50 md:w-28 md:flex-shrink-0">
+                                        {(car.photos?.main || car.images?.[0]) ? (
+                                          <img src={car.photos?.main || car.images[0]} alt={car.name} className="h-full w-full object-cover" />
+                                        ) : (
+                                          <div className="flex h-full items-center justify-center text-gray-300">No image</div>
+                                        )}
+                                      </div>
+                                      <div className="min-w-0 flex-1">
+                                        <div className="flex items-center gap-2 flex-wrap">
+                                          <h4 className="font-semibold text-gray-900">{car.name}</h4>
+                                          {car.status === "pending" && <span className="bg-yellow-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-yellow-700">Pending</span>}
+                                          {car.status === "approved" && <span className="bg-green-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-green-700">Approved</span>}
+                                          {car.status === "rejected" && <span className="bg-red-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-red-700">Rejected</span>}
+                                        </div>
+                                        <p className="mt-1 text-sm text-gray-500">{car.brand} · {car.year} · ${car.price}/day</p>
+                                      </div>
+                                      <div className="flex flex-wrap gap-2">
+                                        {car.status !== "approved" && (
+                                          <button
+                                            type="button"
+                                            onClick={() => setCarStatus(car.id, "approved")}
+                                            className="border border-green-500/30 bg-green-500/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-green-600 hover:bg-green-500/20"
+                                          >
+                                            Approve
+                                          </button>
+                                        )}
+                                        {car.status !== "rejected" && (
+                                          <button
+                                            type="button"
+                                            onClick={() => setCarStatus(car.id, "rejected")}
+                                            className="border border-red-300/30 bg-red-50 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-red-500 hover:bg-red-100"
+                                          >
+                                            Reject
+                                          </button>
+                                        )}
+                                        <button
+                                          type="button"
+                                          onClick={() => openCarEditor(car)}
+                                          className="border border-navy/30 bg-navy/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-navy hover:bg-navy/20"
+                                        >
+                                          Edit
+                                        </button>
+                                        <button
+                                          type="button"
+                                          onClick={() => handleDelete(car)}
+                                          className="border border-red-500/20 bg-red-500/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-red-400 hover:bg-red-500/20"
+                                        >
+                                          Delete
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 );
               })}

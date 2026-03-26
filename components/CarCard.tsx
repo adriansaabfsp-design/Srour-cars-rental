@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from "react";
 import Link from "next/link";
-import { Car, CarPhotos, generateCarSlug } from "@/lib/types";
+import { Car, CarPhotos } from "@/lib/types";
 import { useCompare } from "@/components/CompareContext";
 
 const PHOTO_ORDER: { key: keyof CarPhotos; label: string }[] = [
@@ -48,7 +48,7 @@ export default function CarCard({ car }: { car: Car }) {
 
   return (
     <Link
-      href={`/cars/${generateCarSlug(car)}`}
+      href={`/cars/${car.id}`}
       className={`group relative block overflow-hidden border border-gray-200 bg-white transition-shadow duration-200 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
       style={{ WebkitTapHighlightColor: "transparent", touchAction: "manipulation" }}
     >
