@@ -18,6 +18,11 @@ export default function CarCard({ car }: { car: Car }) {
   const inCompare = isComparing(car.id);
   const isUnavailable = car.available === false;
 
+  const storeCarPreview = () => {
+    if (typeof window === "undefined") return;
+    sessionStorage.setItem("car_detail_preview", JSON.stringify(car));
+  };
+
   const photoList = (() => {
     if (car.photos && Object.values(car.photos).some(Boolean)) {
       return PHOTO_ORDER.filter((p) => car.photos![p.key]).map((p) => car.photos![p.key]!);
@@ -49,6 +54,7 @@ export default function CarCard({ car }: { car: Car }) {
   return (
     <Link
       href={`/cars/${car.id}`}
+      onClick={storeCarPreview}
       className={`group relative block overflow-hidden border border-gray-200 bg-white transition-shadow duration-200 hover:border-navy/40 hover:shadow-[0_0_30px_rgba(27,58,92,0.15)] ${isUnavailable ? "opacity-60 grayscale-[30%]" : ""}`}
       style={{ WebkitTapHighlightColor: "transparent", touchAction: "manipulation" }}
     >

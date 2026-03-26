@@ -23,13 +23,22 @@ function BookingForm() {
   const carName = searchParams.get("car") || "";
   const carPrice = searchParams.get("price") || "";
   const phone = searchParams.get("phone") || "96181062329";
+  const minDays = Math.max(1, Number(searchParams.get("minDays") || "1"));
 
   const [pickupCity, setPickupCity] = useState("Beirut");
   const [pickupDate, setPickupDate] = useState("");
   const [returnDate, setReturnDate] = useState("");
 
+  useEffect(() => {
+    const start = new Date();
+    const end = new Date();
+    end.setDate(end.getDate() + minDays);
+    setPickupDate(start.toISOString().split("T")[0]);
+    setReturnDate(end.toISOString().split("T")[0]);
+  }, [minDays]);
+
   // Calculate number of days
-  const days =
+  const rawDays =
     pickupDate && returnDate
       ? Math.max(
           1,
@@ -39,6 +48,9 @@ function BookingForm() {
           )
         )
       : 0;
+
+  const days = rawDays > 0 ? Math.max(rawDays, minDays) : 0;
+  const meetsMinDays = rawDays >= minDays;
 
   const totalPrice = days && carPrice ? days * Number(carPrice) : 0;
 
@@ -50,6 +62,7 @@ function BookingForm() {
       `📅 Pickup Date: ${pickupDate || "Not selected"}\n` +
       `📅 Return Date: ${returnDate || "Not selected"}\n` +
       (days ? `📆 Duration: ${days} day${days > 1 ? "s" : ""}\n` : "") +
+        (minDays > 1 ? `📌 Minimum Rental Policy: ${minDays} days\n` : "") +
       (totalPrice ? `💵 Estimated Total: $${totalPrice}\n` : "") +
       `\nIs this car available? Thank you!`
   );
@@ -138,7 +151,23 @@ function BookingForm() {
               <input
                 type="date"
                 value={pickupDate}
-                onChange={(e) => setPickupDate(e.target.value)}
+                min={new Date().toISOString().split("T")[0]}
+                onChange={(e) => {
+                  const nextPickupDate = e.target.value;
+                  setPickupDate(nextPickupDate);
+
+                  if (!nextPickupDate) {
+                    return;
+                  }
+
+                  const nextReturnDate = new Date(nextPickupDate);
+                  nextReturnDate.setDate(nextReturnDate.getDate() + minDays);
+                  const nextReturnValue = nextReturnDate.toISOString().split("T")[0];
+
+                  if (!returnDate || returnDate <= nextPickupDate) {
+                    setReturnDate(nextReturnValue);
+                  }
+                }}
                 className="border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-navy/50 [color-scheme:light]"
               />
             </div>
@@ -151,16 +180,30 @@ function BookingForm() {
               <input
                 type="date"
                 value={returnDate}
+                min={pickupDate || new Date().toISOString().split("T")[0]}
                 onChange={(e) => setReturnDate(e.target.value)}
                 className="border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-900 outline-none transition-colors focus:border-navy/50 [color-scheme:light]"
               />
             </div>
+
+            {minDays > 1 && (
+              <div className="border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+                This car has a minimum rental period of {minDays} days.
+              </div>
+            )}
+
+            {pickupDate && returnDate && !meetsMinDays && (
+              <div className="border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                You must select at least {minDays} rental days for this car.
+              </div>
+            )}
 
             {/* Summary */}
             {days > 0 && (
               <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-4">
                 <span className="text-sm text-gray-500">
                   {days} day{days > 1 ? "s" : ""}
+                  {rawDays > 0 && rawDays < minDays && ` (minimum ${minDays})`}
                 </span>
                 {totalPrice > 0 && (
                   <span className="font-serif text-xl font-bold text-navy">
@@ -174,10 +217,15 @@ function BookingForm() {
           {/* Check Availability Button */}
           <div className="mt-6">
             <a
-              href={waUrl}
+              href={meetsMinDays ? waUrl : undefined}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex w-full items-center justify-center gap-3 bg-navy px-8 py-4 text-[13px] font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] active:scale-[0.98]"
+              aria-disabled={!meetsMinDays}
+              className={`group inline-flex w-full items-center justify-center gap-3 px-8 py-4 text-[13px] font-bold uppercase tracking-[0.15em] text-white transition-all duration-300 ${
+                meetsMinDays
+                  ? "bg-navy hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] active:scale-[0.98]"
+                  : "cursor-not-allowed bg-gray-300 text-gray-500"
+              }`}
             >
               <svg
                 className="h-5 w-5 transition-transform group-hover:scale-110"

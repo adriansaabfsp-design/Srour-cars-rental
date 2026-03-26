@@ -7,7 +7,6 @@ import { db } from "@/lib/firebase";
 import { Car, CAR_CATEGORIES, BRANDS, TRANSMISSIONS } from "@/lib/types";
 import CarCard from "@/components/CarCard";
 import Breadcrumb from "@/components/Breadcrumb";
-import PriceCalculator from "@/components/PriceCalculator";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -477,9 +476,6 @@ function AllCarsInner() {
           </>
         )}
       </div>
-
-      {/* Floating Price Calculator */}
-      <PriceCalculator />
     </div>
   );
 }

@@ -15,8 +15,17 @@ interface PriceCalculatorProps {
 }
 
 export default function PriceCalculator({ dailyPrice, label, minDays, initialOpen, inline }: PriceCalculatorProps) {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const effectiveMinDays = minDays && minDays > 1 ? minDays : 1;
+
+  const getToday = () => new Date().toISOString().split("T")[0];
+  const getDefaultReturnDate = () => {
+    const nextDate = new Date();
+    nextDate.setDate(nextDate.getDate() + effectiveMinDays);
+    return nextDate.toISOString().split("T")[0];
+  };
+
+  const [startDate, setStartDate] = useState(() => getToday());
+  const [endDate, setEndDate] = useState(() => getDefaultReturnDate());
   const [open, setOpen] = useState(initialOpen ?? false);
   const [customPrice, setCustomPrice] = useState("");
   const barRef = useRef<HTMLDivElement>(null);
@@ -36,14 +45,17 @@ export default function PriceCalculator({ dailyPrice, label, minDays, initialOpe
         )
       : 0;
 
-  // Enforce minimum rental days
-  const effectiveMinDays = minDays && minDays > 1 ? minDays : 1;
   const days = rawDays > 0 ? Math.max(rawDays, effectiveMinDays) : 0;
 
   const total = days > 0 && price > 0 ? days * price : 0;
 
   // Today string for min attr
-  const today = new Date().toISOString().split("T")[0];
+  const today = getToday();
+
+  useEffect(() => {
+    setStartDate(getToday());
+    setEndDate(getDefaultReturnDate());
+  }, [effectiveMinDays]);
 
   // Close on outside click
   useEffect(() => {

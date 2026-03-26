@@ -24,6 +24,23 @@ export default function CarDetailPage() {
   const inCompare = car ? isComparing(car.id) : false;
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const preview = sessionStorage.getItem("car_detail_preview");
+    if (!preview) return;
+
+    try {
+      const parsed = JSON.parse(preview) as Car;
+      if (parsed.id === params.id && (!parsed.status || parsed.status === "approved")) {
+        setCar(parsed);
+        setLoading(false);
+      }
+    } catch {
+      sessionStorage.removeItem("car_detail_preview");
+    }
+  }, [params.id]);
+
+  useEffect(() => {
     const fetchCar = async () => {
       try {
         const slug = params.id as string;
@@ -210,7 +227,7 @@ export default function CarDetailPage() {
                   {inCompare ? "Added" : "Compare"}
                 </button>
                 <Link
-                  href={`/book?car=${encodeURIComponent(car.name)}&price=${car.price}&phone=${car.whatsapp}`}
+                  href={`/book?car=${encodeURIComponent(car.name)}&price=${car.price}&phone=${car.whatsapp}&minDays=${car.minDays || 1}`}
                   className="group inline-flex flex-1 items-center justify-center gap-2 bg-navy px-4 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] active:scale-[0.98] sm:gap-3 sm:px-8 sm:text-[13px] sm:tracking-[0.15em]"
                 >
                   <svg className="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
