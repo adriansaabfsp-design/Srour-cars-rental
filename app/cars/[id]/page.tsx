@@ -11,7 +11,6 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useCompare } from "@/components/CompareContext";
 import PriceCalculator from "@/components/PriceCalculator";
-import CarCalendar from "@/components/CarCalendar";
 import Link from "next/link";
 
 export default function CarDetailPage() {
@@ -110,7 +109,7 @@ export default function CarDetailPage() {
 
   return (
     <div className="min-h-screen bg-luxury-black">
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8 xl:px-10 sm:px-6 lg:px-8">
         {/* Breadcrumb */}
         <div className="mb-8">
           <Breadcrumb items={[
@@ -121,9 +120,9 @@ export default function CarDetailPage() {
           ]} />
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-5">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-start">
           {/* Gallery - takes 3 columns */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-7 lg:sticky lg:top-24">
             <ImageGallery
               photos={car.photos}
               images={car.images}
@@ -134,7 +133,7 @@ export default function CarDetailPage() {
           </div>
 
           {/* Info Panel - takes 2 columns */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-5 lg:sticky lg:top-24">
             <div className="border border-luxury-border bg-luxury-card p-8">
               {/* Badges: brand, available, featured */}
               <div className="mb-2 flex items-center gap-3 flex-wrap">
@@ -289,17 +288,6 @@ export default function CarDetailPage() {
                         </span>
                       </div>
                     ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Blocked dates calendar — read only */}
-              {car.blockedDates && car.blockedDates.length > 0 && (
-                <div className="mt-6">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-900/30">Availability Calendar</h3>
-                  <p className="mt-1 text-[11px] text-gray-500">Red dates are unavailable.</p>
-                  <div className="mt-3">
-                    <CarCalendar blockedDates={car.blockedDates} onChange={() => {}} readOnly />
                   </div>
                 </div>
               )}

@@ -1690,38 +1690,17 @@ export default function AdminPage() {
                     )}
 
                     {/* Calendar */}
-                    <button
-                      onClick={() => {
-                        if (calendarCarId === car.id) {
-                          setCalendarCarId(null);
-                        } else {
-                          setCalendarCarId(car.id);
-                          setCalendarDates(car.blockedDates || []);
-                        }
-                      }}
-                      className="border border-luxury-border px-3 py-2 text-[10px] font-bold uppercase text-gray-900/50 hover:bg-gray-50"
+                    <a
+                      href={`/manage-calendar/${car.id}`}
+                      className="border border-luxury-border px-3 py-2 text-[10px] font-bold uppercase text-gray-900/50 hover:bg-gray-50 flex items-center justify-center transition-colors"
                       title="Manage blocked dates"
                     >
-                      📅
-                    </button>
+                      📅 Manage Calendar
+                    </a>
                   </div>
                 </div>
 
-                {/* Calendar panel */}
-                {calendarCarId === car.id && (
-                  <div className="mt-4 border-t border-luxury-border pt-4">
-                    <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/30">
-                      Blocked Dates Calendar — click to toggle
-                    </p>
-                    <CarCalendar
-                      blockedDates={calendarDates}
-                      onChange={(dates) => {
-                        setCalendarDates(dates);
-                        saveBlockedDates(car.id, dates);
-                      }}
-                    />
-                  </div>
-                )}
+                
 
                 {/* Expanded Renter Info — shown when car is rented */}
                 {car.available === false && (car.currentRenterName || car.currentRenterPhone || car.availableEta || car.availableFrom) && (

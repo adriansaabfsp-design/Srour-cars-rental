@@ -1211,20 +1211,13 @@ export default function OwnerPortalPage() {
 
                   {/* Actions */}
                   <div className="flex gap-2 flex-shrink-0">
-                    <button
-                      onClick={() => {
-                        if (calendarCarId === car.id) {
-                          setCalendarCarId(null);
-                        } else {
-                          setCalendarCarId(car.id);
-                          setCalendarDates(car.blockedDates || []);
-                        }
-                      }}
-                      className="border border-luxury-border px-3 py-1.5 text-[10px] font-bold uppercase text-gray-900/50 hover:bg-gray-50"
+                    <a
+                      href={`/manage-calendar/${car.id}`}
+                      className="border border-luxury-border px-3 py-1.5 text-[10px] font-bold uppercase text-gray-900/50 hover:bg-gray-50 flex items-center justify-center transition-colors"
                       title="Manage availability calendar"
                     >
-                      📅
-                    </button>
+                      📅 Update Availability
+                    </a>
                     <button
                       onClick={() => handleEdit(car)}
                       className="border border-luxury-border px-3 py-1.5 text-[10px] font-bold uppercase text-navy hover:bg-navy/5"
@@ -1241,21 +1234,7 @@ export default function OwnerPortalPage() {
                   </div>
                 </div>
 
-                {/* Calendar panel */}
-                {calendarCarId === car.id && (
-                  <div className="mt-4 border-t border-luxury-border pt-4">
-                    <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/30">
-                      Availability Calendar — click dates to block/unblock
-                    </p>
-                    <CarCalendar
-                      blockedDates={calendarDates}
-                      onChange={(dates) => {
-                        setCalendarDates(dates);
-                        saveBlockedDates(car.id, dates);
-                      }}
-                    />
-                  </div>
-                )}
+                
               </div>
             ))}
           </div>
