@@ -328,96 +328,70 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-luxury-black">
       {/* ─── HERO ─── */}
-      {/* MOBILE: video hero */}
-      <section className="relative overflow-hidden sm:hidden bg-luxury-black">
-        <div className="relative aspect-video">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
-            src="/new-hero-compressed.mp4"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/15 to-black/35" />
+      <section className="relative overflow-hidden" style={{ height: "clamp(480px, 60vw, 85vh)" }}>
+        <Image
+          src="/hero-car.png"
+          alt="Luxury car on Lebanese mountain road"
+          fill
+          priority
+          className="object-cover"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/10" />
+        <div className="absolute inset-x-0 bottom-0 px-4 pb-8 sm:pb-14 sm:px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <h1 className="mb-5 text-2xl font-extrabold leading-tight text-white drop-shadow-lg sm:text-4xl lg:text-5xl">
+              Discover Lebanon&apos;s Premium Car Rentals
+            </h1>
+            <div className="flex items-stretch gap-2">
+              <div className="relative flex-1">
+                <svg
+                  className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 sm:left-4 sm:h-5 sm:w-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") handleSearch(); }}
+                  placeholder="Search by name, brand, year..."
+                  className="w-full border border-white/20 bg-white/95 py-3 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-4 sm:pl-12 sm:text-sm rounded-sm"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+                  >
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+              <button
+                onClick={handleSearch}
+                className="flex items-center gap-1.5 bg-navy px-4 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-navy-light sm:px-6 sm:py-4 sm:text-[12px] rounded-sm"
+              >
+                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                <span className="hidden sm:inline">Search</span>
+              </button>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* DESKTOP: video hero */}
-      <section className="relative hidden w-full overflow-hidden bg-black sm:block" style={{ height: "clamp(400px, 56.25vw, 80vh)" }}>
-          {/* Video background */}
-          <div className="absolute inset-0">
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className="h-full w-full object-cover brightness-125 contrast-110 saturate-110"
-              src="/new-hero-compressed.mp4"
-            />
-          </div>
-
-          {/* overlays */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/15 to-black/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-black/15" />
-      </section>
-
-      {/* ─── SEARCH & FILTERS (under hero) ─── */}
+      {/* ─── FILTERS (under hero) ─── */}
       <div className="bg-[#D6EEFB]">
-        <div id="collection" className="mx-auto max-w-7xl px-4 pt-8 pb-6 sm:px-6 sm:pt-12 sm:pb-8 lg:px-8">
-          {/* Intro headline */}
-          <div className="mb-5 text-center sm:mb-8">
-            <h1 className="text-2xl font-extrabold text-[#1a4b6e] sm:text-4xl lg:text-5xl leading-tight">
-              Discover Lebanon&apos;s Premium Car Rentals
-            </h1>
-          </div>
-              {/* Search bar - own row */}
-              <div className="mx-auto mb-2 max-w-2xl">
-                <div className="flex items-stretch gap-2">
-                  <div className="relative flex-1">
-                    <svg
-                      className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400 sm:left-4 sm:h-5 sm:w-5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyDown={(e) => { if (e.key === "Enter") handleSearch(); }}
-                      placeholder="Search by name, brand, year..."
-                      className="w-full border border-gray-300 bg-white py-3 pl-10 pr-4 text-[13px] font-bold text-gray-900 placeholder-gray-400 placeholder:font-bold outline-none transition-all focus:border-navy focus:ring-1 focus:ring-navy sm:py-4 sm:pl-12 sm:text-sm rounded-sm"
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
-                      >
-                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                      </button>
-                    )}
-                  </div>
-                  <button
-                    onClick={handleSearch}
-                    className="flex items-center gap-1.5 bg-navy px-4 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-white transition-colors hover:bg-navy-light sm:px-6 sm:py-4 sm:text-[12px] rounded-sm"
-                  >
-                    <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                    <span className="hidden sm:inline">Search</span>
-                  </button>
-                </div>
-              </div>
-              <p className="mx-auto max-w-xl text-center text-sm text-[#1a4b6e]/60 mb-3">
-                50+ handpicked cars for every road, season, and adventure across Lebanon.
-              </p>
+        <div id="collection" className="mx-auto max-w-7xl px-4 pt-4 pb-4 sm:px-6 sm:pt-6 sm:pb-6 lg:px-8">
+          <p className="mx-auto max-w-xl text-center text-sm text-[#1a4b6e]/60 mb-3">
+            50+ handpicked cars for every road, season, and adventure across Lebanon.
+          </p>
 
               {/* Price range slider - always visible */}
               {priceInited && dataMaxPrice > dataMinPrice && (
