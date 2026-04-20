@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 
 const MatchMyTrip = dynamic(() => import("@/components/MatchMyTrip"));
 const LebanonMap = dynamic(() => import("@/components/LebanonMap"));
-const WeatherWidget = dynamic(() => import("@/components/WeatherWidget"));
 
 const PROPERTY_IMAGES = [
   "/property-1.jpeg",
@@ -35,7 +34,7 @@ function PropertySlideshow() {
   }, []);
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div className="relative h-full w-full overflow-hidden rounded-2xl">
       <img
         src={PROPERTY_IMAGES[currentIdx]}
         alt="Lebanon Rental property"
@@ -381,6 +380,18 @@ export default function Home() {
                 </svg>
                 <span className="hidden sm:inline">Search</span>
               </button>
+              <button
+                onClick={() => {
+                  setShowMoreFilters(true);
+                  document.getElementById("collection")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+                className="flex items-center gap-1.5 border border-white/30 bg-white/95 px-4 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-[#1a4b6e] transition-colors hover:bg-white sm:px-6 sm:py-4 sm:text-[12px] rounded-sm"
+              >
+                <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                <span className="hidden sm:inline">Filters</span>
+              </button>
             </div>
           </div>
         </div>
@@ -426,19 +437,6 @@ export default function Home() {
                   </div>
                 </div>
               )}
-
-              {/* FILTERS toggle */}
-              <div className="mx-auto max-w-2xl mb-1">
-                <button
-                  onClick={() => setShowMoreFilters(!showMoreFilters)}
-                  className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-[#1a4b6e] transition-colors hover:text-[#1a4b6e]/70 sm:text-[12px]"
-                >
-                  <svg className={`h-4 w-4 transition-transform ${showMoreFilters ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                  Filters
-                </button>
-              </div>
 
               {/* Collapsible filter panel */}
               {showMoreFilters && (
@@ -583,34 +581,34 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── TRAVEL INSIGHTS (animated tabs) ─── */}
+      <InsightsSection />
+
       {/* ─── EXPLORE LEBANON MAP ─── */}
       <LebanonMap />
 
-      {/* ─── LIVE WEATHER ─── */}
-      <WeatherWidget />
-
       {/* ─── COMPLETE YOUR STAY ─── */}
       <section className="relative overflow-hidden border-b border-luxury-border">
-        <div className="relative mx-auto max-w-6xl px-3 py-4 sm:px-6 sm:py-10">
-          <div className="flex items-stretch gap-3 sm:gap-8">
+        <div className="relative mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-20 lg:py-24">
+          <div className="flex flex-col items-stretch gap-6 sm:flex-row sm:gap-12 lg:gap-16">
             {/* Left: text */}
             <div className="flex flex-1 flex-col justify-center">
-              <p className="text-[8px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[10px] sm:tracking-[0.5em]">
+              <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[12px] sm:tracking-[0.5em]">
                 Cross Promotion
               </p>
-              <h2 className="mt-1 font-serif text-base font-bold text-gray-900 leading-tight sm:mt-2 sm:text-2xl lg:text-3xl">
+              <h2 className="mt-3 font-serif text-3xl font-bold text-gray-900 leading-tight sm:mt-4 sm:text-5xl lg:text-6xl">
                 STAYING IN LEBANON?
               </h2>
-              <p className="mt-1 text-[11px] font-medium leading-snug text-navy sm:mt-2 sm:text-sm">
+              <p className="mt-3 text-base font-medium leading-snug text-navy sm:mt-5 sm:text-xl lg:text-2xl">
                 Get a premium car delivered to your villa or chalet
               </p>
-              <p className="mt-1 hidden text-[12px] leading-relaxed text-gray-900/30 sm:block">
+              <p className="mt-2 text-sm leading-relaxed text-gray-900/40 sm:mt-4 sm:text-base">
                 Priority delivery to 1,000+ properties across Lebanon.
               </p>
-              <div className="mt-2 flex items-center gap-2 sm:mt-3">
+              <div className="mt-5 flex items-center gap-3 sm:mt-8">
                 <Link
                   href="/cars"
-                  className="inline-block border border-navy bg-navy px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-white transition-all hover:bg-navy-light sm:px-5 sm:py-2.5 sm:text-[11px] sm:tracking-[0.2em]"
+                  className="inline-block rounded-sm border border-navy bg-navy px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light sm:px-8 sm:py-4 sm:text-[13px]"
                 >
                   Our Fleet
                 </Link>
@@ -618,7 +616,7 @@ export default function Home() {
                   href="https://lebanon-rental.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block border border-gray-300 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[0.15em] text-gray-900/50 transition-all hover:bg-gray-100 sm:px-5 sm:py-2.5 sm:text-[11px] sm:tracking-[0.2em]"
+                  className="inline-block rounded-sm border border-gray-300 px-5 py-2.5 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-900/50 transition-all hover:bg-gray-100 sm:px-8 sm:py-4 sm:text-[13px]"
                 >
                   Properties &rarr;
                 </a>
@@ -626,17 +624,14 @@ export default function Home() {
             </div>
 
             {/* Right: looping property photos */}
-            <div className="relative w-[42%] flex-shrink-0 overflow-hidden rounded-sm sm:w-[340px] lg:w-[400px]">
-              <div className="relative h-full min-h-[140px] sm:min-h-[200px]">
+            <div className="relative w-full flex-shrink-0 overflow-hidden rounded-2xl shadow-xl shadow-black/10 sm:w-[440px] lg:w-[560px]">
+              <div className="relative h-full min-h-[240px] sm:min-h-[360px] lg:min-h-[440px]">
                 <PropertySlideshow />
               </div>
             </div>
           </div>
         </div>
       </section>
-
-      {/* ─── TRAVEL INSIGHTS (animated tabs) ─── */}
-      <InsightsSection />
 
       {/* ─── MATCH MY TRIP QUIZ ─── */}
       <MatchMyTrip />
