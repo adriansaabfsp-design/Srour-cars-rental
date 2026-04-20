@@ -330,8 +330,8 @@ export default function Home() {
       {/* ─── HERO ─── */}
       <section className="relative overflow-hidden" style={{ height: "clamp(480px, 60vw, 85vh)" }}>
         <Image
-          src="/hero-car.png"
-          alt="Luxury car on Lebanese mountain road"
+          src="/hero.jpg"
+          alt="Luxury convertible on the Lebanese coast at sunset"
           fill
           priority
           className="object-cover"
