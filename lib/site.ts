@@ -1,0 +1,2 @@
+export const SITE_WHATSAPP = "96181062329";
+export const SITE_PHONE_DISPLAY = "+961 81 062 329";

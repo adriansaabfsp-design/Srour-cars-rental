@@ -67,6 +67,14 @@ export interface Car {
   ownerName?: string;
   status?: CarStatus;
   blockedDates?: string[];
+  /* owner-submitted (private; admin-visible only). Public fields above are admin-controlled
+     and mirror these at creation, then diverge when admin edits. */
+  ownerPrice?: number;
+  ownerDescription?: string;
+  ownerPhotos?: CarPhotos;
+  ownerGallery?: string[];
+  ownerPriceUpdatedAt?: number;
+  ownerPriceReviewedAt?: number;
 }
 
 export type CarStatus = "pending" | "approved" | "rejected";

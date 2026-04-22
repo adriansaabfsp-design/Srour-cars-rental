@@ -226,7 +226,7 @@ export default function CarDetailPage() {
                   {inCompare ? "Added" : "Compare"}
                 </button>
                 <Link
-                  href={`/book?car=${encodeURIComponent(car.name)}&price=${car.price}&phone=${car.whatsapp}&minDays=${car.minDays || 1}`}
+                  href={`/book?car=${encodeURIComponent(car.name)}&price=${car.price}&minDays=${car.minDays || 1}`}
                   className="group inline-flex flex-1 items-center justify-center gap-2 bg-navy px-4 py-4 text-[12px] font-bold uppercase tracking-[0.12em] text-white transition-all duration-300 hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.3)] active:scale-[0.98] sm:gap-3 sm:px-8 sm:text-[13px] sm:tracking-[0.15em]"
                 >
                   <svg className="h-5 w-5 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">

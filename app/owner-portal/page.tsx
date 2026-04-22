@@ -195,32 +195,60 @@ export default function OwnerPortalPage() {
         videoUrl = await uploadVideo(videoFile);
       }
 
-      const carData: Record<string, unknown> = {
-        name: form.name,
-        brand: form.brand,
-        year: Number(form.year),
-        price: Number(form.price),
-        mileage: Number(form.mileage),
-        fuel: form.fuel,
-        transmission: form.transmission,
-        seats: Number(form.seats),
-        description: form.description,
-        whatsapp: form.whatsapp,
-        images: imageUrls,
-        photos,
-        available: form.available,
-        videoUrl: videoUrl || "",
-        category: form.category,
-        roadTypes: form.roadTypes,
-        tripCategory: form.tripCategory === "None" ? "" : form.tripCategory,
-        features: form.features,
-        minDays: Number(form.minDays) || 1,
-        gallery: galleryUrls,
-        blockedDates: form.blockedDates,
-        ownerId: owner.id,
-        ownerName: owner.displayName,
-        status: editingId ? undefined : "pending",
-      };
+      const priceNum = Number(form.price);
+      const existing = editingId ? cars.find((c) => c.id === editingId) : null;
+      const priorOwnerPrice = existing?.ownerPrice ?? existing?.price;
+      const priceChanged = editingId && priorOwnerPrice !== priceNum;
+      const now = Date.now();
+
+      let carData: Record<string, unknown>;
+
+      if (editingId) {
+        // Edit flow — only owner-side fields are updated. Public fields (price, description,
+        // photos, gallery, name, etc.) stay frozen at whatever admin has set.
+        carData = {
+          ownerPrice: priceNum,
+          ownerDescription: form.description,
+          ownerPhotos: photos,
+          ownerGallery: galleryUrls,
+          whatsapp: form.whatsapp, // owner contact (admin reference only)
+          blockedDates: form.blockedDates,
+          ownerPriceUpdatedAt: priceChanged ? now : undefined,
+        };
+      } else {
+        // New submission — public and owner-side fields start mirrored; admin can diverge later.
+        carData = {
+          name: form.name,
+          brand: form.brand,
+          year: Number(form.year),
+          price: priceNum,
+          mileage: Number(form.mileage),
+          fuel: form.fuel,
+          transmission: form.transmission,
+          seats: Number(form.seats),
+          description: form.description,
+          whatsapp: form.whatsapp,
+          images: imageUrls,
+          photos,
+          available: form.available,
+          videoUrl: videoUrl || "",
+          category: form.category,
+          roadTypes: form.roadTypes,
+          tripCategory: form.tripCategory === "None" ? "" : form.tripCategory,
+          features: form.features,
+          minDays: Number(form.minDays) || 1,
+          gallery: galleryUrls,
+          blockedDates: form.blockedDates,
+          ownerId: owner.id,
+          ownerName: owner.displayName,
+          status: "pending",
+          ownerPrice: priceNum,
+          ownerDescription: form.description,
+          ownerPhotos: photos,
+          ownerGallery: galleryUrls,
+          ownerPriceReviewedAt: now,
+        };
+      }
 
       const cleanData = Object.fromEntries(
         Object.entries(carData).filter(([, v]) => v !== undefined)
@@ -252,24 +280,26 @@ export default function OwnerPortalPage() {
 
   /* ── Edit car ── */
   const handleEdit = (car: Car) => {
+    // Owner always sees their own submitted version — never admin's public edits.
+    const ownerPhotos = car.ownerPhotos || car.photos || {
+      main: car.images?.[0] || "",
+      front: car.images?.[1] || "",
+      back: car.images?.[2] || "",
+      left: car.images?.[3] || "",
+      right: car.images?.[4] || "",
+    };
     setForm({
       name: car.name,
       brand: car.brand,
       year: car.year,
-      price: car.price,
+      price: car.ownerPrice ?? car.price,
       mileage: car.mileage,
       fuel: car.fuel,
       transmission: car.transmission,
       seats: car.seats,
-      description: car.description,
+      description: car.ownerDescription ?? car.description,
       whatsapp: car.whatsapp,
-      photos: car.photos || {
-        main: car.images?.[0] || "",
-        front: car.images?.[1] || "",
-        back: car.images?.[2] || "",
-        left: car.images?.[3] || "",
-        right: car.images?.[4] || "",
-      },
+      photos: ownerPhotos,
       available: car.available !== false,
       videoUrl: car.videoUrl || "",
       category: car.category || "Sedan",
@@ -283,7 +313,7 @@ export default function OwnerPortalPage() {
     setEditingId(car.id);
     setPhotoFiles({});
     setGalleryFiles([]);
-    setExistingGallery(car.gallery || []);
+    setExistingGallery(car.ownerGallery ?? car.gallery ?? []);
     setVideoFile(null);
     setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1250,7 +1280,10 @@ export default function OwnerPortalPage() {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {cars.map((car) => {
-              const thumb = car.photos?.main || car.images?.[0];
+              // Owner view: always show owner-submitted values, never admin's public edits.
+              const ownerPrice = car.ownerPrice ?? car.price;
+              const ownerPhotosMain = car.ownerPhotos?.main;
+              const thumb = ownerPhotosMain || car.photos?.main || car.images?.[0];
               return (
                 <div
                   key={car.id}
@@ -1297,7 +1330,7 @@ export default function OwnerPortalPage() {
                       </div>
                       <div className="flex-shrink-0 text-right">
                         <p className="font-serif text-xl font-bold text-gray-900">
-                          ${car.price}
+                          ${ownerPrice}
                         </p>
                         <p className="text-[9px] font-bold uppercase tracking-wider text-gray-900/30">
                           / day

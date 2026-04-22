@@ -425,6 +425,7 @@ export default function AdminPage() {
         videoUrl = await uploadVideo(videoFile);
       }
 
+      const editingCarForSave = editingId ? cars.find((c) => c.id === editingId) : null;
       const carData = {
         name: form.name,
         brand: form.brand,
@@ -454,6 +455,8 @@ export default function AdminPage() {
         minDays: Number(form.minDays) || 1,
         gallery: galleryUrls,
         createdAt: editingId ? undefined : Date.now(),
+        // Clear the owner's "price updated" flag for owner-submitted cars when admin saves.
+        ownerPriceReviewedAt: editingCarForSave?.ownerId ? Date.now() : undefined,
       };
 
       const cleanData = Object.fromEntries(
@@ -696,8 +699,57 @@ export default function AdminPage() {
           </button>
         </div>
 
-        {activeTab === "cars" && (
+        {activeTab === "cars" && (() => {
+          const pendingCount = cars.filter((c) => c.status === "pending").length;
+          const priceUpdatesCount = cars.filter((c) => c.ownerId && c.status !== "pending" && (c.ownerPriceUpdatedAt ?? 0) > (c.ownerPriceReviewedAt ?? 0)).length;
+          return (
         <>
+        {/* Review notifications */}
+        {(pendingCount > 0 || priceUpdatesCount > 0) && (
+          <div className="mb-6 space-y-2">
+            {pendingCount > 0 && (
+              <div className="flex flex-wrap items-center justify-between gap-3 border border-yellow-300 bg-yellow-50 px-4 py-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center bg-yellow-400 text-yellow-900">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01M12 3a9 9 0 100 18 9 9 0 000-18z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-yellow-900">New Submissions</p>
+                    <p className="text-[12px] text-yellow-900">
+                      {pendingCount} owner {pendingCount === 1 ? "submission is" : "submissions are"} awaiting review.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setAdminFilter("pending")}
+                  className="inline-flex items-center gap-1 bg-yellow-900 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-yellow-800"
+                >
+                  View {pendingCount}
+                </button>
+              </div>
+            )}
+            {priceUpdatesCount > 0 && (
+              <div className="flex flex-wrap items-center justify-between gap-3 border border-red-300 bg-red-50 px-4 py-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="flex h-8 w-8 items-center justify-center bg-red-500 text-white">
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-red-800">Price Updates</p>
+                    <p className="text-[12px] text-red-900">
+                      {priceUpdatesCount} {priceUpdatesCount === 1 ? "owner has" : "owners have"} changed their suggested price.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Stats strip */}
         <div className="mb-6 grid grid-cols-2 gap-px overflow-hidden border border-luxury-border bg-luxury-border sm:grid-cols-4">
           {[
@@ -756,7 +808,9 @@ export default function AdminPage() {
         </div>
 
         {/* Form */}
-        {showForm && (
+        {showForm && (() => {
+          const editingCar = editingId ? cars.find((c) => c.id === editingId) : null;
+          return (
           <form
             onSubmit={handleSubmit}
             className="mb-10 border border-luxury-border bg-luxury-card p-6 sm:p-8"
@@ -809,7 +863,7 @@ export default function AdminPage() {
 
               {/* Price */}
               <div>
-                <label className={labelCls}>Price ($/day) *</label>
+                <label className={labelCls}>Public Price ($/day) *</label>
                 <input
                   required
                   type="number"
@@ -818,6 +872,31 @@ export default function AdminPage() {
                   onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
                   className={inputCls}
                 />
+                {editingCar?.ownerId && editingCar.ownerPrice != null && (
+                  <div className="mt-2 flex flex-wrap items-center gap-2">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-gray-900/40">
+                      Owner suggests:
+                    </span>
+                    <span className="inline-flex items-center gap-1 bg-yellow-50 px-2 py-0.5 text-[11px] font-bold text-yellow-800">
+                      ${editingCar.ownerPrice}/day
+                    </span>
+                    {editingCar.ownerPrice !== form.price && (
+                      <button
+                        type="button"
+                        onClick={() => setForm({ ...form, price: editingCar.ownerPrice! })}
+                        className="text-[9px] font-bold uppercase tracking-wider text-navy hover:underline"
+                      >
+                        Use this
+                      </button>
+                    )}
+                    {(editingCar.ownerPriceUpdatedAt ?? 0) > (editingCar.ownerPriceReviewedAt ?? 0) && (
+                      <span className="inline-flex items-center gap-1 bg-red-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-red-700">
+                        <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
+                        New Update
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Minimum Rental Days */}
@@ -1074,7 +1153,7 @@ export default function AdminPage() {
 
               {/* Description */}
               <div className="sm:col-span-2">
-                <label className={labelCls}>Description</label>
+                <label className={labelCls}>Public Description</label>
                 <textarea
                   rows={3}
                   placeholder="Describe the car..."
@@ -1082,6 +1161,27 @@ export default function AdminPage() {
                   onChange={(e) => setForm({ ...form, description: e.target.value })}
                   className={inputCls}
                 />
+                {editingCar?.ownerId && editingCar.ownerDescription && (
+                  <div className="mt-2 border border-yellow-200 bg-yellow-50 p-3">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-[9px] font-bold uppercase tracking-wider text-yellow-800">
+                        Owner&apos;s Description
+                      </p>
+                      {editingCar.ownerDescription !== form.description && (
+                        <button
+                          type="button"
+                          onClick={() => setForm({ ...form, description: editingCar.ownerDescription! })}
+                          className="text-[9px] font-bold uppercase tracking-wider text-navy hover:underline"
+                        >
+                          Use this
+                        </button>
+                      )}
+                    </div>
+                    <p className="mt-1.5 whitespace-pre-line text-[12px] leading-relaxed text-gray-700">
+                      {editingCar.ownerDescription}
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Toggles: Available & Featured */}
@@ -1473,7 +1573,8 @@ export default function AdminPage() {
               </button>
             </div>
           </form>
-        )}
+          );
+        })()}
 
         {/* Admin Search & Filters */}
         <div className="mb-5 space-y-3">
@@ -1707,6 +1808,32 @@ export default function AdminPage() {
                       </div>
                     </div>
 
+                    {/* Price update notification — owner changed their suggested price */}
+                    {car.ownerId && car.status !== "pending" && (car.ownerPriceUpdatedAt ?? 0) > (car.ownerPriceReviewedAt ?? 0) && (
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-red-400/40 bg-red-50 px-3 py-2.5">
+                        <div className="flex items-center gap-2">
+                          <svg className="h-4 w-4 text-red-600" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                          </svg>
+                          <div>
+                            <p className="text-[11px] font-bold uppercase tracking-wider text-red-700">
+                              Price Update
+                            </p>
+                            <p className="text-[11px] text-red-900">
+                              Owner changed suggested price to <span className="font-bold">${car.ownerPrice}/day</span>
+                              {car.ownerPrice !== car.price && <> · public is <span className="font-bold">${car.price}/day</span></>}
+                            </p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => handleEdit(car)}
+                          className="inline-flex items-center gap-1 bg-navy px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-navy-light"
+                        >
+                          Review
+                        </button>
+                      </div>
+                    )}
+
                     {/* Approve/Reject review banner for pending owner submissions */}
                     {car.ownerId && car.status === "pending" && (
                       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-yellow-400/40 bg-yellow-50 px-3 py-2.5">
@@ -1904,7 +2031,8 @@ export default function AdminPage() {
           </div>
         )}
         </>
-        )}
+          );
+        })()}
 
         {/* ── Blog Tab ── */}
         {activeTab === "blog" && (
