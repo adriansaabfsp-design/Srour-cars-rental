@@ -593,30 +593,83 @@ export default function OwnerPortalPage() {
   }
 
   /* ────────────────────────── DASHBOARD ────────────────────────── */
+  const totalCars = cars.length;
+  const approvedCount = cars.filter((c) => c.status === "approved").length;
+  const pendingCount = cars.filter((c) => !c.status || c.status === "pending").length;
+  const unavailableCount = cars.filter((c) => c.available === false).length;
+
   return (
     <div className="min-h-screen bg-luxury-black">
-      <div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-6 flex items-center justify-between">
-          <div>
-            <h1 className="font-serif text-3xl font-bold text-gray-900">
-              OWNER PORTAL
-            </h1>
-            <p className="mt-1 text-sm text-gray-900/30">
-              Welcome, {owner?.displayName}
-              {owner?.companyName ? ` — ${owner.companyName}` : ""}
-            </p>
-          </div>
-          <button
-            onClick={logout}
-            className="border border-luxury-border px-4 py-2 text-[11px] font-bold uppercase tracking-wider text-gray-900/50 transition-colors hover:bg-red-50 hover:text-red-600 hover:border-red-200"
-          >
-            Log Out
-          </button>
+      {/* ─── Header band ─── */}
+      <section className="relative overflow-hidden border-b border-luxury-border bg-luxury-card">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.04]">
+          <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-navy blur-3xl" />
+          <div className="absolute -bottom-32 -left-16 h-64 w-64 rounded-full bg-navy blur-3xl" />
         </div>
+        <div className="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="h-px w-6 bg-navy" />
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-navy sm:text-[11px]">
+                  Owner Portal
+                </p>
+              </div>
+              <h1 className="mt-3 font-serif text-3xl font-bold leading-tight text-gray-900 sm:text-5xl">
+                Welcome, {owner?.displayName?.split(" ")[0] || "Owner"}.
+              </h1>
+              <p className="mt-2 text-sm text-gray-900/40 sm:text-base">
+                {owner?.companyName ? `${owner.companyName} · ` : ""}
+                {owner?.phone ? `${owner.phone} · ` : ""}
+                Submit &amp; manage your fleet.
+              </p>
+            </div>
+            <button
+              onClick={logout}
+              className="self-start rounded-sm border border-luxury-border bg-white px-4 py-2.5 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900/60 transition-all hover:border-red-200 hover:bg-red-50 hover:text-red-600 sm:self-auto"
+            >
+              Log Out
+            </button>
+          </div>
 
-        {/* Add Car Button */}
-        <div className="mb-6 flex justify-end">
+          {/* Stats */}
+          <div className="mt-8 grid grid-cols-2 gap-2 sm:mt-12 sm:grid-cols-4 sm:gap-3">
+            {[
+              { label: "Total Listings", value: totalCars },
+              { label: "Approved", value: approvedCount },
+              { label: "Pending Review", value: pendingCount },
+              { label: "Unavailable", value: unavailableCount },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="rounded-sm border border-luxury-border bg-white px-4 py-4 sm:px-5 sm:py-5"
+              >
+                <div className="font-serif text-3xl font-bold text-gray-900 sm:text-4xl">
+                  {s.value}
+                </div>
+                <div className="mt-1 text-[9px] font-bold uppercase tracking-[0.25em] text-gray-900/40 sm:text-[10px]">
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+        {/* My Listings action bar */}
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4 sm:mb-8">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="h-px w-5 bg-navy" />
+              <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-navy">
+                My Listings
+              </p>
+            </div>
+            <h2 className="mt-2 font-serif text-2xl font-bold text-gray-900 sm:text-3xl">
+              {editingId ? "Editing Car" : showForm ? "New Submission" : `${totalCars} Car${totalCars === 1 ? "" : "s"}`}
+            </h2>
+          </div>
           <button
             onClick={() => {
               setShowForm(!showForm);
@@ -629,10 +682,10 @@ export default function OwnerPortalPage() {
                 setExistingGallery([]);
               }
             }}
-            className={`px-6 py-3 text-[12px] font-bold tracking-[0.15em] uppercase transition-all ${
+            className={`rounded-sm px-5 py-3 text-[11px] font-bold uppercase tracking-[0.2em] transition-all sm:px-7 sm:py-3.5 sm:text-[12px] ${
               showForm
-                ? "border border-luxury-border bg-luxury-card text-gray-900/50 hover:bg-luxury-dark"
-                : "bg-navy text-white hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
+                ? "border border-luxury-border bg-white text-gray-900/60 hover:border-gray-400 hover:text-gray-900"
+                : "bg-navy text-white shadow-lg shadow-navy/20 hover:bg-navy-light hover:shadow-navy/30"
             }`}
           >
             {showForm
@@ -645,15 +698,24 @@ export default function OwnerPortalPage() {
 
         {/* ── CAR FORM ── */}
         {showForm && (
-          <div className="mb-8 border border-luxury-border bg-luxury-card p-6">
-            <h2 className="mb-6 text-lg font-bold text-gray-900">
-              {editingId ? "Edit Car" : "Submit New Car"}
-            </h2>
-            <p className="mb-4 text-[11px] text-gray-500">
-              {editingId
-                ? "Update your car details below."
-                : "New cars will be reviewed and approved by the admin before going live."}
-            </p>
+          <div className="mb-10 overflow-hidden rounded-sm border border-luxury-border bg-luxury-card">
+            <div className="border-b border-luxury-border bg-white px-6 py-5 sm:px-8 sm:py-6">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-5 bg-navy" />
+                <p className="text-[10px] font-bold uppercase tracking-[0.35em] text-navy">
+                  {editingId ? "Editing" : "New Submission"}
+                </p>
+              </div>
+              <h2 className="mt-2 font-serif text-xl font-bold text-gray-900 sm:text-2xl">
+                {editingId ? "Update Car Details" : "Submit Your Car"}
+              </h2>
+              <p className="mt-1.5 text-[12px] text-gray-900/40 sm:text-sm">
+                {editingId
+                  ? "Changes apply immediately. Availability changes may require admin review."
+                  : "Your listing will be reviewed and approved within 24 hours before going live."}
+              </p>
+            </div>
+            <div className="p-6 sm:p-8">
 
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Row 1: Name / Brand / Year */}
@@ -1145,98 +1207,151 @@ export default function OwnerPortalPage() {
                   : "Submit Car for Review"}
               </button>
             </form>
+            </div>
           </div>
         )}
 
         {/* ── CAR LIST ── */}
         {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="h-8 w-8 animate-spin border-2 border-navy border-t-transparent" />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <div key={i} className="rounded-sm border border-luxury-border bg-luxury-card p-5">
+                <div className="flex gap-4">
+                  <div className="h-24 w-32 rounded-sm bg-luxury-border lux-pulse" />
+                  <div className="flex-1 space-y-3">
+                    <div className="h-4 w-2/3 rounded-sm bg-luxury-border lux-pulse" />
+                    <div className="h-3 w-1/2 rounded-sm bg-luxury-border lux-pulse" />
+                    <div className="h-3 w-1/3 rounded-sm bg-luxury-border lux-pulse" />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         ) : cars.length === 0 ? (
-          <div className="border border-luxury-border bg-luxury-card p-12 text-center">
-            <p className="text-gray-900/30 text-sm">
-              You haven&apos;t submitted any cars yet.
+          <div className="rounded-sm border border-dashed border-luxury-border bg-luxury-card px-6 py-16 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-navy/20 bg-navy/5">
+              <svg className="h-6 w-6 text-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8 17l4 4 4-4m-4-5v9M20.88 18.09A5 5 0 0018 9h-1.26A8 8 0 103 16.29" />
+              </svg>
+            </div>
+            <h3 className="mt-4 font-serif text-xl font-bold text-gray-900">
+              No listings yet
+            </h3>
+            <p className="mt-1.5 text-sm text-gray-900/40">
+              Submit your first car and it&apos;ll be reviewed within 24 hours.
             </p>
             <button
               onClick={() => setShowForm(true)}
-              className="mt-4 bg-navy px-6 py-2.5 text-[12px] font-bold uppercase tracking-wider text-white hover:bg-navy-light"
+              className="mt-5 rounded-sm bg-navy px-6 py-3 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-navy-light hover:shadow-lg hover:shadow-navy/25"
             >
               + Submit Your First Car
             </button>
           </div>
         ) : (
-          <div className="space-y-3">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-900/40">
-              My Cars ({cars.length})
-            </h2>
-            {cars.map((car) => (
-              <div
-                key={car.id}
-                className="border border-luxury-border bg-luxury-card p-4"
-              >
-                <div className="flex items-start gap-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            {cars.map((car) => {
+              const thumb = car.photos?.main || car.images?.[0];
+              return (
+                <div
+                  key={car.id}
+                  className={`group relative flex flex-col overflow-hidden rounded-sm border bg-luxury-card transition-all hover:border-navy/30 hover:shadow-lg hover:shadow-black/5 ${
+                    car.available === false ? "border-red-500/20" : "border-luxury-border"
+                  }`}
+                >
                   {/* Thumbnail */}
-                  {(car.photos?.main || car.images?.[0]) && (
-                    <img
-                      src={car.photos?.main || car.images[0]}
-                      alt={car.name}
-                      className="h-20 w-28 flex-shrink-0 object-cover border border-luxury-border"
-                    />
-                  )}
-
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-bold text-gray-900 text-sm">
-                        {car.name}
-                      </h3>
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-white">
+                    {thumb ? (
+                      <img
+                        src={thumb}
+                        alt={car.name}
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-gray-900/10">
+                        <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5V9a2 2 0 012-2h3l2-3h4l2 3h3a2 2 0 012 2v7.5M3 16.5A1.5 1.5 0 004.5 18h15a1.5 1.5 0 001.5-1.5M3 16.5v.25" />
+                        </svg>
+                      </div>
+                    )}
+                    {/* Status chips overlay */}
+                    <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
                       {statusBadge(car.status)}
                       {car.available === false && (
-                        <span className="inline-block rounded bg-gray-100 px-2 py-0.5 text-[10px] font-bold uppercase text-gray-500">
+                        <span className="inline-block rounded bg-gray-900/85 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white backdrop-blur">
                           Unavailable
                         </span>
                       )}
                     </div>
-                    <p className="text-[11px] text-gray-900/40 mt-0.5">
-                      {car.brand} · {car.year} · ${car.price}/day
-                    </p>
-                    {car.status === "rejected" && (
-                      <p className="mt-1 text-[11px] text-red-500">
-                        This car was rejected by the admin. You may edit and
-                        resubmit it.
-                      </p>
-                    )}
                   </div>
 
-                  {/* Actions */}
-                  <div className="flex gap-2 flex-shrink-0">
-                    <a
-                      href={`/manage-calendar/${car.id}`}
-                      className="border border-luxury-border px-3 py-1.5 text-[10px] font-bold uppercase text-gray-900/50 hover:bg-gray-50 flex items-center justify-center transition-colors"
-                      title="Manage availability calendar"
-                    >
-                      📅 Update Availability
-                    </a>
-                    <button
-                      onClick={() => handleEdit(car)}
-                      className="border border-luxury-border px-3 py-1.5 text-[10px] font-bold uppercase text-navy hover:bg-navy/5"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(car)}
-                      disabled={deleting === car.id}
-                      className="border border-red-200 px-3 py-1.5 text-[10px] font-bold uppercase text-red-500 hover:bg-red-50 disabled:opacity-50"
-                    >
-                      {deleting === car.id ? "..." : "Delete"}
-                    </button>
+                  {/* Info */}
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[9px] font-bold uppercase tracking-[0.25em] text-navy/60">
+                          {car.brand} · {car.year}
+                        </p>
+                        <h3 className="mt-1 truncate font-serif text-lg font-bold text-gray-900">
+                          {car.name}
+                        </h3>
+                      </div>
+                      <div className="flex-shrink-0 text-right">
+                        <p className="font-serif text-xl font-bold text-gray-900">
+                          ${car.price}
+                        </p>
+                        <p className="text-[9px] font-bold uppercase tracking-wider text-gray-900/30">
+                          / day
+                        </p>
+                      </div>
+                    </div>
+
+                    {car.status === "rejected" && (
+                      <div className="mt-3 rounded-sm border border-red-200 bg-red-50 px-3 py-2 text-[11px] text-red-600">
+                        Rejected by admin. Edit and resubmit for review.
+                      </div>
+                    )}
+                    {(!car.status || car.status === "pending") && (
+                      <div className="mt-3 rounded-sm border border-yellow-200 bg-yellow-50 px-3 py-2 text-[11px] text-yellow-800">
+                        Awaiting admin review. You&apos;ll see it on the site once approved.
+                      </div>
+                    )}
+
+                    {/* Actions */}
+                    <div className="mt-4 flex flex-wrap gap-1.5 border-t border-luxury-border pt-4">
+                      <a
+                        href={`/manage-calendar/${car.id}`}
+                        className="flex flex-1 items-center justify-center gap-1.5 rounded-sm border border-luxury-border px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/60 transition-colors hover:border-navy/40 hover:bg-navy/5 hover:text-navy"
+                        title="Manage availability calendar"
+                      >
+                        <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Calendar
+                      </a>
+                      <button
+                        onClick={() => handleEdit(car)}
+                        className="flex items-center gap-1.5 rounded-sm border border-navy/30 bg-navy/5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy/10"
+                      >
+                        <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(car)}
+                        disabled={deleting === car.id}
+                        className="flex items-center gap-1.5 rounded-sm border border-red-200 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-red-500 transition-colors hover:bg-red-50 disabled:opacity-50"
+                      >
+                        <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M9 7V4a1 1 0 011-1h4a1 1 0 011 1v3" />
+                        </svg>
+                        {deleting === car.id ? "..." : "Delete"}
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>
