@@ -698,7 +698,29 @@ export default function AdminPage() {
 
         {activeTab === "cars" && (
         <>
-        <div className="mb-6 flex justify-end">
+        {/* Stats strip */}
+        <div className="mb-6 grid grid-cols-2 gap-px overflow-hidden border border-luxury-border bg-luxury-border sm:grid-cols-4">
+          {[
+            { label: "Total", value: cars.length, accent: "text-gray-900" },
+            { label: "Available", value: cars.filter((c) => c.available !== false && c.status !== "pending" && c.status !== "rejected").length, accent: "text-green-600" },
+            { label: "Rented", value: cars.filter((c) => c.available === false).length, accent: "text-red-500" },
+            { label: "Pending", value: cars.filter((c) => c.status === "pending").length, accent: "text-yellow-600" },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-luxury-card p-4 text-center sm:text-left">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-900/30">{stat.label}</p>
+              <p className={`mt-1 font-serif text-2xl font-bold ${stat.accent}`}>{stat.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Action bar */}
+        <div className="mb-6 flex flex-col gap-3 border-b border-luxury-border pb-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-navy">Fleet Management</p>
+            <h2 className="mt-1 font-serif text-2xl font-bold text-gray-900">
+              {showForm ? (editingId ? "Edit Listing" : "New Listing") : "All Cars"}
+            </h2>
+          </div>
           <button
             onClick={() => {
               setShowForm(!showForm);
@@ -709,13 +731,27 @@ export default function AdminPage() {
                 setVideoFile(null);
               }
             }}
-            className={`px-6 py-3 text-[12px] font-bold tracking-[0.15em] uppercase transition-all ${
+            className={`inline-flex items-center gap-2 px-6 py-3 text-[12px] font-bold tracking-[0.15em] uppercase transition-all ${
               showForm
-                ? "border border-luxury-border bg-luxury-card text-gray-900/50 hover:bg-luxury-dark"
-                : "bg-navy text-white hover:bg-navy-light hover:shadow-[0_0_30px_rgba(27,58,92,0.25)]"
+                ? "border border-luxury-border bg-white text-gray-900/50 hover:bg-luxury-card hover:text-gray-900"
+                : "bg-navy text-white shadow-[0_8px_24px_rgba(27,58,92,0.2)] hover:bg-navy-light hover:shadow-[0_10px_30px_rgba(27,58,92,0.3)]"
             }`}
           >
-            {showForm ? "Cancel" : "+ Add New Car"}
+            {showForm ? (
+              <>
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Cancel
+              </>
+            ) : (
+              <>
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                </svg>
+                Add New Car
+              </>
+            )}
           </button>
         </div>
 
@@ -1550,157 +1586,254 @@ export default function AdminPage() {
                 }
                 return true;
               })
-              .map((car) => (
+              .map((car) => {
+              const photoCount = car.photos ? Object.values(car.photos).filter(Boolean).length : (car.images?.length || 0);
+              const thumb = car.photos?.main || car.images?.[0];
+              const borderTone =
+                car.status === "pending" ? "border-yellow-400/40" :
+                car.status === "rejected" ? "border-red-400/40" :
+                car.available === false ? "border-red-400/25" :
+                "border-luxury-border";
+              return (
               <div
                 key={car.id}
-                className={`border bg-luxury-card p-5 transition-all hover:border-navy/20 ${car.available === false ? "border-red-500/15" : "border-luxury-border"}`}
+                className={`group overflow-hidden border bg-luxury-card transition-all hover:border-navy/30 hover:shadow-[0_8px_30px_rgba(27,58,92,0.08)] ${borderTone}`}
               >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                  {/* Thumbnail */}
-                  <div className="h-24 w-full flex-shrink-0 overflow-hidden bg-white sm:w-36">
-                    {(car.photos?.main || car.images?.[0]) ? (
+                <div className="flex flex-col sm:flex-row">
+                  {/* Thumbnail with overlaid chips */}
+                  <div className="relative aspect-[16/10] w-full flex-shrink-0 overflow-hidden bg-luxury-dark sm:aspect-auto sm:h-auto sm:w-64">
+                    {thumb ? (
                       <img
-                        src={car.photos?.main || car.images[0]}
+                        src={thumb}
                         alt={car.name}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
                     ) : (
                       <div className="flex h-full items-center justify-center text-gray-900/10">
-                        <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
                         </svg>
                       </div>
                     )}
-                  </div>
-
-                  {/* Info */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-serif font-bold text-gray-900">{car.name}</h3>
+                    {/* Status chips top-left */}
+                    <div className="absolute left-3 top-3 flex max-w-[calc(100%-24px)] flex-wrap gap-1.5">
+                      {car.status === "pending" && (
+                        <span className="bg-yellow-400 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-yellow-900 shadow-sm">
+                          Pending Review
+                        </span>
+                      )}
+                      {car.status === "rejected" && (
+                        <span className="bg-red-500 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                          Rejected
+                        </span>
+                      )}
+                      {car.status === "approved" && car.ownerId && (
+                        <span className="bg-green-600 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                          Approved
+                        </span>
+                      )}
                       {car.featured && (
-                        <span className="flex items-center gap-1 bg-navy/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-navy-light">
+                        <span className="inline-flex items-center gap-1 bg-navy px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
                           <svg className="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                           </svg>
                           Featured
                         </span>
                       )}
-                      {car.available === false && (
-                        <span className="bg-red-500/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-red-400">
-                          {car.availableFrom
-                            ? `Rented · Back ${new Date(car.availableFrom + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
-                            : "Rented"}
-                        </span>
-                      )}
                       {car.videoUrl && (
-                        <span className="bg-white/5 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-gray-900/40">
+                        <span className="inline-flex items-center gap-1 bg-black/70 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm backdrop-blur">
+                          <svg className="h-2.5 w-2.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
                           Video
                         </span>
                       )}
-                      {car.status === "pending" && (
-                        <span className="bg-yellow-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-yellow-700">
-                          Pending
+                    </div>
+                    {/* Availability chip top-right */}
+                    <div className="absolute right-3 top-3">
+                      {car.available === false ? (
+                        <span className="inline-flex items-center gap-1 bg-red-500 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                          {car.availableFrom
+                            ? `Back ${new Date(car.availableFrom + "T00:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" })}`
+                            : "Rented"}
                         </span>
-                      )}
-                      {car.status === "rejected" && (
-                        <span className="bg-red-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-red-700">
-                          Rejected
-                        </span>
-                      )}
-                      {car.status === "approved" && car.ownerId && (
-                        <span className="bg-green-100 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-green-700">
-                          Approved
+                      ) : (
+                        <span className="inline-flex items-center gap-1 bg-green-600 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-sm">
+                          <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                          Available
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-900/40">
-                      {car.brand} · {car.year} · {car.mileage.toLocaleString()} km ·{" "}
-                      <span className="text-navy">${car.price}/day</span>
-                      {(() => {
-                        const count = car.photos ? Object.values(car.photos).filter(Boolean).length : (car.images?.length || 0);
-                        return count > 0 ? ` · ${count} photo${count !== 1 ? "s" : ""}` : "";
-                      })()}
-                      {car.ownerName && (
-                        <span className="text-gray-900/30"> · Owner: {car.ownerName}</span>
-                      )}
-                    </p>
+                    {/* Photo count bottom-right */}
+                    {photoCount > 0 && (
+                      <div className="absolute bottom-3 right-3 inline-flex items-center gap-1 bg-black/60 px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-white backdrop-blur">
+                        <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        {photoCount}
+                      </div>
+                    )}
                   </div>
 
-                  {/* Toggle buttons + actions */}
-                  <div className="flex flex-wrap items-center gap-2">
-                    {/* Available toggle */}
-                    <button
-                      onClick={() => toggleField(car.id, "available", car.available !== false)}
-                      disabled={togglingId === car.id}
-                      className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors disabled:opacity-50 ${
-                        car.available !== false
-                          ? "border border-green-500/30 bg-green-500/10 text-green-400 hover:bg-green-500/20"
-                          : "border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20"
-                      }`}
-                    >
-                      {car.available !== false ? "Available" : "Rented"}
-                    </button>
+                  {/* Content column */}
+                  <div className="flex flex-1 flex-col p-5">
+                    {/* Top: meta + price */}
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-navy">
+                          {car.brand} · {car.year}
+                        </p>
+                        <h3 className="mt-1 truncate font-serif text-xl font-bold text-gray-900">
+                          {car.name}
+                        </h3>
+                        <p className="mt-1.5 text-[11px] text-gray-900/40">
+                          {car.mileage.toLocaleString()} km · {car.fuel} · {car.transmission} · {car.seats} seats
+                        </p>
+                        {car.ownerName && (
+                          <p className="mt-2 inline-flex items-center gap-1.5 text-[10px] font-medium text-gray-900/50">
+                            <svg className="h-3 w-3 text-gray-900/30" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <span className="text-[9px] font-bold uppercase tracking-wider text-gray-900/30">Owner:</span>
+                            {car.ownerName}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex-shrink-0 text-right">
+                        <p className="font-serif text-3xl font-bold leading-none text-navy">${car.price}</p>
+                        <p className="mt-1 text-[9px] font-bold uppercase tracking-[0.15em] text-gray-900/30">per day</p>
+                      </div>
+                    </div>
 
-                    {/* Featured toggle */}
-                    <button
-                      onClick={() => toggleField(car.id, "featured", car.featured || false)}
-                      disabled={togglingId === car.id}
-                      className={`px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-colors disabled:opacity-50 ${
-                        car.featured
-                          ? "border border-navy/30 bg-navy/15 text-navy hover:bg-navy/25"
-                          : "border border-luxury-border bg-luxury-dark text-gray-900/30 hover:text-gray-900/50"
-                      }`}
-                    >
-                      ★ {car.featured ? "Featured" : "Feature"}
-                    </button>
-
-                    {/* Edit */}
-                    <button
-                      onClick={() => handleEdit(car)}
-                      className="border border-navy/30 bg-navy/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-navy transition-colors hover:bg-navy/20"
-                    >
-                      Edit
-                    </button>
-
-                    {/* Delete */}
-                    <button
-                      onClick={() => handleDelete(car)}
-                      disabled={deleting === car.id}
-                      className="border border-red-500/20 bg-red-500/10 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-red-400 transition-colors hover:bg-red-500/20 disabled:opacity-50"
-                    >
-                      {deleting === car.id ? "..." : "Delete"}
-                    </button>
-
-                    {/* Approve / Reject — only for owner-submitted cars */}
-                    {car.ownerId && car.status !== "approved" && (
-                      <button
-                        onClick={() => setCarStatus(car.id, "approved")}
-                        className="border border-green-500/30 bg-green-500/10 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-green-600 hover:bg-green-500/20"
-                      >
-                        ✓ Approve
-                      </button>
+                    {/* Approve/Reject review banner for pending owner submissions */}
+                    {car.ownerId && car.status === "pending" && (
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-yellow-400/40 bg-yellow-50 px-3 py-2.5">
+                        <div className="flex items-center gap-2">
+                          <svg className="h-4 w-4 text-yellow-700" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M5 19h14a2 2 0 001.84-2.75L13.74 4a2 2 0 00-3.48 0L3.16 16.25A2 2 0 005 19z" />
+                          </svg>
+                          <p className="text-[11px] font-medium text-yellow-900">
+                            Awaiting your review
+                          </p>
+                        </div>
+                        <div className="flex gap-1.5">
+                          <button
+                            onClick={() => setCarStatus(car.id, "approved")}
+                            className="inline-flex items-center gap-1 bg-green-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-green-700"
+                          >
+                            <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => setCarStatus(car.id, "rejected")}
+                            className="inline-flex items-center gap-1 border border-red-300 bg-white px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-red-600 transition-colors hover:bg-red-50"
+                          >
+                            <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            Reject
+                          </button>
+                        </div>
+                      </div>
                     )}
-                    {car.ownerId && car.status !== "rejected" && (
-                      <button
-                        onClick={() => setCarStatus(car.id, "rejected")}
-                        className="border border-red-300/30 bg-red-50 px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-red-500 hover:bg-red-100"
-                      >
-                        ✗ Reject
-                      </button>
+
+                    {/* Rejected re-approve banner */}
+                    {car.ownerId && car.status === "rejected" && (
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border border-red-400/40 bg-red-50 px-3 py-2.5">
+                        <p className="text-[11px] font-medium text-red-900">Previously rejected</p>
+                        <button
+                          onClick={() => setCarStatus(car.id, "approved")}
+                          className="inline-flex items-center gap-1 bg-green-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white transition-colors hover:bg-green-700"
+                        >
+                          <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                          Re-approve
+                        </button>
+                      </div>
                     )}
 
-                    {/* Calendar */}
-                    <a
-                      href={`/manage-calendar/${car.id}`}
-                      className="border border-luxury-border px-3 py-2 text-[10px] font-bold uppercase text-gray-900/50 hover:bg-gray-50 flex items-center justify-center transition-colors"
-                      title="Manage blocked dates"
-                    >
-                      📅 Manage Calendar
-                    </a>
+                    {/* Action row */}
+                    <div className="mt-4 flex flex-wrap items-center gap-1.5 border-t border-luxury-border pt-4">
+                      {/* Toggle group */}
+                      <button
+                        onClick={() => toggleField(car.id, "available", car.available !== false)}
+                        disabled={togglingId === car.id}
+                        title={car.available !== false ? "Mark as rented" : "Mark as available"}
+                        className={`inline-flex items-center gap-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 ${
+                          car.available !== false
+                            ? "border border-green-500/40 bg-green-50 text-green-700 hover:bg-green-100"
+                            : "border border-red-500/40 bg-red-50 text-red-700 hover:bg-red-100"
+                        }`}
+                      >
+                        <span className={`h-1.5 w-1.5 rounded-full ${car.available !== false ? "bg-green-500" : "bg-red-500"}`} />
+                        {car.available !== false ? "Available" : "Rented"}
+                      </button>
+
+                      <button
+                        onClick={() => toggleField(car.id, "featured", car.featured || false)}
+                        disabled={togglingId === car.id}
+                        title={car.featured ? "Unfeature" : "Feature on homepage"}
+                        className={`inline-flex items-center gap-1.5 px-3 py-2 text-[10px] font-bold uppercase tracking-wider transition-all disabled:opacity-50 ${
+                          car.featured
+                            ? "border border-navy/40 bg-navy/10 text-navy hover:bg-navy/20"
+                            : "border border-luxury-border bg-white text-gray-900/40 hover:border-navy/30 hover:text-gray-900/70"
+                        }`}
+                      >
+                        <svg className="h-3 w-3" fill={car.featured ? "currentColor" : "none"} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                        </svg>
+                        {car.featured ? "Featured" : "Feature"}
+                      </button>
+
+                      {/* Divider */}
+                      <div className="mx-1 h-5 w-px bg-luxury-border" />
+
+                      {/* Edit */}
+                      <button
+                        onClick={() => handleEdit(car)}
+                        title="Edit listing"
+                        className="inline-flex items-center gap-1.5 border border-luxury-border bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/60 transition-all hover:border-navy/40 hover:bg-navy/5 hover:text-navy"
+                      >
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        Edit
+                      </button>
+
+                      {/* Calendar */}
+                      <a
+                        href={`/manage-calendar/${car.id}`}
+                        title="Manage blocked dates"
+                        className="inline-flex items-center gap-1.5 border border-luxury-border bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-900/60 transition-all hover:border-navy/40 hover:bg-navy/5 hover:text-navy"
+                      >
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Calendar
+                      </a>
+
+                      {/* Delete — pushed to the right */}
+                      <button
+                        onClick={() => handleDelete(car)}
+                        disabled={deleting === car.id}
+                        title="Delete listing"
+                        className="ml-auto inline-flex items-center gap-1.5 border border-red-400/30 bg-white px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-red-500 transition-all hover:border-red-500 hover:bg-red-50 disabled:opacity-50"
+                      >
+                        <svg className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        {deleting === car.id ? "..." : "Delete"}
+                      </button>
+                    </div>
                   </div>
                 </div>
 
-                
+
 
                 {/* Expanded Renter Info — shown when car is rented */}
                 {car.available === false && (car.currentRenterName || car.currentRenterPhone || car.availableEta || car.availableFrom) && (
@@ -1766,7 +1899,8 @@ export default function AdminPage() {
                   </div>
                 )}
               </div>
-            ))}
+              );
+            })}
           </div>
         )}
         </>
