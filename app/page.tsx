@@ -284,7 +284,7 @@ export default function Home() {
     fetchCars();
   }, []);
 
-  const featuredCars = cars.filter((c) => c.featured);
+  const featuredCars = cars.filter((c) => c.featured && c.available !== false);
 
   // Compute available brands from actual car data
   const availableBrands = ["All", ...Array.from(new Set(cars.filter(c => c.available !== false).map(c => c.brand).filter(Boolean))).sort()];
